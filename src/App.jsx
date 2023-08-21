@@ -14,6 +14,7 @@ import SignUp from "./pages/SignUp"
 import AddStudents from "./pages/AddStudents"
 import ManageClasses from "./pages/ManageClasses"
 import ManageStudents from "./pages/ManageStudents"
+import BackgroundImage from "./components/BackgroundImage"
 import { useState } from "react"
 import RedirectMessage from "./components/RedirectMessage"
 
@@ -27,12 +28,15 @@ function App() {
     <>
       <Navbar isLoggedIn={userState.isLoggedIn} isAdmin={userState.isAdmin} />
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login">
-          <Route index element={<Login />} />
-          <Route path="reset" element={<ResetPassword />} />
+        {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
+        <Route path="/" element={<BackgroundImage />}>
+          <Route index element={<Landing />} />
+          <Route path="/login">
+            <Route index element={<Login />} />
+            <Route path="reset" element={<ResetPassword />} />
+          </Route>
+          <Route path="/signup" element={<SignUp />} />
         </Route>
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/classes">
           <Route index element={<Classes />} />
           <Route path=":id" element={<Yearbook />} />
