@@ -15,6 +15,7 @@ import AddStudents from "./pages/AddStudents"
 import ManageClasses from "./pages/ManageClasses"
 import ManageStudents from "./pages/ManageStudents"
 import { useState } from "react"
+import RedirectMessage from "./components/RedirectMessage"
 
 function App() {
   const [userState, setUserState] = useState({
@@ -50,6 +51,7 @@ function App() {
           <Route path="classes" element={<ManageClasses />} />
           <Route path="students" element={<ManageStudents />} />
         </Route>
+        {/* <Route path="/message" element={<RedirectMessage />} /> */}
       </Routes>
     </>
   )

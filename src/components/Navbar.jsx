@@ -55,19 +55,19 @@ const NavBar = ({ isLoggedIn = false, isAdmin = false }) => {
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
+      <Container fluid>
         <Navbar.Brand as={Link} to="/">
           <img
             src="/src/assets/yearbook-logo.svg"
             width="40"
             height="40"
             className="d-inline-block align-top"
-            alt="React Bootstrap logo"
+            alt="Yearbook logo"
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <Nav className="me-auto">
+          <Nav className="ml-auto">
             {isLoggedIn ? (isAdmin ? adminView : studentView) : defaultView}
           </Nav>
         </Navbar.Collapse>

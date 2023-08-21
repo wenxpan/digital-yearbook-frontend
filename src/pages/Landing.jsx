@@ -21,12 +21,12 @@ const Landing = () => {
         <Stack gap={5} className="col-md-5 mx-auto">
           <div>
             <h1>Digital Yearbook</h1>
-            <h2 className="fs-4">
-              <em>Preserving Moments, Connecting Hearts</em>
+            <h2 className="fs-5 mt-3 fw-normal fst-italic">
+              Preserving Moments, Connecting Hearts
             </h2>
           </div>
-          <Stack className="col-md-2 mx-auto" gap={4}>
-            <Button as={Link} to="/login">
+          <Stack className="mx-auto" gap={4}>
+            <Button as={Link} to="/login" className="px-4">
               Log In
             </Button>
             <Button as={Link} to="/signup">
