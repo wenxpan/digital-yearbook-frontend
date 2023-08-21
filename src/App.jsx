@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom"
-import Navbar from "./components/Navbar"
-import "./css/App.css"
+import Navbar from "./components/NavBar"
+// import "./css/App.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import Classes from "./pages/Classes"
@@ -13,11 +14,17 @@ import SignUp from "./pages/SignUp"
 import AddStudents from "./pages/AddStudents"
 import ManageClasses from "./pages/ManageClasses"
 import ManageStudents from "./pages/ManageStudents"
+import { useState } from "react"
 
 function App() {
+  const [userState, setUserState] = useState({
+    isLoggedIn: false,
+    isAdmin: false
+  })
+
   return (
     <>
-      <Navbar />
+      <Navbar isLoggedIn={userState.isLoggedIn} isAdmin={userState.isAdmin} />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login">
