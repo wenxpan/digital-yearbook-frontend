@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom"
-import Navbar from "./components/Navbar"
-import "./css/App.css"
+import Navbar from "./components/NavBar"
+// import "./css/App.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import Classes from "./pages/Classes"
@@ -13,18 +14,29 @@ import SignUp from "./pages/SignUp"
 import AddStudents from "./pages/AddStudents"
 import ManageClasses from "./pages/ManageClasses"
 import ManageStudents from "./pages/ManageStudents"
+import BackgroundImage from "./components/BackgroundImage"
+import { useState } from "react"
+import RedirectMessage from "./components/RedirectMessage"
 
 function App() {
+  const [userState, setUserState] = useState({
+    isLoggedIn: false,
+    isAdmin: false
+  })
+
   return (
     <>
-      <Navbar />
+      <Navbar isLoggedIn={userState.isLoggedIn} isAdmin={userState.isAdmin} />
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login">
-          <Route index element={<Login />} />
-          <Route path="reset" element={<ResetPassword />} />
+        {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
+        <Route path="/" element={<BackgroundImage />}>
+          <Route index element={<Landing />} />
+          <Route path="/login">
+            <Route index element={<Login />} />
+            <Route path="reset" element={<ResetPassword />} />
+          </Route>
+          <Route path="/signup" element={<SignUp />} />
         </Route>
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/classes">
           <Route index element={<Classes />} />
           <Route path=":id" element={<Yearbook />} />
@@ -43,6 +55,7 @@ function App() {
           <Route path="classes" element={<ManageClasses />} />
           <Route path="students" element={<ManageStudents />} />
         </Route>
+        {/* <Route path="/message" element={<RedirectMessage />} /> */}
       </Routes>
     </>
   )
