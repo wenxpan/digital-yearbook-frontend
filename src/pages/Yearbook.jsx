@@ -9,18 +9,7 @@ import { useNavigate } from "react-router-dom"
 const Yearbook = () => {
   const nav = useNavigate()
   const students = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  const studentEl = (
-    <>
-      <Container>
-        <Row>
-          <Col>
-            <ProfileCard img={"https://i.pravatar.cc/300"} />
-          </Col>
-          <Col>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Col>
-        </Row>
-      </Container>
-    </>
-  )
+
   return (
     <Container fluid="md" className="text-md-center">
       <Row>
@@ -34,7 +23,9 @@ const Yearbook = () => {
         </Col>
       </Row>
       <Row md={2} lg={3} xl={4}>
-        {students.map((s) => studentEl)}
+        {students.map((s) => (
+          <ProfileCard key={s} img={"/src/assets/profile-placeholder.jpg"} />
+        ))}
       </Row>
       <Row>
         <Col />

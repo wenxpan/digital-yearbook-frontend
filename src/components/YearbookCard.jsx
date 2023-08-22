@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card"
 import { useNavigate } from "react-router-dom"
 
 const YearbookCard = ({
-  img = "https://picsum.photos/200/100",
+  img = "/src/assets/yearbook-placeholder.jpg",
   year = 2009
 }) => {
   const nav = useNavigate()
