@@ -8,7 +8,7 @@ const BackgroundImage = () => {
         backgroundImage: 'url("/src/assets/app-hero.jpg")',
         backgroundSize: "cover",
         color: "white",
-        height: "100vh",
+        minHeight: "100vh",
         backgroundColor: "#d9d9d9",
         backgroundBlendMode: "multiply"
       }}
