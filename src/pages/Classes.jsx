@@ -9,12 +9,7 @@ import { useNavigate } from "react-router-dom"
 const Classes = () => {
   const isAdmin = false
   const nav = useNavigate()
-  const yearbookEl = (
-    <Col md="auto" className="m-2">
-      <YearbookCard />
-    </Col>
-  )
-  const arr = [1, 2, 3, 4, 5]
+  const classes = [1, 2, 3, 4, 5]
   return (
     <Container fluid="md" className="text-md-center">
       <Row>
@@ -28,7 +23,11 @@ const Classes = () => {
         </Col>
       </Row>
       <Row className="justify-content-md-center">
-        {arr.map((a) => yearbookEl)}
+        {classes.map((a) => (
+          <Col key={a} md="auto" className="m-2">
+            <YearbookCard />
+          </Col>
+        ))}
       </Row>
       <Row>
         <Col />

@@ -13,7 +13,7 @@ const YearbookCard = ({
       <Card.Img variant="top" src={img} />
       <Card.Body>
         <Card.Title>{year}</Card.Title>
-        <Button variant="primary" onClick={() => nav(`/yearbook/${1}`)}>
+        <Button variant="primary" onClick={() => nav(`/classes/${1}`)}>
           View yearbook
         </Button>
       </Card.Body>
