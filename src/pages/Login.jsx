@@ -34,7 +34,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="d-flex justify-content-around flex-wrap">
+        <div className="mt-4 d-flex justify-content-around flex-wrap">
           <Button variant="secondary" onClick={() => nav("/login/reset")}>
             Reset Password
           </Button>
