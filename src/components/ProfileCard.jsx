@@ -13,14 +13,10 @@ const ProfileCard = ({
   const nav = useNavigate()
 
   return (
-    <Container
-      className="my-2"
-      onClick={() => nav(`/students/${1}`)}
-      style={{ cursor: "pointer" }}
-    >
+    <Container className="my-2" onClick={() => nav(`/students/${1}`)}>
       <Row>
         <Col>
-          <Card style={{ width: "15rem" }}>
+          <Card style={{ width: "15rem", cursor: "pointer" }}>
             <Card.Img variant="top" src={img} />
             <Card.Body>
               <Card.Text>{name}</Card.Text>
