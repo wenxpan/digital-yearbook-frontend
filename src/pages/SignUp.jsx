@@ -16,7 +16,7 @@ const SignUp = () => {
     return setContent((prev) => ({ ...prev, ...changed }))
   }
 
-  function handleSubmit(e) {
+  function handleSubmit() {
     console.log(content)
   }
 
@@ -63,7 +63,7 @@ const SignUp = () => {
           onChange={(e) => handleUpdate({ code: e.target.value })}
         />
       </Form.Group>
-      <Button variant="primary" onClick={(e) => handleSubmit(e)}>
+      <Button variant="primary" onClick={handleSubmit}>
         Sign Up
       </Button>
     </Form>

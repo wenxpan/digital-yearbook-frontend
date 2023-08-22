@@ -8,8 +8,8 @@ const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  function handleSubmit(e) {
-    console.log(email, password)
+  function handleSubmit() {
+    console.log({ email, password })
   }
 
   return (
@@ -38,7 +38,7 @@ const Login = () => {
           <Button variant="secondary" onClick={() => nav("/login/reset")}>
             Reset Password
           </Button>
-          <Button variant="primary" onClick={(e) => handleSubmit(e)}>
+          <Button variant="primary" onClick={handleSubmit}>
             Log In
           </Button>
         </div>

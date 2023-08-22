@@ -16,7 +16,7 @@ const ResetPassword = () => {
     return setContent((prev) => ({ ...prev, ...changed }))
   }
 
-  function handleSubmit(e) {
+  function handleSubmit() {
     console.log(content)
   }
 
@@ -47,7 +47,7 @@ const ResetPassword = () => {
           onChange={(e) => handleUpdate({ newPassword: e.target.value })}
         />
       </Form.Group>
-      <Button variant="primary" onClick={(e) => handleSubmit(e)}>
+      <Button variant="primary" onClick={handleSubmit}>
         Submit
       </Button>
     </Form>
