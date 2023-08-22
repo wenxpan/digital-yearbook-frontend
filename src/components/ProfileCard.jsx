@@ -15,7 +15,7 @@ const ProfileCard = ({
   return (
     <Container
       className="my-2"
-      onClick={() => nav(`students/${1}`)}
+      onClick={() => nav(`/students/${1}`)}
       style={{ cursor: "pointer" }}
     >
       <Row>

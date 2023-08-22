@@ -11,7 +11,7 @@ const Classes = () => {
   const nav = useNavigate()
   const classes = [1, 2, 3, 4, 5]
   return (
-    <Container fluid="md" className="text-md-center">
+    <Container fluid="md" className="text-md-center mt-4">
       <Row>
         <Col>
           <h1>School Name</h1>

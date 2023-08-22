@@ -11,7 +11,7 @@ const Yearbook = () => {
   const students = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   return (
-    <Container fluid="md" className="text-md-center">
+    <Container fluid="md" className="text-md-center mt-4">
       <Row>
         <Col>
           <h1>Year</h1>
