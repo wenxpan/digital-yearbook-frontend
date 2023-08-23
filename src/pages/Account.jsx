@@ -5,10 +5,22 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
-  const isAdmin = false
+  const isAdmin = true
+
+  const studentOptions = [
+    { option: `My yearbook (${"class name"})`, link: `/classes/${1}` },
+    { option: "All yearbooks", link: "/classes" },
+    { option: "Update Profile", link: `/students/${1}/edit` }
+  ]
+  const adminOptions = [
+    { option: "Add student/class", link: "invite" },
+    { option: "Manage classes", link: "classes" },
+    { option: "Manage students", link: "students" },
+    { option: "All yearbooks", link: "/classes" }
+  ]
 
   function handleReset() {
     // student reset profile
@@ -33,26 +45,30 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
               <ListGroup.Item disabled className="fw-bold">
                 Options
               </ListGroup.Item>
-              <ListGroup.Item as={Link} to={`/classes/${1}`}>
-                My yearbook {"(class name)"} →
-              </ListGroup.Item>
-              <ListGroup.Item as={Link} to="/classes">
-                All yearbooks →
-              </ListGroup.Item>
-              <ListGroup.Item as={Link} to={`/students/${1}/edit`}>
-                Update profile →
-              </ListGroup.Item>
+              {isAdmin
+                ? adminOptions.map((a) => (
+                    <ListGroup.Item as={Link} to={a.link}>
+                      {a.option} →
+                    </ListGroup.Item>
+                  ))
+                : studentOptions.map((s) => (
+                    <ListGroup.Item as={Link} to={s.link}>
+                      {s.option} →
+                    </ListGroup.Item>
+                  ))}
             </ListGroup>
           </Col>
         </Row>
-        <Row>
-          <Col />
-          <Col md="auto">
-            <Button variant="danger" onClick={handleReset}>
-              Reset profile
-            </Button>
-          </Col>
-        </Row>
+        {!isAdmin && (
+          <Row>
+            <Col />
+            <Col md="auto">
+              <Button variant="danger" onClick={handleReset}>
+                Reset profile
+              </Button>
+            </Col>
+          </Row>
+        )}
       </Container>
     </>
   )
