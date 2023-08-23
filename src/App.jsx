@@ -41,6 +41,13 @@ function App() {
     return <Yearbook yearbook={yearbook} />
   }
 
+  function StudentProfileWrapper() {
+    const { id } = useParams()
+    // find class and return id
+    const student = school.students.find((s) => s._id === id)
+    return <StudentProfile student={student} />
+  }
+
   return (
     <>
       <UserContext.Provider value={{ user, setUser }}>
@@ -61,7 +68,7 @@ function App() {
               <Route path=":id" element={<YearbookWrapper />} />
             </Route>
             <Route path="/students">
-              <Route path=":id" element={<StudentProfile />} />
+              <Route path=":id" element={<StudentProfileWrapper />} />
               {/* update profile page for both student and admin, with different props */}
               <Route path=":id/edit" element={<UpdateProfile />} />
             </Route>
