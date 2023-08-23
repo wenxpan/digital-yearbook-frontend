@@ -55,7 +55,7 @@ const StudentProfile = ({ student }) => {
             <Card className="border-0">
               <ListGroup variant="flush">
                 {questions.map((q) => (
-                  <ListGroup.Item>
+                  <ListGroup.Item key={q.name}>
                     <strong>
                       <em>{q.name}</em>
                     </strong>

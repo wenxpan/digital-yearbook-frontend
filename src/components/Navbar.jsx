@@ -4,10 +4,17 @@ import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 import { Link } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
+import SchoolContext from "../contexts/SchoolContext"
 
 const NavBar = () => {
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
+  const { school } = useContext(SchoolContext)
+
+  const student =
+    !isAdmin && school.students.find((s) => s._id === user.student)
+  const yearbook =
+    !isAdmin && school.classes.find((c) => c._id === student.class)
 
   //TODO: make 3 views DRY; replace placeholder links
   const defaultView = (
@@ -25,13 +32,13 @@ const NavBar = () => {
       <Navbar.Text>
         <Link to="/account">{user.name} - Student</Link>
       </Navbar.Text>
-      <Nav.Link as={Link} to="/classes/1">
+      <Nav.Link as={Link} to={`/classes/${yearbook._id}`}>
         My yearbook
       </Nav.Link>
       <Nav.Link as={Link} to="/classes">
         All yearbooks
       </Nav.Link>
-      <Nav.Link as={Link} to="/students/1/edit">
+      <Nav.Link as={Link} to={`/students/${student._id}/edit`}>
         Update profile
       </Nav.Link>
     </>

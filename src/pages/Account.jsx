@@ -19,6 +19,7 @@ const Account = () => {
   const yearbook =
     !isAdmin && school.classes.find((c) => c._id === student.class)
 
+  console.log(yearbook._id)
   const studentOptions = [
     {
       option: `My yearbook (${yearbook.name})`,
