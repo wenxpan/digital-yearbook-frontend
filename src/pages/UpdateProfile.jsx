@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
+import { Link } from "react-router-dom"
 
 const UpdateProfile = () => {
   const years = [2020, 2021, 2022, 2023]
@@ -43,12 +44,13 @@ const UpdateProfile = () => {
         </Row>
         <Row className="mt-4">
           <Form onSubmit={(e) => handleSave(e)}>
-            <Row className="mb-3">
+            <Row className="mb-3" xs={1} md={2}>
               <Form.Group as={Col} controlId="formYear">
                 <Form.Label>Year</Form.Label>
                 <Form.Select
                   value={content.year}
                   onChange={(e) => handleChange({ year: e.target.value })}
+                  disabled={isAdmin ? "" : "disabled"}
                 >
                   {years.map((y) => (
                     <option key={y}>{y}</option>
@@ -61,6 +63,7 @@ const UpdateProfile = () => {
                 <Form.Select
                   value={content.class}
                   onChange={(e) => handleChange({ class: e.target.value })}
+                  disabled={isAdmin ? "" : "disabled"}
                 >
                   {classes.map((y) => (
                     <option key={y}>{y}</option>
@@ -69,12 +72,13 @@ const UpdateProfile = () => {
               </Form.Group>
             </Row>
 
-            <Row className="mb-3">
+            <Row className="mb-3" xs={1}>
               <Form.Group as={Col} controlId="formFirstName">
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
                   value={content.firstName}
                   onChange={(e) => handleChange({ firstName: e.target.value })}
+                  disabled={isAdmin ? "" : "disabled"}
                   type="text"
                 />
               </Form.Group>
@@ -84,16 +88,18 @@ const UpdateProfile = () => {
                 <Form.Control
                   value={content.lastName}
                   onChange={(e) => handleChange({ lastName: e.target.value })}
+                  disabled={isAdmin ? "" : "disabled"}
                   type="text"
                 />
               </Form.Group>
             </Row>
-            <Row className="mb-3">
+            <Row className="mb-3" xs={1}>
               <Form.Group as={Col} controlId="formEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                   value={content.email}
                   onChange={(e) => handleChange({ email: e.target.value })}
+                  disabled={isAdmin ? "" : "disabled"}
                   type="email"
                 />
               </Form.Group>
@@ -161,7 +167,13 @@ const UpdateProfile = () => {
             </Form.Group>
             <Row className="text-center">
               <Col>
-                <Button variant="secondary">Cancel</Button>
+                <Button
+                  variant="secondary"
+                  as={Link}
+                  to={isAdmin ? "/account/students" : "/account"}
+                >
+                  Cancel
+                </Button>
               </Col>
               <Col>
                 <Button variant="primary" type="submit">
