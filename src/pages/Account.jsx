@@ -8,7 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup"
 import { Link } from "react-router-dom"
 
 const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
-  const isAdmin = true
+  const isAdmin = false
 
   const studentOptions = [
     { option: `My yearbook (${"class name"})`, link: `/classes/${1}` },

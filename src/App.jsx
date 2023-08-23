@@ -21,7 +21,7 @@ import RedirectMessage from "./components/RedirectMessage"
 function App() {
   const [userState, setUserState] = useState({
     isLoggedIn: true,
-    isAdmin: true
+    isAdmin: false
   })
 
   return (
