@@ -8,6 +8,8 @@ import { Link } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
 
 const UpdateProfile = () => {
+  //TODO: add upload photo section for admin
+
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
 
