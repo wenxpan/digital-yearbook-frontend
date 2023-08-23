@@ -28,6 +28,11 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
     // student reset profile
     console.log("reset profile clicked")
   }
+
+  function handleLogOut() {
+    console.log("log out clicked")
+  }
+
   return (
     <>
       <Container fluid="md" className="mt-4">
@@ -58,6 +63,10 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
                       {s.option} →
                     </ListGroup.Item>
                   ))}
+              <br />
+              <ListGroup.Item onClick={handleLogOut} as={Link}>
+                Log Out →
+              </ListGroup.Item>
             </ListGroup>
           </Col>
         </Row>

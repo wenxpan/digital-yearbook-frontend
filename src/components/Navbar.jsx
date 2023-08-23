@@ -60,7 +60,7 @@ const NavBar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to={isLoggedIn ? "/account" : "/"}>
           <img
             src="/src/assets/yearbook-logo.svg"
             width="40"
