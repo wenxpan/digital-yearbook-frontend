@@ -38,13 +38,13 @@ const NavBar = ({ isLoggedIn = false, isAdmin = false }) => {
       <Navbar.Text>
         <Link to="/account">Admin Name</Link>
       </Navbar.Text>
-      <Nav.Link as={Link} to="/classes/1">
+      <Nav.Link as={Link} to="/account/invite">
         Invite
       </Nav.Link>
-      <Nav.Link as={Link} to="/admin/classes">
+      <Nav.Link as={Link} to="/account/classes">
         Classes
       </Nav.Link>
-      <Nav.Link as={Link} to="/admin/students">
+      <Nav.Link as={Link} to="/account/students">
         Students
       </Nav.Link>
       <Nav.Link as={Link} to="/classes">

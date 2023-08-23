@@ -21,7 +21,7 @@ import RedirectMessage from "./components/RedirectMessage"
 function App() {
   const [userState, setUserState] = useState({
     isLoggedIn: true,
-    isAdmin: false
+    isAdmin: true
   })
 
   return (
@@ -46,10 +46,7 @@ function App() {
           {/* update profile page for both student and admin, with different props */}
           <Route path=":id/edit" element={<UpdateProfile />} />
         </Route>
-        {/* student account */}
-        <Route path="/account" element={<Account />} />
-        {/* admin account */}
-        <Route path="/admin">
+        <Route path="/account">
           <Route index element={<Account />} />
           <Route path="invite" element={<AddStudents />} />
           <Route path="classes" element={<ManageClasses />} />
