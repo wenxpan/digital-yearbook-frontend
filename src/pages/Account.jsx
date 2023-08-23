@@ -47,12 +47,12 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
               </ListGroup.Item>
               {isAdmin
                 ? adminOptions.map((a) => (
-                    <ListGroup.Item as={Link} to={a.link}>
+                    <ListGroup.Item as={Link} to={a.link} key={a.option}>
                       {a.option} →
                     </ListGroup.Item>
                   ))
                 : studentOptions.map((s) => (
-                    <ListGroup.Item as={Link} to={s.link}>
+                    <ListGroup.Item as={Link} to={s.link} key={s.option}>
                       {s.option} →
                     </ListGroup.Item>
                   ))}
