@@ -37,8 +37,12 @@ const AddStudents = () => {
     setClassContent((prev) => ({ ...prev, ...changed }))
   }
 
-  function handleStudentUpdate(id, changed) {
-    setStudents((prev) => ({ ...prev, ...changed }))
+  function handleStudentUpdate(obj, changed) {
+    setStudents((prev) =>
+      prev.map((student) =>
+        student === obj ? { ...student, ...changed } : { ...student }
+      )
+    )
   }
 
   function handleAddStudent() {
@@ -46,6 +50,10 @@ const AddStudents = () => {
       ...prev,
       { firstName: "", lastName: "", email: "", photo: "" }
     ])
+  }
+
+  function handleStudentDelete(obj) {
+    setStudents((prev) => prev.filter((s) => s !== obj))
   }
 
   return (
@@ -62,7 +70,6 @@ const AddStudents = () => {
                 <Form.Select
                   value={classContent.year}
                   onChange={(e) => handleClassChange({ year: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
                 >
                   {years.map((y) => (
                     <option key={y}>{y}</option>
@@ -75,7 +82,6 @@ const AddStudents = () => {
                 <Form.Select
                   value={classContent.class}
                   onChange={(e) => handleClassChange({ class: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
                 >
                   {classes.map((y) => (
                     <option key={y}>{y}</option>
@@ -83,8 +89,16 @@ const AddStudents = () => {
                 </Form.Select>
               </Form.Group>
             </Row>
-            {students.map((s) => (
-              <AddStudentForm content handleStudentUpdate />
+            {students.map((student, i) => (
+              <AddStudentForm
+                key={i}
+                props={{
+                  student,
+                  index: i + 1,
+                  handleStudentUpdate,
+                  handleStudentDelete
+                }}
+              />
             ))}
             <Row xs="auto">
               <Button variant="primary" onClick={handleAddStudent}>
