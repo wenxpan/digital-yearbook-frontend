@@ -95,9 +95,11 @@ const AddStudents = () => {
               />
             ))}
             <Row xs="auto">
-              <Button variant="primary" onClick={handleAddStudent}>
-                Add new student
-              </Button>
+              <Col>
+                <Button variant="primary" onClick={handleAddStudent}>
+                  Add new student
+                </Button>
+              </Col>
             </Row>
             <Row className="text-center mt-5">
               <Col>
