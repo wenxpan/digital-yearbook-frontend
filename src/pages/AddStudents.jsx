@@ -14,18 +14,12 @@ const AddStudents = () => {
 
   const years = [2020, 2021, 2022, 2023]
   const classes = ["Geecko", "Salamander", "Kangaroo", "possum"]
-  const student = {
-    firstName: "1",
-    lastName: "1",
-    email: "1",
-    photo: "1"
-  }
 
   const [classContent, setClassContent] = useState({
     class: classes[0],
     year: years[0]
   })
-  const [students, setStudents] = useState([student])
+  const [students, setStudents] = useState([])
 
   function handleSave(e) {
     e.preventDefault()
@@ -105,7 +99,7 @@ const AddStudents = () => {
                 Add new student
               </Button>
             </Row>
-            <Row className="text-center">
+            <Row className="text-center mt-5">
               <Col>
                 <Button variant="secondary" as={Link} to="/account/">
                   Cancel
