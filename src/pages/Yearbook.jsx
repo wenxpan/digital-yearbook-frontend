@@ -12,7 +12,7 @@ const Yearbook = ({ yearbook }) => {
 
   const { school } = useContext(SchoolContext)
   const students = school.students.filter((s) => s.class === yearbook._id)
-  console.log(students)
+  // console.log(students)
   return (
     <Container fluid="md" className="text-md-center mt-4">
       <Row>
@@ -27,10 +27,8 @@ const Yearbook = ({ yearbook }) => {
       </Row>
       <Row md={2} lg={3} xl={4} className="mt-3">
         {students.map((s) => (
-          <Col>
+          <Col key={s._id}>
             <ProfileCard
-              key={s}
-              img={"/src/assets/profile-placeholder.jpg"}
               student={s}
             />
           </Col>
