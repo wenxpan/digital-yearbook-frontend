@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
@@ -6,9 +6,11 @@ import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
 import { Link } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
 
 const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
-  const isAdmin = false
+  const { user } = useContext(UserContext)
+  const { isAdmin, isLoggedIn } = user
 
   const studentOptions = [
     { option: `My yearbook (${"class name"})`, link: `/classes/${1}` },

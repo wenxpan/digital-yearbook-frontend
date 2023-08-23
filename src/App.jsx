@@ -16,44 +16,47 @@ import ManageClasses from "./pages/ManageClasses"
 import ManageStudents from "./pages/ManageStudents"
 import BackgroundImage from "./components/BackgroundImage"
 import { useState } from "react"
-import RedirectMessage from "./components/RedirectMessage"
+// import RedirectMessage from "./components/RedirectMessage"
+import UserContext from "./contexts/UserContext"
 
 function App() {
-  const [userState, setUserState] = useState({
+  const [user, setUser] = useState({
     isLoggedIn: true,
-    isAdmin: false
+    isAdmin: true
   })
 
   return (
     <>
-      <Navbar isLoggedIn={userState.isLoggedIn} isAdmin={userState.isAdmin} />
-      <Routes>
-        {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
-        <Route path="/" element={<BackgroundImage />}>
-          <Route index element={<Landing />} />
-          <Route path="/login">
-            <Route index element={<Login />} />
-            <Route path="reset" element={<ResetPassword />} />
+      <UserContext.Provider value={{ user, setUser }}>
+        <Navbar />
+        <Routes>
+          {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
+          <Route path="/" element={<BackgroundImage />}>
+            <Route index element={<Landing />} />
+            <Route path="/login">
+              <Route index element={<Login />} />
+              <Route path="reset" element={<ResetPassword />} />
+            </Route>
+            <Route path="/signup" element={<SignUp />} />
           </Route>
-          <Route path="/signup" element={<SignUp />} />
-        </Route>
-        <Route path="/classes">
-          <Route index element={<Classes />} />
-          <Route path=":id" element={<Yearbook />} />
-        </Route>
-        <Route path="/students">
-          <Route path=":id" element={<StudentProfile />} />
-          {/* update profile page for both student and admin, with different props */}
-          <Route path=":id/edit" element={<UpdateProfile />} />
-        </Route>
-        <Route path="/account">
-          <Route index element={<Account />} />
-          <Route path="invite" element={<AddStudents />} />
-          <Route path="classes" element={<ManageClasses />} />
-          <Route path="students" element={<ManageStudents />} />
-        </Route>
-        {/* <Route path="/message" element={<RedirectMessage />} /> */}
-      </Routes>
+          <Route path="/classes">
+            <Route index element={<Classes />} />
+            <Route path=":id" element={<Yearbook />} />
+          </Route>
+          <Route path="/students">
+            <Route path=":id" element={<StudentProfile />} />
+            {/* update profile page for both student and admin, with different props */}
+            <Route path=":id/edit" element={<UpdateProfile />} />
+          </Route>
+          <Route path="/account">
+            <Route index element={<Account />} />
+            <Route path="invite" element={<AddStudents />} />
+            <Route path="classes" element={<ManageClasses />} />
+            <Route path="students" element={<ManageStudents />} />
+          </Route>
+          {/* <Route path="/message" element={<RedirectMessage />} /> */}
+        </Routes>
+      </UserContext.Provider>
     </>
   )
 }

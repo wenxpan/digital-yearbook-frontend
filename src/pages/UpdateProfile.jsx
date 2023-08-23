@@ -1,12 +1,16 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import { Link } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
 
 const UpdateProfile = () => {
+  const { user } = useContext(UserContext)
+  const { isAdmin, isLoggedIn } = user
+
   const years = [2020, 2021, 2022, 2023]
   const classes = ["Geecko", "Salamander", "Kangaroo", "possum"]
 
@@ -24,7 +28,7 @@ const UpdateProfile = () => {
     questionThree: "answer3",
     questionFour: "answer4"
   }
-  const isAdmin = true
+
   const [content, setContent] = useState(initialStudent)
 
   // to handle input update
