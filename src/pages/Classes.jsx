@@ -6,13 +6,20 @@ import YearbookCard from "../components/YearbookCard"
 import Button from "react-bootstrap/Button"
 import { useNavigate } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
+import SchoolContext from "../contexts/SchoolContext"
 
 const Classes = () => {
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
+  const { school, dispatch } = useContext(SchoolContext)
 
   const nav = useNavigate()
-  const classes = [1, 2, 3, 4, 5]
+
+  const classes = school.years
+    .map((year) => year.classes.map((c) => ({ ...c, year: year.year })))
+    .flat()
+  // console.log(classes)
+
   return (
     <Container fluid="md" className="text-md-center mt-4">
       <Row>
@@ -26,9 +33,9 @@ const Classes = () => {
         </Col>
       </Row>
       <Row>
-        {classes.map((a) => (
-          <Col key={a} md="auto" className="m-2">
-            <YearbookCard />
+        {classes.map((c) => (
+          <Col key={c._id} md="auto" className="m-2">
+            <YearbookCard yearbook={c} />
           </Col>
         ))}
       </Row>
