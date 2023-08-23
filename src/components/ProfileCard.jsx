@@ -7,10 +7,11 @@ import { useNavigate } from "react-router-dom"
 
 const ProfileCard = ({
   img = "/src/assets/profile-placeholder.jpg",
-  name = "Name",
-  quote = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  student
 }) => {
   const nav = useNavigate()
+  const { firstName, lastName, quote } = student
+  const name = firstName + lastName
   return (
     <Row className="mb-4">
       <Col className="d-flex justify-content-center">

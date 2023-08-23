@@ -1,31 +1,38 @@
-import React from "react"
+import React, { useContext } from "react"
 import ProfileCard from "../components/ProfileCard"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
 import { useNavigate } from "react-router-dom"
+import SchoolContext from "../contexts/SchoolContext"
 
-const Yearbook = () => {
+const Yearbook = ({ yearbook }) => {
   const nav = useNavigate()
-  const students = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+  const { school } = useContext(SchoolContext)
+  const students = school.students.filter((s) => s.class === yearbook._id)
+  console.log(students)
   return (
     <Container fluid="md" className="text-md-center mt-4">
       <Row>
         <Col>
-          <h1>Year</h1>
+          <h1>{yearbook.name}</h1>
         </Col>
       </Row>
       <Row>
         <Col>
-          <h2 className="fs-3">Class</h2>
+          <h2 className="fs-3">{yearbook.year.year}</h2>
         </Col>
       </Row>
       <Row md={2} lg={3} xl={4} className="mt-3">
         {students.map((s) => (
           <Col>
-            <ProfileCard key={s} img={"/src/assets/profile-placeholder.jpg"} />
+            <ProfileCard
+              key={s}
+              img={"/src/assets/profile-placeholder.jpg"}
+              student={s}
+            />
           </Col>
         ))}
       </Row>

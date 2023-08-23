@@ -1,5 +1,5 @@
 import { useState, useReducer } from "react"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useParams } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 import Navbar from "./components/NavBar"
@@ -34,6 +34,13 @@ function App() {
 
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
 
+  function YearbookWrapper() {
+    const { id } = useParams()
+    // find class and return id
+    const yearbook = school.classes.find((c) => c._id === id)
+    return <Yearbook yearbook={yearbook} />
+  }
+
   return (
     <>
       <UserContext.Provider value={{ user, setUser }}>
@@ -51,7 +58,7 @@ function App() {
             </Route>
             <Route path="/classes">
               <Route index element={<Classes />} />
-              <Route path=":id" element={<Yearbook />} />
+              <Route path=":id" element={<YearbookWrapper />} />
             </Route>
             <Route path="/students">
               <Route path=":id" element={<StudentProfile />} />
