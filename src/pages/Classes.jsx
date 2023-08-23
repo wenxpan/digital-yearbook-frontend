@@ -25,7 +25,7 @@ const Classes = () => {
           <h2 className="">All yearbooks</h2>
         </Col>
       </Row>
-      <Row className="justify-content-md-center">
+      <Row>
         {classes.map((a) => (
           <Col key={a} md="auto" className="m-2">
             <YearbookCard />

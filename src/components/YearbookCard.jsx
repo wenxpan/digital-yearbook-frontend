@@ -14,7 +14,7 @@ const YearbookCard = ({
       <Card.Body>
         <Card.Title>{year}</Card.Title>
         <Button variant="primary" onClick={() => nav(`/classes/${1}`)}>
-          View yearbook
+          Kangaroo
         </Button>
       </Card.Body>
     </Card>

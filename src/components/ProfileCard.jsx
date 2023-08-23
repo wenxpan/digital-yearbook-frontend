@@ -11,21 +11,24 @@ const ProfileCard = ({
   quote = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 }) => {
   const nav = useNavigate()
-
   return (
-    <Container className="my-2" onClick={() => nav(`/students/${1}`)}>
-      <Row>
-        <Col>
-          <Card style={{ width: "15rem", cursor: "pointer" }}>
-            <Card.Img variant="top" src={img} />
-            <Card.Body>
-              <Card.Text>{name}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col className="align-self-center">{quote}</Col>
-      </Row>
-    </Container>
+    <Row className="mb-4">
+      <Col className="d-flex justify-content-center">
+        <Card
+          style={{ width: "15rem", cursor: "pointer" }}
+          className="my-2"
+          onClick={() => nav(`/students/${1}`)}
+        >
+          <Card.Img variant="top" src={img} />
+          <Card.Body>
+            <Card.Text>{name}</Card.Text>
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col className="mt-2 d-flex justify-content-center align-items-center">
+        <p style={{ maxWidth: "15rem" }}>{quote}</p>
+      </Col>
+    </Row>
   )
 }
 

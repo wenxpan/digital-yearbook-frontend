@@ -22,9 +22,11 @@ const Yearbook = () => {
           <h2 className="fs-3">Class</h2>
         </Col>
       </Row>
-      <Row md={2} lg={3} xl={4}>
+      <Row md={2} lg={3} xl={4} className="mt-3">
         {students.map((s) => (
-          <ProfileCard key={s} img={"/src/assets/profile-placeholder.jpg"} />
+          <Col>
+            <ProfileCard key={s} img={"/src/assets/profile-placeholder.jpg"} />
+          </Col>
         ))}
       </Row>
       <Row>
