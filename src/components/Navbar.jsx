@@ -1,10 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
 import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 import { Link } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
 
-const NavBar = ({ isLoggedIn = false, isAdmin = false }) => {
+const NavBar = () => {
+  const { user } = useContext(UserContext)
+  const { isAdmin, isLoggedIn } = user
+
   //TODO: make 3 views DRY; replace placeholder links
   const defaultView = (
     <>
@@ -56,7 +60,7 @@ const NavBar = ({ isLoggedIn = false, isAdmin = false }) => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to={isLoggedIn ? "/account" : "/"}>
           <img
             src="/src/assets/yearbook-logo.svg"
             width="40"

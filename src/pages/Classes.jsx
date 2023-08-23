@@ -1,13 +1,16 @@
-import React from "react"
+import React, { useContext } from "react"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import YearbookCard from "../components/YearbookCard"
 import Button from "react-bootstrap/Button"
 import { useNavigate } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
 
 const Classes = () => {
-  const isAdmin = false
+  const { user } = useContext(UserContext)
+  const { isAdmin, isLoggedIn } = user
+
   const nav = useNavigate()
   const classes = [1, 2, 3, 4, 5]
   return (
@@ -32,9 +35,7 @@ const Classes = () => {
       <Row>
         <Col />
         <Col md="auto">
-          <Button onClick={() => nav(isAdmin ? "/admin" : "/account")}>
-            Back
-          </Button>
+          <Button onClick={() => nav("/account")}>Back</Button>
         </Col>
       </Row>
     </Container>

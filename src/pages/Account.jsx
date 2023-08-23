@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
@@ -6,9 +6,11 @@ import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
 import { Link } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
 
 const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
-  const isAdmin = true
+  const { user } = useContext(UserContext)
+  const { isAdmin, isLoggedIn } = user
 
   const studentOptions = [
     { option: `My yearbook (${"class name"})`, link: `/classes/${1}` },
@@ -26,6 +28,11 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
     // student reset profile
     console.log("reset profile clicked")
   }
+
+  function handleLogOut() {
+    console.log("log out clicked")
+  }
+
   return (
     <>
       <Container fluid="md" className="mt-4">
@@ -56,6 +63,10 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
                       {s.option} →
                     </ListGroup.Item>
                   ))}
+              <br />
+              <ListGroup.Item onClick={handleLogOut} as={Link}>
+                Log Out →
+              </ListGroup.Item>
             </ListGroup>
           </Col>
         </Row>
