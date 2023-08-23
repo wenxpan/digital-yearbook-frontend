@@ -7,15 +7,23 @@ import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
 import { Link } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
+import SchoolContext from "../contexts/SchoolContext"
 
-const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
+const Account = () => {
   const { user } = useContext(UserContext)
-  const { isAdmin, isLoggedIn } = user
+  const { isAdmin, isLoggedIn, name } = user
+  const { school } = useContext(SchoolContext)
+
+  const student = school.students.find((s) => s._id === user.student)
+  const yearbook = school.classes.find((c) => c._id === student.class)
 
   const studentOptions = [
-    { option: `My yearbook (${"class name"})`, link: `/classes/${1}` },
+    {
+      option: `My yearbook (${yearbook.name})`,
+      link: `/classes/${yearbook._id}`
+    },
     { option: "All yearbooks", link: "/classes" },
-    { option: "Update Profile", link: `/students/${1}/edit` }
+    { option: "Update Profile", link: `/students/${student._id}/edit` }
   ]
   const adminOptions = [
     { option: "Add student/class", link: "invite" },
@@ -30,6 +38,7 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
   }
 
   function handleLogOut() {
+    //TODO - clear token and reset user
     console.log("log out clicked")
   }
 
@@ -39,11 +48,15 @@ const Account = ({ img = "/src/assets/profile-placeholder.jpg" }) => {
         <Row lg={2} className="justify-content-around">
           <Col lg="auto">
             <Card className="border-0" style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={img} />
+              <Card.Img variant="top" src={student.photo} />
               <Card.Body>
-                <Card.Title>Name</Card.Title>
+                <Card.Title>{name}</Card.Title>
                 <Card.Text>{isAdmin ? "Admin" : "Student"}</Card.Text>
-                {!isAdmin && <Card.Text>Year - Class</Card.Text>}
+                {!isAdmin && (
+                  <Card.Text>
+                    {yearbook.name} - {yearbook.year.year}
+                  </Card.Text>
+                )}
               </Card.Body>
             </Card>
           </Col>
