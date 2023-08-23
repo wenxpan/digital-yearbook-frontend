@@ -25,23 +25,25 @@ import sampleSchool from "./utils/sampleSchool"
 function App() {
   // placeholder user state
 
-  const sampleAdmin = {
-    isLoggedIn: true,
-    isAdmin: true,
-    name: "John",
-    email: "john.smith@gmail.com",
-    _id: "64e56dc04aa128eeda489277"
-  }
+  const sampleUsers = [
+    {
+      isLoggedIn: true,
+      isAdmin: true,
+      name: "John",
+      email: "john.smith@gmail.com",
+      _id: "64e56dc04aa128eeda489277"
+    },
+    {
+      isLoggedIn: true,
+      isAdmin: false,
+      name: "CharlotteD",
+      email: "charlotte@gmail.com",
+      student: "64e56dc04aa122eeda489274",
+      _id: "64e5b714cf630fb8c19a5732"
+    }
+  ]
 
-  const sampleUser = {
-    isLoggedIn: true,
-    isAdmin: false,
-    name: "CharlotteD",
-    email: "charlotte@gmail.com",
-    student: "64e56dc04aa122eeda489274",
-    _id: "64e5b714cf630fb8c19a5732"
-  }
-  const [user, setUser] = useState(sampleUser)
+  const [user, setUser] = useState(sampleUsers[1])
 
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
 

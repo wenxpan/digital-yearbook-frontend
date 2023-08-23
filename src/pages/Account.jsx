@@ -14,8 +14,10 @@ const Account = () => {
   const { isAdmin, isLoggedIn, name } = user
   const { school } = useContext(SchoolContext)
 
-  const student = school.students.find((s) => s._id === user.student)
-  const yearbook = school.classes.find((c) => c._id === student.class)
+  const student =
+    !isAdmin && school.students.find((s) => s._id === user.student)
+  const yearbook =
+    !isAdmin && school.classes.find((c) => c._id === student.class)
 
   const studentOptions = [
     {
@@ -48,7 +50,10 @@ const Account = () => {
         <Row lg={2} className="justify-content-around">
           <Col lg="auto">
             <Card className="border-0" style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={student.photo} />
+              <Card.Img
+                variant="top"
+                src={isAdmin ? "/src/assets/admin-default.svg" : student.photo}
+              />
               <Card.Body>
                 <Card.Title>{name}</Card.Title>
                 <Card.Text>{isAdmin ? "Admin" : "Student"}</Card.Text>

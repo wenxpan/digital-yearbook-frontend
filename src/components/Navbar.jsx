@@ -23,7 +23,7 @@ const NavBar = () => {
   const studentView = (
     <>
       <Navbar.Text>
-        <Link to="/account">Student Name</Link>
+        <Link to="/account">{user.name} - Student</Link>
       </Navbar.Text>
       <Nav.Link as={Link} to="/classes/1">
         My yearbook
@@ -40,7 +40,7 @@ const NavBar = () => {
   const adminView = (
     <>
       <Navbar.Text>
-        <Link to="/account">Admin Name</Link>
+        <Link to="/account">{user.name} - Admin</Link>
       </Navbar.Text>
       <Nav.Link as={Link} to="/account/invite">
         Invite
