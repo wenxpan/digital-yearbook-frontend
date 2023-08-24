@@ -16,13 +16,15 @@ const AddStudents = () => {
   //TODO: make the following DRY; currently same as ManageStudent
   // get years and classes data from context
   const { school } = useContext(SchoolContext)
-  const years = school.years
-  const classes = school.classes
+  const years = [...school.years]
+  const classes = [...school.classes]
 
   // set selected state for the year and class option fields
   const [selected, setSelected] = useState({
     year: years[0].year
   })
+
+  const [newClassYear, setNewClassYear] = useState({ class: "", year: "" })
 
   function handleSelect(changed) {
     setSelected((prev) => ({ ...prev, ...changed }))
@@ -31,10 +33,14 @@ const AddStudents = () => {
   // every on mount and selected year changes, selected class will change accordingly
   // to make sure it's from the filtered class list
   useEffect(() => {
-    const filteredClasses = classes.filter(
-      (cls) => cls.year.year === selected.year
-    )
-    handleSelect({ class: filteredClasses[0].name })
+    if (selected.year !== "_new") {
+      const filteredClasses = classes.filter(
+        (cls) => cls.year.year === selected.year
+      )
+      handleSelect({ class: filteredClasses[0].name })
+    } else {
+      handleSelect({ class: "_new" })
+    }
   }, [selected.year])
 
   const yearsOptions = years.map((y) => (
@@ -58,13 +64,23 @@ const AddStudents = () => {
   function handleSave(e) {
     // function for submitting form
     e.preventDefault()
-    console.log(`class: ${selected.class}, year: ${selected.year}`)
+
+    console.log(
+      `class: ${
+        selected.class !== "_new" ? selected.class : newClassYear.class
+      }, year: ${selected.year !== "_new" ? selected.year : newClassYear.year}`
+    )
     console.log(students)
   }
 
   function handleClassChange(changed) {
     // selecting class and year
     setSelected((prev) => ({ ...prev, ...changed }))
+  }
+
+  function handleNewClassChange(changed) {
+    // to set state for newly entered class and year
+    setNewClassYear((prev) => ({ ...prev, ...changed }))
   }
 
   function handleAddStudent() {
@@ -86,6 +102,26 @@ const AddStudents = () => {
     setStudents((prev) => prev.filter((s) => s !== obj))
   }
 
+  const newYearEl = (
+    <Form.Group className="mb-3">
+      <Form.Label className="fw-semibold">New Year</Form.Label>
+      <Form.Control
+        value={newClassYear.year}
+        onChange={(e) => handleNewClassChange({ year: e.target.value })}
+      />
+    </Form.Group>
+  )
+
+  const newClassEl = (
+    <Form.Group className="mb-3">
+      <Form.Label className="fw-semibold">New Class</Form.Label>
+      <Form.Control
+        value={newClassYear.class}
+        onChange={(e) => handleNewClassChange({ class: e.target.value })}
+      />
+    </Form.Group>
+  )
+
   return (
     <>
       <Container className="mt-4" fluid="md">
@@ -96,25 +132,32 @@ const AddStudents = () => {
           <Form onSubmit={(e) => handleSave(e)}>
             <Row className="mb-3" xs={1} md={2}>
               <Form.Group as={Col} controlId="formYear">
-                <Form.Label>Year</Form.Label>
+                <Form.Label>Year (Select existing or add new)</Form.Label>
                 <Form.Select
                   value={selected.year}
                   onChange={(e) => handleClassChange({ year: e.target.value })}
                 >
                   {yearsOptions}
+                  <option value="_new">- Add new year -</option>
                 </Form.Select>
               </Form.Group>
 
               <Form.Group as={Col} controlId="formClass">
-                <Form.Label>Class</Form.Label>
+                <Form.Label>Class (Select existing or add new)</Form.Label>
                 <Form.Select
                   value={selected.class}
                   onChange={(e) => handleClassChange({ class: e.target.value })}
                 >
                   {classesOptions}
+                  <option value="_new">- Add new class -</option>
                 </Form.Select>
               </Form.Group>
             </Row>
+            <Row>
+              <Col>{selected.year === "_new" && newYearEl}</Col>
+              <Col>{selected.class === "_new" && newClassEl}</Col>
+            </Row>
+
             {students.map((student, i) => (
               <AddStudentForm
                 key={i}
