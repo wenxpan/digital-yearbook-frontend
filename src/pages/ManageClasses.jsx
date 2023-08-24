@@ -1,13 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
 import Container from "react-bootstrap/Container"
 import { Link } from "react-router-dom"
 import AdminClassCard from "../components/AdminClassCard"
+import SchoolContext from "../contexts/SchoolContext"
 
 const ManageClasses = () => {
-  const classes = ["Geecko", "Salamander", "Kangaroo", "possum"]
+  const { school } = useContext(SchoolContext)
+  const classes = school.classes
 
   return (
     <>
@@ -17,9 +19,9 @@ const ManageClasses = () => {
         </Row>
 
         <Row xs={1} md={2} lg={3} className="mt-3">
-          {classes.map((s) => (
-            <Col className="mb-3" key={s}>
-              <AdminClassCard />
+          {classes.map((cls) => (
+            <Col className="mb-3" key={cls._id}>
+              <AdminClassCard classInfo={cls} />
             </Col>
           ))}
         </Row>

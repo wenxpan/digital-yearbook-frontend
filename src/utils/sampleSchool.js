@@ -4,6 +4,7 @@ const sampleSchool = {
       name: "Gecko",
       _id: "64e56dbf4aa128eeda489265",
       year: { year: "2009", _id: "64e56dc04aa128eeda48926b" }
+      // add total students statistics?
     },
     {
       name: "Salamander",

@@ -1,17 +1,20 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
-import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
+import SchoolContext from "../contexts/SchoolContext"
 
-const AdminClassCard = () => {
+const AdminClassCard = ({ classInfo }) => {
   const [isEditing, setIsEditing] = useState(false)
+  const { school } = useContext(SchoolContext)
 
-  const selectedClass = { year: "2020", class: "Koala" }
+  const [content, setContent] = useState(classInfo)
 
-  const [content, setContent] = useState(selectedClass)
+  const totalStudents = school.students.filter(
+    (s) => s.class === content._id
+  ).length
 
   function handleSave() {
     setIsEditing((prev) => !prev)
@@ -22,6 +25,10 @@ const AdminClassCard = () => {
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
+  function handleDelete() {
+    console.log("delete clicked")
+  }
+
   return (
     <Card style={{ maxWidth: "25rem" }} className="p-3">
       <Row className="mb-2">
@@ -29,7 +36,7 @@ const AdminClassCard = () => {
           <Form.Group className="mb-3">
             <Form.Label className="fw-semibold">Year</Form.Label>
             <Form.Control
-              value={content.year}
+              value={content.year.year}
               disabled={isEditing ? "" : "disabled"}
               onChange={(e) => handleChange({ year: e.target.value })}
             />
@@ -39,7 +46,7 @@ const AdminClassCard = () => {
           <Form.Group className="mb-3">
             <Form.Label className="fw-semibold">Class</Form.Label>
             <Form.Control
-              value={content.class}
+              value={content.name}
               onChange={(e) => handleChange({ class: e.target.value })}
               disabled={isEditing ? "" : "disabled"}
             />
@@ -49,16 +56,15 @@ const AdminClassCard = () => {
       <Row className="mb-2">
         <Col>
           <p className="fw-semibold">Total Students</p>
-          <p>20</p>
+          <p>{totalStudents}</p>
         </Col>
-        <Col>
-          <p className="fw-semibold">Registered Students</p>
-          <p>10</p>
-        </Col>
+        <Col></Col>
       </Row>
       <Row>
         <Col xs={6}>
-          <Button variant="danger">Delete</Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
         </Col>
         <Col xs={3}>
           <Button
