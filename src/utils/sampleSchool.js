@@ -53,6 +53,7 @@ const sampleSchool = {
       questionThree: "answer 3",
       questionFour: "answer 4"
       // add a quote property
+      // add a inviteCode property
     },
     {
       _id: "64e56dc04aa128eeda489274",
