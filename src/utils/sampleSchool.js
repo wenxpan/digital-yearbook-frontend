@@ -44,7 +44,7 @@ const sampleSchool = {
       _id: "64e56dc04aa128eeda489273",
       firstName: "John",
       lastName: "Rogers",
-      class: "64e56dbf4aa128eeda489265",
+      class: "64e56dbf4aa128eeda489265", //better to have {name, _id, year} for class
       email: "john.rogers@gmail.com",
       photo: "https://i.pravatar.cc/300?img=16",
       contactDetails: "+61453267890",
@@ -52,6 +52,7 @@ const sampleSchool = {
       questionTwo: "answer 2",
       questionThree: "answer 3",
       questionFour: "answer 4"
+      // add a quote property
     },
     {
       _id: "64e56dc04aa128eeda489274",

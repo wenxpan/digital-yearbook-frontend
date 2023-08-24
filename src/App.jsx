@@ -43,7 +43,7 @@ function App() {
     }
   ]
 
-  const [user, setUser] = useState(sampleUsers[1])
+  const [user, setUser] = useState(sampleUsers[0])
 
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
 
@@ -59,6 +59,12 @@ function App() {
     // find class and return id
     const student = school.students.find((s) => s._id === id)
     return <StudentProfile student={student} />
+  }
+
+  function UpdateProfileWrapper() {
+    const { id } = useParams()
+    const student = school.students.find((s) => s._id === id)
+    return <UpdateProfile student={student} />
   }
 
   return (
@@ -83,7 +89,7 @@ function App() {
             <Route path="/students">
               <Route path=":id" element={<StudentProfileWrapper />} />
               {/* update profile page for both student and admin, with different props */}
-              <Route path=":id/edit" element={<UpdateProfile />} />
+              <Route path=":id/edit" element={<UpdateProfileWrapper />} />
             </Route>
             <Route path="/account">
               <Route index element={<Account />} />

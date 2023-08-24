@@ -6,32 +6,22 @@ import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import { Link } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
+import SchoolContext from "../contexts/SchoolContext"
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ student }) => {
   //TODO: add upload photo section for admin
 
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
+  const { school, dispatch } = useContext(SchoolContext)
 
-  const years = [2020, 2021, 2022, 2023]
-  const classes = ["Geecko", "Salamander", "Kangaroo", "possum"]
+  const studentClass = school.classes.find((c) => c._id === student.class)
 
-  // sample data for student
-  const initialStudent = {
-    year: "2023",
-    class: "Kangaroo",
-    firstName: "John",
-    lastName: "Doe",
-    email: "john@gmail.com",
-    photo: "http://images.google.com/",
-    contactDetails: "123456670",
-    questionOne: "answer1",
-    questionTwo: "answer2",
-    questionThree: "answer3",
-    questionFour: "answer4"
-  }
-
-  const [content, setContent] = useState(initialStudent)
+  const [content, setContent] = useState({
+    ...student,
+    year: studentClass.year.year,
+    class: studentClass.name
+  })
 
   // to handle input update
   function handleChange(changed) {
@@ -53,27 +43,28 @@ const UpdateProfile = () => {
             <Row className="mb-3" xs={1} md={2}>
               <Form.Group as={Col} controlId="formYear">
                 <Form.Label>Year</Form.Label>
-                <Form.Select
+                <Form.Control
                   value={content.year}
                   onChange={(e) => handleChange({ year: e.target.value })}
                   disabled={isAdmin ? "" : "disabled"}
-                >
-                  {years.map((y) => (
-                    <option key={y}>{y}</option>
-                  ))}
-                </Form.Select>
+                ></Form.Control>
               </Form.Group>
 
               <Form.Group as={Col} controlId="formClass">
                 <Form.Label>Class</Form.Label>
                 <Form.Select
                   value={content.class}
-                  onChange={(e) => handleChange({ class: e.target.value })}
+                  onChange={(e) => {
+                    handleChange({ class: e.target.value })
+                  }}
                   disabled={isAdmin ? "" : "disabled"}
                 >
-                  {classes.map((y) => (
-                    <option key={y}>{y}</option>
-                  ))}
+                  {school.classes.map(
+                    (cls) =>
+                      cls.year.year === content.year && (
+                        <option key={cls._id}>{cls.name}</option>
+                      )
+                  )}
                 </Form.Select>
               </Form.Group>
             </Row>
@@ -118,6 +109,14 @@ const UpdateProfile = () => {
                 onChange={(e) =>
                   handleChange({ contactDetails: e.target.value })
                 }
+                type="text"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formQues1">
+              <Form.Label>Yearbook quote</Form.Label>
+              <Form.Control
+                value={content.quote}
+                onChange={(e) => handleChange({ quote: e.target.value })}
                 type="text"
               />
             </Form.Group>
