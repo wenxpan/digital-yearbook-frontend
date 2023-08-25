@@ -1,14 +1,13 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { Link } from "react-router-dom"
 
-import Button from "react-bootstrap/Button"
+import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Container from "react-bootstrap/Container"
+import Button from "react-bootstrap/Button"
 
 import UserContext from "../contexts/UserContext"
-import SchoolContext from "../contexts/SchoolContext"
 import AddStudentForm from "../components/AddStudentForm"
 import SelectYearClass from "../components/SelectYearClass"
 
@@ -16,39 +15,17 @@ const AddStudents = () => {
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
 
-  //TODO: make the following DRY; currently same as ManageStudent
-  // get years and classes data from context
-  const { school } = useContext(SchoolContext)
-  const years = [...school.years]
-  const classes = [...school.classes]
-
   // set selected state for the year and class option fields
-  const [selected, setSelected] = useState({
-    year: years[0].year
-  })
+  const [selected, setSelected] = useState({})
 
-  function handleSelect(changed) {
-    setSelected((prev) => ({ ...prev, ...changed }))
-  }
-
-  const [newClassYear, setNewClassYear] = useState({ class: "", year: "" })
-
-  function handleNewClassYear(changed) {
-    // to set state for newly entered class and year
-    setNewClassYear((prev) => ({ ...prev, ...changed }))
-  }
-
+  // set state for entered students
   const [students, setStudents] = useState([])
 
   function handleSave(e) {
     // function for submitting form
     e.preventDefault()
 
-    console.log(
-      `class: ${
-        selected.class !== "_new" ? selected.class : newClassYear.class
-      }, year: ${selected.year !== "_new" ? selected.year : newClassYear.year}`
-    )
+    console.log(`class: ${selected.class}, year: ${selected.year}`)
     console.log(students)
   }
 
@@ -79,15 +56,7 @@ const AddStudents = () => {
         </Row>
         <Row className="mt-4">
           <Form onSubmit={(e) => handleSave(e)}>
-            <SelectYearClass
-              props={{
-                selected,
-                handleSelect,
-                newClassYear,
-                handleNewClassYear,
-                addNew: true
-              }}
-            />
+            <SelectYearClass selected={selected} setSelected={setSelected} />
             {students.map((student, i) => (
               <AddStudentForm
                 key={i}
@@ -124,16 +93,5 @@ const AddStudents = () => {
     </>
   )
 }
-
-//TODO: explore upload file and post to database
-const uploadPhoto = (
-  <Form.Group controlId="formFile" className="mb-3">
-    <Form.Label>Upload yearbook photo</Form.Label>
-    <Form.Control
-      onChange={(e) => handleChange({ photo: e.target.files[0] })}
-      type="file"
-    />
-  </Form.Group>
-)
 
 export default AddStudents

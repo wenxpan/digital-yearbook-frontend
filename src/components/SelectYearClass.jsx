@@ -6,24 +6,26 @@ import Col from "react-bootstrap/Col"
 
 import SchoolContext from "../contexts/SchoolContext"
 
-const SelectYearClass = ({ props }) => {
-  const { handleSelect, selected, newClassYear, handleNewClassYear, addNew } =
-    props
+const SelectYearClass = ({ selected, setSelected }) => {
   const { school } = useContext(SchoolContext)
-  const years = school.years
-  const classes = school.classes
+  const { years, classes } = school
+
+  function handleSelect(changed) {
+    setSelected((prev) => ({ ...prev, ...changed }))
+  }
+
+  // every on mount, set initial year state
+  useEffect(() => {
+    handleSelect({ year: years[0].year })
+  }, [])
 
   // every on mount and selected year changes, selected class will change accordingly
   // to make sure it's from the filtered class list
   useEffect(() => {
-    if (selected.year !== "_new") {
-      const filteredClasses = classes.filter(
-        (cls) => cls.year.year === selected.year
-      )
-      handleSelect({ class: filteredClasses[0].name })
-    } else {
-      handleSelect({ class: "_new" })
-    }
+    const filteredClasses = classes.filter(
+      (cls) => cls.year.year === (selected.year || years[0].year)
+    )
+    handleSelect({ class: filteredClasses[0].name })
   }, [selected.year])
 
   // show available year options
@@ -43,34 +45,11 @@ const SelectYearClass = ({ props }) => {
       )
   )
 
-  const newYearEl = addNew && (
-    <Form.Group className="mb-3" controlId="formNewYear">
-      <Form.Label className="fw-semibold">New Year</Form.Label>
-      <Form.Control
-        value={newClassYear.year}
-        onChange={(e) => handleNewClassYear({ year: e.target.value })}
-      />
-    </Form.Group>
-  )
-
-  const newClassEl = addNew && (
-    <Form.Group className="mb-3" controlId="formNewClass">
-      <Form.Label className="fw-semibold">New Class</Form.Label>
-      <Form.Control
-        value={newClassYear.class}
-        onChange={(e) => handleNewClassYear({ class: e.target.value })}
-      />
-    </Form.Group>
-  )
-
-  const newYearOption = <option value="_new">- Add new year -</option>
-  const newClassOption = <option value="_new">- Add new class -</option>
-
   return (
     <>
       <Row className="mb-3" xs={1} md={2}>
         <Form.Group as={Col} controlId="formYear">
-          <Form.Label>Year {addNew && "Select existing or add new"}</Form.Label>
+          <Form.Label>Year</Form.Label>
           <Form.Select
             value={selected.year}
             onChange={(e) => {
@@ -78,14 +57,11 @@ const SelectYearClass = ({ props }) => {
             }}
           >
             {yearsOptions}
-            {addNew && newYearOption}
           </Form.Select>
         </Form.Group>
 
         <Form.Group as={Col} controlId="formClass">
-          <Form.Label>
-            Class {addNew && "Select existing or add new"}
-          </Form.Label>
+          <Form.Label>Class</Form.Label>
           <Form.Select
             value={selected.class}
             onChange={(e) => {
@@ -95,13 +71,8 @@ const SelectYearClass = ({ props }) => {
             }}
           >
             {classesOptions}
-            {addNew && newClassOption}
           </Form.Select>
         </Form.Group>
-      </Row>
-      <Row>
-        <Col>{selected.year === "_new" && newYearEl}</Col>
-        <Col>{selected.class === "_new" && newClassEl}</Col>
       </Row>
     </>
   )

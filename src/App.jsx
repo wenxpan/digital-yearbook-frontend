@@ -21,7 +21,6 @@ import UserContext from "./contexts/UserContext"
 import SchoolContext from "./contexts/SchoolContext"
 import schoolReducer from "./utils/schoolReducer"
 import sampleSchool from "./utils/sampleSchool"
-import AddClass from "./pages/AddClass"
 
 function App() {
   // placeholder user states
@@ -107,7 +106,6 @@ function App() {
             <Route path="/account">
               <Route index element={<Account />} />
               <Route path="classes" element={<ManageClasses />} />
-              <Route path="classes/new" element={<AddClass />} />
               <Route path="students" element={<ManageStudents />} />
               <Route path="students/new" element={<AddStudents />} />
             </Route>

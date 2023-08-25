@@ -1,10 +1,11 @@
 import React, { useContext } from "react"
+import { Link } from "react-router-dom"
 import Container from "react-bootstrap/Container"
+
+import SchoolContext from "../contexts/SchoolContext"
+import UserContext from "../contexts/UserContext"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
-import { Link } from "react-router-dom"
-import UserContext from "../contexts/UserContext"
-import SchoolContext from "../contexts/SchoolContext"
 import findMatchingStudentClass from "../utils/findMatchingStudentClass"
 
 const NavBar = () => {

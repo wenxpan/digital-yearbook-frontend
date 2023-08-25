@@ -12,18 +12,11 @@ import AdminStudentCard from "../components/AdminStudentCard"
 import SelectYearClass from "../components/SelectYearClass"
 
 const ManageStudents = () => {
-  // get years and classes data from context
+  // get years data from context
   const { school } = useContext(SchoolContext)
 
   // set selected state for the year and class option fields
-  const [selected, setSelected] = useState({
-    year: school.years[0].year
-  })
-
-  // handle class and year select, to pass to child component
-  function handleSelect(changed) {
-    setSelected((prev) => ({ ...prev, ...changed }))
-  }
+  const [selected, setSelected] = useState({})
 
   // filter students from the selected year and class
   const students = school.students.filter((s) => {
@@ -39,7 +32,7 @@ const ManageStudents = () => {
         <Row>
           <h1 className="fs-2">Manage Students</h1>
         </Row>
-        <SelectYearClass props={{ selected, handleSelect }} />
+        <SelectYearClass selected={selected} setSelected={setSelected} />
         <Row xs={1} md={2} lg={3} className="mt-3">
           {students.map((s) => (
             <Col className="mb-3" key={s._id}>

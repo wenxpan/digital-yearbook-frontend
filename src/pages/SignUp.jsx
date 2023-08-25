@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from "react"
-import Button from "react-bootstrap/Button"
-import Form from "react-bootstrap/Form"
 import { useNavigate } from "react-router-dom"
+
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
+
 import UserContext from "../contexts/UserContext"
 
 const SignUp = () => {
