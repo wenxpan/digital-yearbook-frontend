@@ -27,7 +27,7 @@ const ManageClasses = () => {
         </Row>
         <Row xs="auto" className="mt-3">
           <Col>
-            <Button as={Link} to="/account/invite">
+            <Button as={Link} to="/account/create">
               Add new class
             </Button>
           </Col>

@@ -34,13 +34,7 @@ const AdminStudentCard = ({ student }) => {
           <Button variant="danger">Delete</Button>
         </Col>
         <Col>
-          <Button
-            variant="primary"
-            as={Link}
-            to={`/students/${student._id}/edit`}
-          >
-            Edit
-          </Button>
+          <Button variant="primary" as={Link} to={`/students/${student._id}/edit`}>Edit</Button>
         </Col>
       </Row>
     </Card>

@@ -29,9 +29,9 @@ const NavBar = () => {
     ],
     admin: [
       { text: `${user.name} - Admin`, navLink: "/account" },
-      { text: "Invite", navLink: "/account/invite" },
+      { text: "Add Students", navLink: "/account/students/new" },
+      { text: "All Students", navLink: "/account/students" },
       { text: "Classes", navLink: "/account/classes" },
-      { text: "Students", navLink: "/account/students" },
       { text: "Yearbooks", navLink: "/classes" }
     ]
   }
