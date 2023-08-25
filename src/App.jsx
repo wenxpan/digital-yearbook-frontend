@@ -12,9 +12,10 @@ import ResetPassword from "./pages/ResetPassword"
 import Account from "./pages/Account"
 import UpdateProfile from "./pages/UpdateProfile"
 import SignUp from "./pages/SignUp"
+import ManageStudents from "./pages/ManageStudents"
 import AddStudents from "./pages/AddStudents"
 import ManageClasses from "./pages/ManageClasses"
-import ManageStudents from "./pages/ManageStudents"
+import AddClass from "./pages/AddClass"
 import BackgroundImage from "./components/BackgroundImage"
 
 import UserContext from "./contexts/UserContext"
@@ -106,6 +107,7 @@ function App() {
             <Route path="/account">
               <Route index element={<Account />} />
               <Route path="classes" element={<ManageClasses />} />
+              <Route path="classes/new" element={<AddClass />} />
               <Route path="students" element={<ManageStudents />} />
               <Route path="students/new" element={<AddStudents />} />
             </Route>

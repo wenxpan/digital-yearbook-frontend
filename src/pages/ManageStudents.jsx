@@ -42,7 +42,7 @@ const ManageStudents = () => {
         </Row>
         <Row xs="auto" className="mt-3">
           <Col>
-            <Button as={Link} to="/account/invite">
+            <Button as={Link} to="new">
               Add new students
             </Button>
           </Col>

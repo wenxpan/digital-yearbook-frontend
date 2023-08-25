@@ -13,6 +13,8 @@ const ManageClasses = () => {
   const { school } = useContext(SchoolContext)
   const classes = school.classes
 
+  function handleAddClass() {}
+
   return (
     <>
       <Container className="mt-4">
@@ -29,7 +31,7 @@ const ManageClasses = () => {
         </Row>
         <Row xs="auto" className="mt-3">
           <Col>
-            <Button as={Link} to="/account/create">
+            <Button as={Link} to={"new"}>
               Add new class
             </Button>
           </Col>
