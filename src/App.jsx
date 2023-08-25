@@ -26,6 +26,9 @@ function App() {
   // placeholder user state
 
   const sampleUsers = [
+    // sampleUsers[0] - not logged in status
+    { isLoggedIn: false, isAdmin: false },
+    // sampleUsers[1] - logged in admin
     {
       isLoggedIn: true,
       isAdmin: true,
@@ -33,6 +36,7 @@ function App() {
       email: "john.smith@gmail.com",
       _id: "64e56dc04aa128eeda489277"
     },
+    // sampleUsers[2] - logged in student
     {
       isLoggedIn: true,
       isAdmin: false,
@@ -43,7 +47,7 @@ function App() {
     }
   ]
 
-  const [user, setUser] = useState(sampleUsers[0])
+  const [user, setUser] = useState(sampleUsers[1])
 
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
 

@@ -1,8 +1,19 @@
-import React, { useState } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
+import { useNavigate } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
 
 const SignUp = () => {
+  const nav = useNavigate()
+  const { user } = useContext(UserContext)
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      nav("/account")
+    }
+  }, [user])
+
   //TODO: responsive layout
   const [content, setContent] = useState({
     email: "",

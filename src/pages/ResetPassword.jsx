@@ -1,8 +1,20 @@
-import React, { useState } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
+import { useNavigate } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
 
 const ResetPassword = () => {
+  const nav = useNavigate()
+  const { user } = useContext(UserContext)
+
+  useEffect(() => {
+    console.log(user.isLoggedIn)
+    if (user.isLoggedIn) {
+      nav("/account")
+    }
+  }, [user])
+
   const userEmail = "johndoe@gmail.com"
   const userQuestion = "Where did your parents first met?"
   const [content, setContent] = useState({

@@ -12,9 +12,11 @@ const NavBar = () => {
   const { school } = useContext(SchoolContext)
 
   const student =
-    !isAdmin && school.students.find((s) => s._id === user.student)
+    isLoggedIn &&
+    !isAdmin &&
+    school.students.find((s) => s._id === user.student)
   const yearbook =
-    !isAdmin && school.classes.find((c) => c._id === student.class)
+    student && school.classes.find((c) => c._id === student.class)
 
   //TODO: make 3 views DRY; replace placeholder links
   const defaultView = (
