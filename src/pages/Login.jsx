@@ -1,24 +1,28 @@
 import React, { useState, useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
-import { useNavigate } from "react-router-dom"
+
 import UserContext from "../contexts/UserContext"
 
 const Login = () => {
+  // set state for email and password
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  
+
   const nav = useNavigate()
   const { user } = useContext(UserContext)
 
   useEffect(() => {
-    console.log(user.isLoggedIn)
+    // if logged in user detected, redirect to /account page
     if (user.isLoggedIn) {
       nav("/account")
     }
   }, [user])
 
   function handleSubmit() {
+    //TODO
     console.log({ email, password })
   }
 

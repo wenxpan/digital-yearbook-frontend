@@ -1,34 +1,40 @@
 import React, { useState, useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
-import { useNavigate } from "react-router-dom"
+
 import UserContext from "../contexts/UserContext"
 
 const ResetPassword = () => {
-  const nav = useNavigate()
   const { user } = useContext(UserContext)
+  const nav = useNavigate()
 
   useEffect(() => {
-    console.log(user.isLoggedIn)
+    // if logged in user detected, redirect to /account page
     if (user.isLoggedIn) {
       nav("/account")
     }
   }, [user])
 
-  const userEmail = "johndoe@gmail.com"
-  const userQuestion = "Where did your parents first met?"
   const [content, setContent] = useState({
-    email: userEmail,
+    name: "",
+    email: "",
     newPassword: "",
-    question: userQuestion,
-    answer: ""
+    securityQuestion: "",
+    securityAnswer: ""
   })
 
   function handleUpdate(changed) {
     return setContent((prev) => ({ ...prev, ...changed }))
   }
 
+  function handleEmailCheck() {
+    //TODO: query API and return security question if found
+  }
+
   function handleSubmit() {
+    //TODO:
     console.log(content)
   }
 
@@ -37,18 +43,25 @@ const ResetPassword = () => {
       <h1 className="mb-5">Reset Password</h1>
       <Form.Group className="mb-3" controlId="formEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" value={content.email} disabled />
+        <Form.Control type="email" value={content.email} />
       </Form.Group>
+      <Form.Group className="mb-3" controlId="formName">
+        <Form.Label>Account name</Form.Label>
+        <Form.Control type="email" value={content.name} />
+      </Form.Group>
+      <Button onClick={handleEmailCheck} className="mb-3">
+        Confirm account
+      </Button>
       <Form.Group className="mb-3" controlId="formQuestion">
         <Form.Label>Security Question</Form.Label>
-        <Form.Control type="text" value={content.question} disabled />
+        <Form.Control type="text" value={user.securityQuestion} disabled />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formAnswer">
         <Form.Label>Answer</Form.Label>
         <Form.Control
           type="text"
           value={content.answer}
-          onChange={(e) => handleUpdate({ answer: e.target.value })}
+          onChange={(e) => handleUpdate({ securityAnswer: e.target.value })}
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formPassword">
