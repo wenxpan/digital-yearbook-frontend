@@ -5,9 +5,10 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const StudentProfile = ({ student }) => {
+  // destructure student object
   const {
     firstName,
     lastName,
@@ -19,22 +20,25 @@ const StudentProfile = ({ student }) => {
     questionThree,
     questionFour
   } = student
-  const nav = useNavigate()
+
+  // set up questions array
   const questions = [
     { name: "Cras justo odio Dapibus ac facilisis in?", answer: questionOne },
     { name: "In orci orci, convallis non arcu id?", answer: questionTwo },
     { name: "Integer non eros ut metus imperdiet?", answer: questionThree },
     { name: "Etiam a tincidunt est, in semper odio?", answer: questionFour }
   ]
-  const sampleQuestionEl = (
-    <>
+
+  const questionsEl = questions.map((q) => (
+    <ListGroup.Item key={q.name}>
       <strong>
-        <em>Cras justo odio Dapibus ac facilisis in?</em>
+        <em>{q.name}</em>
       </strong>
       <br />
-      {questionOne}
-    </>
-  )
+      {q.answer}
+    </ListGroup.Item>
+  ))
+
   return (
     <>
       <Container fluid="md" className="mt-4">
@@ -53,24 +57,14 @@ const StudentProfile = ({ student }) => {
           </Col>
           <Col className="align-self-center">
             <Card className="border-0">
-              <ListGroup variant="flush">
-                {questions.map((q) => (
-                  <ListGroup.Item key={q.name}>
-                    <strong>
-                      <em>{q.name}</em>
-                    </strong>
-                    <br />
-                    {q.answer}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+              <ListGroup variant="flush">{questionsEl}</ListGroup>
             </Card>
           </Col>
         </Row>
         <Row>
           <Col />
           <Col md="auto">
-            <Button onClick={() => nav(`/classes/${student.class}`)}>
+            <Button as={Link} to={`/classes/${student.class}`}>
               Back
             </Button>
           </Col>

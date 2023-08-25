@@ -9,8 +9,6 @@ import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
 
 const UpdateProfile = ({ student }) => {
-  //TODO: add upload photo section for admin
-
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
   const { school, dispatch } = useContext(SchoolContext)
@@ -100,7 +98,15 @@ const UpdateProfile = ({ student }) => {
                   type="email"
                 />
               </Form.Group>
-              <Col />
+              <Form.Group as={Col} controlId="formPhoto">
+                <Form.Label>Yearbook Photo</Form.Label>
+                <Form.Control
+                  value={content.photo}
+                  onChange={(e) => handleChange({ photo: e.target.value })}
+                  disabled={isAdmin ? "" : "disabled"}
+                  type="url"
+                />
+              </Form.Group>
             </Row>
             <Form.Group className="mb-3 mt-5" controlId="formContact">
               <Form.Label>Contact displayed in profile</Form.Label>
