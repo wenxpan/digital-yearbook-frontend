@@ -7,22 +7,32 @@ import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
 import { useNavigate } from "react-router-dom"
 
-const StudentProfile = ({
-  img = "/src/assets/profile-placeholder.jpg",
-  name = "Name",
-  quote = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-}) => {
+const StudentProfile = ({ student }) => {
+  const {
+    firstName,
+    lastName,
+    photo,
+    contactDetails,
+    quote,
+    questionOne,
+    questionTwo,
+    questionThree,
+    questionFour
+  } = student
   const nav = useNavigate()
+  const questions = [
+    { name: "Cras justo odio Dapibus ac facilisis in?", answer: questionOne },
+    { name: "In orci orci, convallis non arcu id?", answer: questionTwo },
+    { name: "Integer non eros ut metus imperdiet?", answer: questionThree },
+    { name: "Etiam a tincidunt est, in semper odio?", answer: questionFour }
+  ]
   const sampleQuestionEl = (
     <>
       <strong>
         <em>Cras justo odio Dapibus ac facilisis in?</em>
       </strong>
       <br />
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque magna
-      tellus, scelerisque id metus eget, varius viverra purus. Donec et egestas
-      mi, quis ornare dolor. Lorem ipsum dolor sit amet, consectetur adipiscing
-      elit. Aliquam condimentum ante lectus, non cursus ante laoreet sit amet.
+      {questionOne}
     </>
   )
   return (
@@ -31,22 +41,28 @@ const StudentProfile = ({
         <Row lg={2} className="justify-content-around">
           <Col lg="auto">
             <Card className="border-0" style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={img} />
+              <Card.Img variant="top" src={photo} />
               <Card.Body>
-                <Card.Title>Student Name</Card.Title>
-                <Card.Text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </Card.Text>
+                <Card.Title>
+                  {firstName} {lastName}
+                </Card.Title>
+                <Card.Text className="fst-italic">{quote}</Card.Text>
+                <Card.Text>Contact details: {contactDetails}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
           <Col className="align-self-center">
             <Card className="border-0">
               <ListGroup variant="flush">
-                <ListGroup.Item>{sampleQuestionEl}</ListGroup.Item>
-                <ListGroup.Item>{sampleQuestionEl}</ListGroup.Item>
-                <ListGroup.Item>{sampleQuestionEl}</ListGroup.Item>
-                <ListGroup.Item>{sampleQuestionEl}</ListGroup.Item>
+                {questions.map((q) => (
+                  <ListGroup.Item key={q.name}>
+                    <strong>
+                      <em>{q.name}</em>
+                    </strong>
+                    <br />
+                    {q.answer}
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </Card>
           </Col>
@@ -54,7 +70,9 @@ const StudentProfile = ({
         <Row>
           <Col />
           <Col md="auto">
-            <Button onClick={() => nav(`/classes/${1}`)}>Back</Button>
+            <Button onClick={() => nav(`/classes/${student.class}`)}>
+              Back
+            </Button>
           </Col>
         </Row>
       </Container>

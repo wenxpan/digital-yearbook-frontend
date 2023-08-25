@@ -5,16 +5,17 @@ import { useNavigate } from "react-router-dom"
 
 const YearbookCard = ({
   img = "/src/assets/yearbook-placeholder.jpg",
-  year = 2009
+  yearbook
 }) => {
   const nav = useNavigate()
+  const { year, name, _id } = yearbook
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Img variant="top" src={img} />
       <Card.Body>
         <Card.Title>{year}</Card.Title>
-        <Button variant="primary" onClick={() => nav(`/classes/${1}`)}>
-          Kangaroo
+        <Button variant="primary" onClick={() => nav(`/classes/${_id}`)}>
+          {name}
         </Button>
       </Card.Body>
     </Card>
