@@ -11,6 +11,7 @@ const NavBar = () => {
   const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
+  // if user is student, find out student id and yearbook id
   const student =
     isLoggedIn &&
     !isAdmin &&
@@ -18,53 +19,40 @@ const NavBar = () => {
   const yearbook =
     student && school.classes.find((c) => c._id === student.class)
 
-  //TODO: make 3 views DRY; replace placeholder links
-  const defaultView = (
-    <>
-      <Nav.Link as={Link} to="/login">
-        Log In
-      </Nav.Link>
-      <Nav.Link as={Link} to="/signup">
-        Sign Up
-      </Nav.Link>
-    </>
-  )
-  const studentView = (
-    <>
-      <Navbar.Text>
-        <Link to="/account">{user.name} - Student</Link>
-      </Navbar.Text>
-      <Nav.Link as={Link} to={`/classes/${yearbook._id}`}>
-        My yearbook
-      </Nav.Link>
-      <Nav.Link as={Link} to="/classes">
-        All yearbooks
-      </Nav.Link>
-      <Nav.Link as={Link} to={`/students/${student._id}/edit`}>
-        Update profile
-      </Nav.Link>
-    </>
-  )
+  // set navbar text and direct links for different views
+  const views = {
+    default: [
+      { text: "Log In", navLink: "/login" },
+      { text: "Sign Up", navLink: "/signup" }
+    ],
+    student: [
+      { text: `${user.name} - Student`, navLink: "/account" },
+      { text: "My yearbook", navLink: `/classes/${yearbook._id}` },
+      { text: "All yearbooks", navLink: "/classes" },
+      { text: "Update profile", navLink: `/students/${student._id}/edit` }
+    ],
+    admin: [
+      { text: `${user.name} - Admin`, navLink: "/account" },
+      { text: "Invite", navLink: "/account/invite" },
+      { text: "Classes", navLink: "/account/classes" },
+      { text: "Students", navLink: "/account/students" },
+      { text: "Yearbooks", navLink: "/classes" }
+    ]
+  }
 
-  const adminView = (
-    <>
-      <Navbar.Text>
-        <Link to="/account">{user.name} - Admin</Link>
-      </Navbar.Text>
-      <Nav.Link as={Link} to="/account/invite">
-        Invite
-      </Nav.Link>
-      <Nav.Link as={Link} to="/account/classes">
-        Classes
-      </Nav.Link>
-      <Nav.Link as={Link} to="/account/students">
-        Students
-      </Nav.Link>
-      <Nav.Link as={Link} to="/classes">
-        Yearbooks
-      </Nav.Link>
-    </>
-  )
+  // find out current view based on logged in and admin statuses
+  const currentView = isLoggedIn
+    ? isAdmin
+      ? views.admin
+      : views.student
+    : views.default
+
+  // nav options based on current view
+  const viewEl = currentView.map((option) => (
+    <Nav.Link as={Link} to={option.navLink} key={option.text}>
+      {option.text}
+    </Nav.Link>
+  ))
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -80,9 +68,7 @@ const NavBar = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <Nav className="ml-auto">
-            {isLoggedIn ? (isAdmin ? adminView : studentView) : defaultView}
-          </Nav>
+          <Nav className="ml-auto">{viewEl}</Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

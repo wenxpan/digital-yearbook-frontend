@@ -48,7 +48,7 @@ function App() {
     }
   ]
 
-  const [user, setUser] = useState(sampleUsers[0])
+  const [user, setUser] = useState(sampleUsers[1])
 
   // state for whole school - including years, classes and students
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
