@@ -1,18 +1,18 @@
 import React, { useContext } from "react"
-import ProfileCard from "../components/ProfileCard"
+import { Link } from "react-router-dom"
+
+import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
-import { useNavigate } from "react-router-dom"
+
 import SchoolContext from "../contexts/SchoolContext"
+import ProfileCard from "../components/ProfileCard"
 
 const Yearbook = ({ yearbook }) => {
-  const nav = useNavigate()
-
   const { school } = useContext(SchoolContext)
   const students = school.students.filter((s) => s.class === yearbook._id)
-  // console.log(students)
+
   return (
     <Container fluid="md" className="text-md-center mt-4">
       <Row>
@@ -28,16 +28,16 @@ const Yearbook = ({ yearbook }) => {
       <Row md={2} lg={3} xl={4} className="mt-3">
         {students.map((s) => (
           <Col key={s._id}>
-            <ProfileCard
-              student={s}
-            />
+            <ProfileCard student={s} />
           </Col>
         ))}
       </Row>
       <Row>
         <Col />
         <Col md="auto">
-          <Button onClick={() => nav("/classes")}>Back</Button>
+          <Button as={Link} to={"/classes"}>
+            Back
+          </Button>
         </Col>
       </Row>
     </Container>

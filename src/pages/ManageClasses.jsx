@@ -1,15 +1,19 @@
 import React, { useState, useContext } from "react"
+import { Link } from "react-router-dom"
+
+import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
-import Container from "react-bootstrap/Container"
-import { Link } from "react-router-dom"
-import AdminClassCard from "../components/AdminClassCard"
+
 import SchoolContext from "../contexts/SchoolContext"
+import AdminClassCard from "../components/AdminClassCard"
 
 const ManageClasses = () => {
   const { school } = useContext(SchoolContext)
   const classes = school.classes
+
+  function handleAddClass() {}
 
   return (
     <>
@@ -27,7 +31,7 @@ const ManageClasses = () => {
         </Row>
         <Row xs="auto" className="mt-3">
           <Col>
-            <Button as={Link} to="/account/invite">
+            <Button as={Link} to={"new"}>
               Add new class
             </Button>
           </Col>

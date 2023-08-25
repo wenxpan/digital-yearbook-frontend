@@ -8,6 +8,7 @@ const RedirectMessage = () => {
   const msgText = "Profile reset successfully."
   const back = "Home"
   const jumpLink = "/"
+
   return (
     <Stack className="m-3" gap={2}>
       <h1>{msgHeading}</h1>

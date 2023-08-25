@@ -1,40 +1,30 @@
 import React, { useContext } from "react"
+import { Link } from "react-router-dom"
+
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import YearbookCard from "../components/YearbookCard"
 import Button from "react-bootstrap/Button"
-import { useNavigate } from "react-router-dom"
+
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
+import YearbookCard from "../components/YearbookCard"
 
 const Classes = () => {
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
-  const { school, dispatch } = useContext(SchoolContext)
-
-  const nav = useNavigate()
-
-  const classes = school.years
-    .map((year) => year.classes.map((c) => ({ ...c, year: year.year })))
-    .flat()
-  // console.log(classes)
+  const { school } = useContext(SchoolContext)
 
   return (
-    <Container fluid="md" className="text-md-center mt-4">
-      <Row>
-        <Col>
-          <h1>School Name</h1>
-        </Col>
-      </Row>
+    <Container fluid="md" className="mt-4">
       <Row>
         <Col>
           <h2 className="">All yearbooks</h2>
         </Col>
       </Row>
-      <Row>
-        {classes.map((c) => (
-          <Col key={c._id} md="auto" className="m-2">
+      <Row className="text-md-center">
+        {school.classes.map((c) => (
+          <Col key={c._id} md="auto" className="my-2">
             <YearbookCard yearbook={c} />
           </Col>
         ))}
@@ -42,7 +32,9 @@ const Classes = () => {
       <Row>
         <Col />
         <Col md="auto">
-          <Button onClick={() => nav("/account")}>Back</Button>
+          <Button as={Link} to={"/account"}>
+            Back
+          </Button>
         </Col>
       </Row>
     </Container>

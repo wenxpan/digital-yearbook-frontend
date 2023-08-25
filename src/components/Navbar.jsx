@@ -1,23 +1,20 @@
 import React, { useContext } from "react"
+import { Link } from "react-router-dom"
 import Container from "react-bootstrap/Container"
+
+import SchoolContext from "../contexts/SchoolContext"
+import UserContext from "../contexts/UserContext"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
-import { Link } from "react-router-dom"
-import UserContext from "../contexts/UserContext"
-import SchoolContext from "../contexts/SchoolContext"
+import findMatchingStudentClass from "../utils/findMatchingStudentClass"
 
 const NavBar = () => {
   const { user } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
-  // if user is student, find out student id and yearbook id
-  const student =
-    isLoggedIn &&
-    !isAdmin &&
-    school.students.find((s) => s._id === user.student)
-  const yearbook =
-    student && school.classes.find((c) => c._id === student.class)
+  // if user is student, find out student and class object
+  const [student, studentClass] = findMatchingStudentClass()
 
   // set navbar text and direct links for different views
   const views = {
@@ -27,15 +24,15 @@ const NavBar = () => {
     ],
     student: [
       { text: `${user.name} - Student`, navLink: "/account" },
-      { text: "My yearbook", navLink: `/classes/${yearbook._id}` },
+      { text: "My yearbook", navLink: `/classes/${studentClass._id}` },
       { text: "All yearbooks", navLink: "/classes" },
       { text: "Update profile", navLink: `/students/${student._id}/edit` }
     ],
     admin: [
       { text: `${user.name} - Admin`, navLink: "/account" },
-      { text: "Invite", navLink: "/account/invite" },
+      { text: "Add Students", navLink: "/account/students/new" },
+      { text: "All Students", navLink: "/account/students" },
       { text: "Classes", navLink: "/account/classes" },
-      { text: "Students", navLink: "/account/students" },
       { text: "Yearbooks", navLink: "/classes" }
     ]
   }

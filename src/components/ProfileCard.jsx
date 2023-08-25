@@ -1,10 +1,11 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
+
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import { useNavigate } from "react-router-dom"
 
-const ProfileCard = ({ img = "https://i.pravatar.cc/300?img=2", student }) => {
+const ProfileCard = ({ student }) => {
   const nav = useNavigate()
 
   const { firstName, lastName, quote, photo } = student
