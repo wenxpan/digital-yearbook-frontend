@@ -26,27 +26,25 @@ import sampleSchool from "./utils/sampleSchool"
 import { getHelper } from "./utils/apiHelper"
 import LoggedInRoute from "./pages/LoggedInRoute"
 import AdminRoute from "./pages/AdminRoute"
+import RedirectRoute from "./pages/RedirectRoute"
 
 function App() {
   const [user, setUser] = useState({ isLoggedIn: false, isAdmin: false })
-  const { isLoggedIn, isAdmin } = user
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user")
-    const token = localStorage.getItem("token")
-    if (loggedInUser && token) {
-      foundUser = JSON.parse(loggedInUser)
-      setUser({ foundUser })
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser)
+      setUser(foundUser)
     }
-  }, [user])
+  }, [])
 
   // state for whole school - including years, classes and students
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
 
   useEffect(() => {
     async function setSchoolData() {
-      if (isLoggedIn) {
-        console.log(user)
+      if (user.isLoggedIn) {
         const token = user.token
         const students = await getHelper("/students", token)
         const classes = await getHelper("/classes", token)
@@ -89,12 +87,32 @@ function App() {
           <Routes>
             {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
             <Route path="/" element={<BackgroundImage />}>
-              <Route index element={<Landing />} />
+              <Route
+                index
+                element={
+                  <RedirectRoute>
+                    <Landing />
+                  </RedirectRoute>
+                }
+              />
               <Route path="/login">
-                <Route index element={<Login />} />
-                <Route path="reset" element={<ResetPassword />} />
+                <Route
+                  index
+                  element={
+                    <RedirectRoute>
+                      <Login />
+                    </RedirectRoute>
+                  }
+                />
               </Route>
-              <Route path="/signup" element={<SignUp />} />
+              <Route
+                path="/signup"
+                element={
+                  <RedirectRoute>
+                    <SignUp />
+                  </RedirectRoute>
+                }
+              />
             </Route>
 
             {/* yearbooks pages */}

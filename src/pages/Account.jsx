@@ -48,9 +48,9 @@ const Account = () => {
   }
 
   function handleLogOut() {
-    //TODO - clear token and reset user
-    console.log("log out clicked")
+    //clear user data in storage and reset user state
     setUser({ isLoggedIn: false, isAdmin: false })
+    localStorage.removeItem("user")
   }
 
   return (

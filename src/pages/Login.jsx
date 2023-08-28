@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import React, { useState, useContext } from "react"
+import { useNavigate } from "react-router-dom"
 
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 
 import UserContext from "../contexts/UserContext"
 import { postHelper } from "../utils/apiHelper"
-import ProtectedRoute from "./LoggedInRoute"
 
 const Login = () => {
   // set state for email and password
@@ -22,12 +21,14 @@ const Login = () => {
       password
     })
     const { __v, role, ...filteredUser } = loggedInUser
-    setUser({
+    const newUser = {
       token,
       isLoggedIn: true,
       isAdmin: loggedInUser.role === "admin" ? true : false,
       ...filteredUser
-    })
+    }
+    setUser(newUser)
+    localStorage.setItem("user", JSON.stringify(newUser))
     nav("/account")
   }
 
