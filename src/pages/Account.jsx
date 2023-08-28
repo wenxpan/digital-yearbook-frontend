@@ -12,7 +12,7 @@ import UserContext from "../contexts/UserContext"
 import findMatchingStudentClass from "../utils/findMatchingStudentClass"
 
 const Account = () => {
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const { isAdmin, isLoggedIn, name } = user
 
   // if user is student, find out student and class object
@@ -50,6 +50,7 @@ const Account = () => {
   function handleLogOut() {
     //TODO - clear token and reset user
     console.log("log out clicked")
+    setUser({ isLoggedIn: false, isAdmin: false })
   }
 
   return (

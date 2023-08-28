@@ -83,7 +83,7 @@ const sampleSchool = {
       quote: "Lorem ipsum dolor sit amet."
     },
     {
-      _id: "64e56dc04aa128eeda484274",
+      _id: "64ebe102db7a71379484083f",
       firstName: "Bob",
       lastName: "Williams",
       class: "64e56dbf4aa128eeda489266",

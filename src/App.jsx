@@ -1,4 +1,4 @@
-import { useState, useReducer } from "react"
+import { useState, useReducer, useEffect } from "react"
 import { Routes, Route, useParams } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
@@ -24,32 +24,16 @@ import schoolReducer from "./utils/schoolReducer"
 import sampleSchool from "./utils/sampleSchool"
 
 function App() {
-  // placeholder user states
-  const sampleUsers = [
-    // sampleUsers[0] - not logged in status
-    { isLoggedIn: false, isAdmin: false },
-    // sampleUsers[1] - logged in admin
-    {
-      _id: "64e56dc04aa128eeda489277",
-      isLoggedIn: true,
-      isAdmin: true,
-      name: "John",
-      email: "john.smith@gmail.com"
-    },
-    // sampleUsers[2] - logged in student
-    {
-      _id: "64e5b714cf630fb8c19a5732",
-      isLoggedIn: true,
-      isAdmin: false,
-      name: "CharlotteD",
-      email: "charlotte@gmail.com",
-      student: "64e56dc04aa122eeda489274",
-      securityQuestion: "Where did your parents first met?",
-      securityAnswer: "Melbourne"
-    }
-  ]
+  const [user, setUser] = useState({ isLoggedIn: false, isAdmin: false })
 
-  const [user, setUser] = useState(sampleUsers[1])
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user")
+    const token = localStorage.getItem("token")
+    if (loggedInUser && token) {
+      foundUser = JSON.parse(loggedInUser)
+      setUser({ foundUser })
+    }
+  }, [user])
 
   // state for whole school - including years, classes and students
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
