@@ -8,7 +8,6 @@ import Login from "./pages/Login"
 import Classes from "./pages/Classes"
 import Yearbook from "./pages/Yearbook"
 import StudentProfile from "./pages/StudentProfile"
-import ResetPassword from "./pages/ResetPassword"
 import Account from "./pages/Account"
 import UpdateProfile from "./pages/UpdateProfile"
 import SignUp from "./pages/SignUp"
@@ -39,8 +38,10 @@ function App() {
     }
   }, [])
 
+  console.log("user", user)
+
   // state for whole school - including years, classes and students
-  const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
+  const [school, dispatch] = useReducer(schoolReducer, {})
 
   useEffect(() => {
     async function setSchoolData() {
@@ -49,7 +50,9 @@ function App() {
         const students = await getHelper("/students", token)
         const classes = await getHelper("/classes", token)
         const years = await getHelper("/years", token)
+        console.log("About to dispatch")
         dispatch({ type: "set_school", school: { students, classes, years } })
+        console.log("dispatch done")
       }
     }
     setSchoolData()

@@ -5,26 +5,45 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
 import UserContext from "../contexts/UserContext"
+import { postHelper } from "../utils/apiHelper"
 
 const SignUp = () => {
   const nav = useNavigate()
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
   //TODO: responsive layout
   const [content, setContent] = useState({
+    role: "user",
+    name: "",
     email: "",
     password: "",
-    question: "",
-    answer: "",
-    code: ""
+    studentId: ""
   })
 
   function handleUpdate(changed) {
     return setContent((prev) => ({ ...prev, ...changed }))
   }
 
-  function handleSubmit() {
-    console.log(content)
+  async function handleSubmit() {
+    try {
+      const { token, user: registeredUser } = await postHelper(
+        "/signup",
+        content
+      )
+      const { __v, role, ...filteredUser } = registeredUser
+      const newUser = {
+        token,
+        isLoggedIn: true,
+        isAdmin: role === "admin" ? true : false,
+        ...filteredUser
+      }
+      setUser(newUser)
+      console.log(newUser)
+      localStorage.setItem("user", JSON.stringify(newUser))
+      // nav("/account")
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
@@ -38,6 +57,14 @@ const SignUp = () => {
           onChange={(e) => handleUpdate({ email: e.target.value })}
         />
       </Form.Group>
+      <Form.Group className="mb-3" controlId="formUsername">
+        <Form.Label>Username</Form.Label>
+        <Form.Control
+          type="text"
+          value={content.name}
+          onChange={(e) => handleUpdate({ name: e.target.value })}
+        />
+      </Form.Group>
       <Form.Group className="mb-3" controlId="formPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
@@ -46,28 +73,12 @@ const SignUp = () => {
           onChange={(e) => handleUpdate({ password: e.target.value })}
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formQuestion">
-        <Form.Label>Security Question</Form.Label>
-        <Form.Control
-          type="text"
-          value={content.question}
-          onChange={(e) => handleUpdate({ question: e.target.value })}
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formAnswer">
-        <Form.Label>Answer</Form.Label>
-        <Form.Control
-          type="text"
-          value={content.answer}
-          onChange={(e) => handleUpdate({ answer: e.target.value })}
-        />
-      </Form.Group>
       <Form.Group className="mb-3" controlId="formCode">
-        <Form.Label>Invite Code</Form.Label>
+        <Form.Label>Student Code</Form.Label>
         <Form.Control
           type="text"
-          value={content.code}
-          onChange={(e) => handleUpdate({ code: e.target.value })}
+          value={content.studentId}
+          onChange={(e) => handleUpdate({ studentId: e.target.value })}
         />
       </Form.Group>
       <Button variant="primary" onClick={handleSubmit}>

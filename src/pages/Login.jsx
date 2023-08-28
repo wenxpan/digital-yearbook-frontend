@@ -24,7 +24,7 @@ const Login = () => {
     const newUser = {
       token,
       isLoggedIn: true,
-      isAdmin: loggedInUser.role === "admin" ? true : false,
+      isAdmin: role === "admin" ? true : false,
       ...filteredUser
     }
     setUser(newUser)

@@ -11,11 +11,16 @@ export const getHelper = async (endpoint, token) => {
   return data
 }
 
-export const postHelper = async (endpoint, collection) => {
+export const postHelper = async (endpoint, body, token) => {
+  console.log("token", token)
+  console.log("body", body)
   const res = await fetch(`${baseURL}${endpoint}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(collection)
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : ""
+    },
+    body: JSON.stringify(body)
   })
   const data = await res.json()
   return data

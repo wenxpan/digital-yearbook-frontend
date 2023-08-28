@@ -6,7 +6,6 @@ import SchoolContext from "../contexts/SchoolContext"
 import UserContext from "../contexts/UserContext"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
-import findMatchingStudentClass from "../utils/findMatchingStudentClass"
 
 const NavBar = () => {
   const { user } = useContext(UserContext)
@@ -14,7 +13,12 @@ const NavBar = () => {
   const { school } = useContext(SchoolContext)
 
   // if user is student, find out student and class object
-  const [student, studentClass] = findMatchingStudentClass()
+  const student =
+    isLoggedIn &&
+    !isAdmin &&
+    school.students.find((s) => s._id === user.student)
+  const studentClass =
+    student && school.classes.find((cls) => cls._id === student.class)
 
   // set navbar text and direct links for different views
   const views = {
@@ -22,19 +26,21 @@ const NavBar = () => {
       { text: "Log In", navLink: "/login" },
       { text: "Sign Up", navLink: "/signup" }
     ],
-    student: [
-      { text: `${user.name} - Student`, navLink: "/account" },
-      { text: "My yearbook", navLink: `/classes/${studentClass._id}` },
-      { text: "All yearbooks", navLink: "/classes" },
-      { text: "Update profile", navLink: `/students/${student._id}/edit` }
-    ],
-    admin: [
-      { text: `${user.name} - Admin`, navLink: "/account" },
-      { text: "Add Students", navLink: "/account/students/new" },
-      { text: "All Students", navLink: "/account/students" },
-      { text: "Classes", navLink: "/account/classes" },
-      { text: "Yearbooks", navLink: "/classes" }
-    ]
+    student: isLoggedIn &&
+      !isAdmin && [
+        { text: `${user.name} - Student`, navLink: "/account" },
+        { text: "My yearbook", navLink: `/classes/${studentClass._id}` },
+        { text: "All yearbooks", navLink: "/classes" },
+        { text: "Update profile", navLink: `/students/${student._id}/edit` }
+      ],
+    admin: isLoggedIn &&
+      isAdmin && [
+        { text: `${user.name} - Admin`, navLink: "/account" },
+        { text: "Add Students", navLink: "/account/students/new" },
+        { text: "All Students", navLink: "/account/students" },
+        { text: "Classes", navLink: "/account/classes" },
+        { text: "Yearbooks", navLink: "/classes" }
+      ]
   }
 
   // find out current view based on logged in and admin statuses

@@ -9,18 +9,22 @@ import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
 
 import UserContext from "../contexts/UserContext"
-import findMatchingStudentClass from "../utils/findMatchingStudentClass"
+import SchoolContext from "../contexts/SchoolContext"
 
 const Account = () => {
   const { user, setUser } = useContext(UserContext)
-  const { isAdmin, isLoggedIn, name } = user
+  const { school } = useContext(SchoolContext)
+  const { isAdmin, name } = user
 
   // if user is student, find out student and class object
-  const [student, studentClass] = findMatchingStudentClass()
+  const student =
+    !isAdmin && school.students.find((s) => s._id === user.student)
+  const studentClass =
+    student && school.classes.find((cls) => cls._id === student.class)
 
   // different options for student and admin
   const options = {
-    student: [
+    student: !isAdmin && [
       {
         text: `My yearbook (${studentClass.name})`,
         link: `/classes/${studentClass._id}`
@@ -28,7 +32,7 @@ const Account = () => {
       { text: "All yearbooks", link: "/classes" },
       { text: "Update Profile", link: `/students/${student._id}/edit` }
     ],
-    admin: [
+    admin: isAdmin && [
       { text: "Add student/class", link: "invite" },
       { text: "Manage classes", link: "classes" },
       { text: "Manage students", link: "students" },
