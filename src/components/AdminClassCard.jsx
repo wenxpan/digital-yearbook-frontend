@@ -36,7 +36,7 @@ const AdminClassCard = ({ classInfo }) => {
           <Form.Group className="mb-3">
             <Form.Label className="fw-semibold">Year</Form.Label>
             <Form.Control
-              value={content.year.year}
+              value={content.year.name}
               disabled={isEditing ? "" : "disabled"}
               onChange={(e) => handleChange({ year: e.target.value })}
             />

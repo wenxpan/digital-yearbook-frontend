@@ -17,7 +17,7 @@ const UpdateProfile = ({ student }) => {
 
   const [content, setContent] = useState({
     ...student,
-    year: studentClass.year.year,
+    year: studentClass.year.name,
     class: studentClass.name
   })
 
@@ -59,7 +59,7 @@ const UpdateProfile = ({ student }) => {
                 >
                   {school.classes.map(
                     (cls) =>
-                      cls.year.year === content.year && (
+                      cls.year.name === content.year && (
                         <option key={cls._id}>{cls.name}</option>
                       )
                   )}

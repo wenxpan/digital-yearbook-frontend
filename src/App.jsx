@@ -22,6 +22,7 @@ import UserContext from "./contexts/UserContext"
 import SchoolContext from "./contexts/SchoolContext"
 import schoolReducer from "./utils/schoolReducer"
 import sampleSchool from "./utils/sampleSchool"
+import { getHelper } from "./utils/apiHelper"
 
 function App() {
   const [user, setUser] = useState({ isLoggedIn: false, isAdmin: false })
@@ -37,6 +38,20 @@ function App() {
 
   // state for whole school - including years, classes and students
   const [school, dispatch] = useReducer(schoolReducer, sampleSchool)
+
+  useEffect(() => {
+    async function setSchoolData() {
+      if (user.isLoggedIn) {
+        console.log(user)
+        const token = user.token
+        const students = await getHelper("/students", token)
+        const classes = await getHelper("/classes", token)
+        const years = await getHelper("/years", token)
+        dispatch({ type: "set_school", school: { students, classes, years } })
+      }
+    }
+    setSchoolData()
+  }, [user])
 
   //TODO: make 3 wrapper functions dry
   function YearbookWrapper() {

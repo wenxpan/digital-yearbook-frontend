@@ -12,7 +12,7 @@ const YearbookCard = ({ yearbook }) => {
     <Card style={{ width: "18rem" }}>
       <Card.Img variant="top" src={cardImg} />
       <Card.Body>
-        <Card.Title>{year.year}</Card.Title>
+        <Card.Title>{year.name}</Card.Title>
         <Button variant="primary" as={Link} to={`/classes/${_id}`}>
           {name}
         </Button>

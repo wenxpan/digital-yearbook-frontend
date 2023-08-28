@@ -23,13 +23,6 @@ const Login = () => {
   }, [user])
 
   async function handleSubmit() {
-    const sampleUser = {
-      _id: "64e56dc04aa128eeda489277",
-      isLoggedIn: true,
-      isAdmin: true,
-      name: "John",
-      email: "john.smith@gmail.com"
-    }
     const { token, user: loggedInUser } = await postHelper("/login", {
       email,
       password
@@ -66,9 +59,6 @@ const Login = () => {
           />
         </Form.Group>
         <div className="mt-4 d-flex justify-content-around flex-wrap">
-          {/* <Button variant="secondary" as={Link} to={"/login/reset"}>
-            Reset Password
-          </Button> */}
           <Button variant="primary" onClick={handleSubmit}>
             Log In
           </Button>

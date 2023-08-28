@@ -22,7 +22,7 @@ const Yearbook = ({ yearbook }) => {
       </Row>
       <Row>
         <Col>
-          <h2 className="fs-3">{yearbook.year.year}</h2>
+          <h2 className="fs-3">{yearbook.year.name}</h2>
         </Col>
       </Row>
       <Row md={2} lg={3} xl={4} className="mt-3">

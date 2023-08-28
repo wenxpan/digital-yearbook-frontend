@@ -3,28 +3,28 @@ const sampleSchool = {
     {
       name: "Gecko",
       _id: "64e56dbf4aa128eeda489265",
-      year: { year: "2009", _id: "64e56dc04aa128eeda48926b" }
+      year: { name: "2009", _id: "64e56dc04aa128eeda48926b" }
       // add total students statistics?
     },
     {
       name: "Salamander",
       _id: "64e56dbf4aa128eeda489266",
-      year: { year: "2009", _id: "64e56dc04aa128eeda48926b" }
+      year: { name: "2009", _id: "64e56dc04aa128eeda48926b" }
     },
     {
       name: "Kangaroo",
       _id: "64e56dbf4aa128eeda489267",
-      year: { year: "2010", _id: "64e56dc04aa128eeda48926e" }
+      year: { name: "2010", _id: "64e56dc04aa128eeda48926e" }
     },
     {
       name: "Possum",
       _id: "64e56dbf4aa128eeda489268",
-      year: { year: "2010", _id: "64e56dc04aa128eeda48926e" }
+      year: { name: "2010", _id: "64e56dc04aa128eeda48926e" }
     }
   ],
   years: [
     {
-      year: "2009",
+      name: "2009",
       _id: "64e56dc04aa128eeda48926b",
       classes: [
         { name: "Gecko", _id: "64e56dbf4aa128eeda489265" },

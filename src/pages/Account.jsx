@@ -65,7 +65,7 @@ const Account = () => {
                 <Card.Text>{isAdmin ? "Admin" : "Student"}</Card.Text>
                 {!isAdmin && (
                   <Card.Text>
-                    {studentClass.name} - {studentClass.year.year}
+                    {studentClass.name} - {studentClass.year.name}
                   </Card.Text>
                 )}
               </Card.Body>
