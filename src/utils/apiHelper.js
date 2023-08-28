@@ -12,8 +12,6 @@ export const getHelper = async (endpoint, token) => {
 }
 
 export const postHelper = async (endpoint, body, token) => {
-  console.log("token", token)
-  console.log("body", body)
   const res = await fetch(`${baseURL}${endpoint}`, {
     method: "POST",
     headers: {
@@ -34,11 +32,14 @@ export const deleteHelper = async (endpoint, id) => {
   return res
 }
 
-export const putHelper = async (endpoint, collection) => {
-  const res = await fetch(`${baseURL}${endpoint}${collection._id}`, {
+export const putHelper = async (endpoint, body, token) => {
+  const res = await fetch(`${baseURL}${endpoint}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(collection)
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(body)
   })
   const data = await res.json() //return updated item
   return data

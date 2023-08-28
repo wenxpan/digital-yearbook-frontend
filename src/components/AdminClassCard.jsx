@@ -5,10 +5,13 @@ import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import SchoolContext from "../contexts/SchoolContext"
+import { postHelper, putHelper } from "../utils/apiHelper"
+import UserContext from "../contexts/UserContext"
 
 const AdminClassCard = ({ classInfo }) => {
   const [isEditing, setIsEditing] = useState(false)
-  const { school } = useContext(SchoolContext)
+  const { school, dispatch } = useContext(SchoolContext)
+  const { user } = useContext(UserContext)
 
   const [content, setContent] = useState(classInfo)
 
@@ -16,13 +19,37 @@ const AdminClassCard = ({ classInfo }) => {
     (s) => s.class === content._id
   ).length
 
-  function handleSave() {
-    setIsEditing((prev) => !prev)
-    console.log(content)
-  }
-
   function handleChange(changed) {
     setContent((prev) => ({ ...prev, ...changed }))
+  }
+
+  async function handleSave() {
+    // if year is not in database, create new year
+    const yearExists = school.years.find(
+      (year) => year.name === content.year.name
+    )
+    console.log("name", content.name, "year", content.year.name)
+    if (!yearExists) {
+      const newYear = await postHelper(
+        "/years",
+        { name: content.year.name },
+        user.token
+      )
+      // add new year to school state
+      dispatch({ type: "add_year", year: newYear })
+    }
+    // update class
+    const updatedClass = await putHelper(
+      `/classes/${classInfo._id}`,
+      {
+        name: content.name,
+        year: { name: content.year.name }
+      },
+      user.token
+    )
+    // add new class to school state
+    setIsEditing((prev) => !prev)
+    console.log(updatedClass)
   }
 
   function handleDelete() {
@@ -38,7 +65,7 @@ const AdminClassCard = ({ classInfo }) => {
             <Form.Control
               value={content.year.name}
               disabled={isEditing ? "" : "disabled"}
-              onChange={(e) => handleChange({ year: e.target.value })}
+              onChange={(e) => handleChange({ year: { name: e.target.value } })}
             />
           </Form.Group>
         </Col>
@@ -47,7 +74,7 @@ const AdminClassCard = ({ classInfo }) => {
             <Form.Label className="fw-semibold">Class</Form.Label>
             <Form.Control
               value={content.name}
-              onChange={(e) => handleChange({ class: e.target.value })}
+              onChange={(e) => handleChange({ name: e.target.value })}
               disabled={isEditing ? "" : "disabled"}
             />
           </Form.Group>
