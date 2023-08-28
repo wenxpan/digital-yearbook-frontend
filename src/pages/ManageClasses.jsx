@@ -15,6 +15,10 @@ const ManageClasses = () => {
 
   // TODO: add a way to delete years
 
+  if (!classes) {
+    return <p>Loading...</p>
+  }
+
   return (
     <>
       <Container className="mt-4">

@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import SchoolContext from "../contexts/SchoolContext"
-import { postHelper, putHelper } from "../utils/apiHelper"
+import { deleteHelper, postHelper, putHelper } from "../utils/apiHelper"
 import UserContext from "../contexts/UserContext"
 
 const AdminClassCard = ({ classInfo }) => {
@@ -52,8 +52,14 @@ const AdminClassCard = ({ classInfo }) => {
     console.log(updatedClass)
   }
 
-  function handleDelete() {
-    console.log("delete clicked")
+  async function handleDelete() {
+    // send DELETE request
+    const res = await deleteHelper(`/classes/${classInfo._id}`, user.token)
+    console.log(res)
+    if (res.status == 200) {
+      // if delete success, update school state
+      dispatch({ type: "delete_class", classId: classInfo._id })
+    }
   }
 
   return (

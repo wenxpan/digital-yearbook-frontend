@@ -43,12 +43,19 @@ function App() {
 
   useEffect(() => {
     async function setSchoolData() {
-      if (user.isLoggedIn) {
-        const token = user.token
-        const students = await getHelper("/students", token)
-        const classes = await getHelper("/classes", token)
-        const years = await getHelper("/years", token)
-        dispatch({ type: "set_school", school: { students, classes, years } })
+      try {
+        if (user.isLoggedIn) {
+          const token = user.token
+          const students = await getHelper("/students", token)
+          const classes = await getHelper("/classes", token)
+          const years = await getHelper("/years", token)
+          dispatch({ type: "set_school", school: { students, classes, years } })
+        }
+      } catch (e) {
+        console.log(e)
+        localStorage.removeItem("user")
+        setUser({ isLoggedIn: false, isAdmin: false })
+        nav("/")
       }
     }
     setSchoolData()

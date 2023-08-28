@@ -1,14 +1,22 @@
 const baseURL = "http://127.0.0.1:5175"
 
 export const getHelper = async (endpoint, token) => {
-  const res = await fetch(`${baseURL}${endpoint}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+  try {
+    const res = await fetch(`${baseURL}${endpoint}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`)
     }
-  })
-  const data = await res.json()
-  return data
+    const data = await res.json()
+    return data
+  } catch (e) {
+    console.log(e)
+    throw e
+  }
 }
 
 export const postHelper = async (endpoint, body, token) => {

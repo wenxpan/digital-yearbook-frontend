@@ -32,6 +32,13 @@ export default function schoolReducer(school, action) {
         ...school,
         students: school.students.filter((stu) => stu._id !== action.studentId)
       }
+    case "delete_class":
+      return {
+        ...school,
+        classes: school.classes.filter((cls) => cls._id !== action.classId)
+      }
+    case "add_class":
+      return { ...school, classes: [...school.classes, action.class] }
     case "add_year":
       // dispatch - year: {name: xxx, _id: xxx}
       return { ...school, years: [...school.years, action.year] }

@@ -17,6 +17,7 @@ const AdminStudentCard = ({ student }) => {
     const res = await deleteHelper(`/students/${student._id}`, user.token)
     console.log(res)
     if (res.status == 200) {
+      // if delete success, update school state
       dispatch({ type: "delete_student", studentId: student._id })
     }
   }
