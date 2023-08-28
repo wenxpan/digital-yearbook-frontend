@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form"
 
 import UserContext from "../contexts/UserContext"
 import { postHelper } from "../utils/apiHelper"
+import ProtectedRoute from "./LoggedInRoute"
 
 const Login = () => {
   // set state for email and password
@@ -14,13 +15,6 @@ const Login = () => {
 
   const nav = useNavigate()
   const { user, setUser } = useContext(UserContext)
-
-  useEffect(() => {
-    // if logged in user detected, redirect to /account page
-    if (user.isLoggedIn) {
-      nav("/account")
-    }
-  }, [user])
 
   async function handleSubmit() {
     const { token, user: loggedInUser } = await postHelper("/login", {
@@ -34,6 +28,7 @@ const Login = () => {
       isAdmin: loggedInUser.role === "admin" ? true : false,
       ...filteredUser
     })
+    nav("/account")
   }
 
   return (

@@ -10,12 +10,6 @@ const SignUp = () => {
   const nav = useNavigate()
   const { user } = useContext(UserContext)
 
-  useEffect(() => {
-    if (user.isLoggedIn) {
-      nav("/account")
-    }
-  }, [user])
-
   //TODO: responsive layout
   const [content, setContent] = useState({
     email: "",
