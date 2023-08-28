@@ -12,17 +12,25 @@ const SelectYearClass = ({ selected, setSelected }) => {
 
   // every on mount, set initial year state
   useEffect(() => {
-    handleSelect({ year: years[0].name })
+    if (!selected.year && years) {
+      handleSelect({ year: years[0].name })
+    }
   }, [])
 
   // every on mount and selected year changes, selected class will change accordingly
   // to make sure it's from the filtered class list
   useEffect(() => {
-    const filteredClasses = classes.filter(
-      (cls) => cls.year.name === (selected.year || years[0].name)
-    )
-    handleSelect({ class: filteredClasses[0].name })
+    if (classes) {
+      const filteredClasses = classes.filter(
+        (cls) => cls.year.name === (selected.year || years[0].name)
+      )
+      handleSelect({ class: filteredClasses[0].name })
+    }
   }, [selected.year])
+
+  if (!school.years) {
+    return <p>Loading...</p>
+  }
 
   // show available year options
   const yearsOptions = years.map((y) => (

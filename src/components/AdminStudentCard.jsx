@@ -15,14 +15,14 @@ const AdminStudentCard = ({ student }) => {
           <p>{student.firstName}</p>
         </Col>
         <Col>
-          <p className="fw-semibold">Last Name</p>
-          <p>{student.lastName}</p>
+          <p className="fw-semibold">Email</p>
+          <p>{student.email}</p>
         </Col>
       </Row>
       <Row className="mb-2">
         <Col>
-          <p className="fw-semibold">Email</p>
-          <p>{student.email}</p>
+          <p className="fw-semibold">Last Name</p>
+          <p>{student.lastName}</p>
         </Col>
         <Col>
           <p className="fw-semibold">Student Id</p>

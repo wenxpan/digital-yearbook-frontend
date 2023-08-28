@@ -4,19 +4,29 @@ import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
+import SelectYearClass from "../components/SelectYearClass"
+import { putHelper } from "../utils/apiHelper"
 
 const UpdateProfile = ({ student }) => {
+  const nav = useNavigate()
   const { user } = useContext(UserContext)
-  const { isAdmin, isLoggedIn } = user
+  const { isAdmin } = user
   const { school, dispatch } = useContext(SchoolContext)
+
+  if (!school) {
+    return <p>Loading...</p>
+  }
 
   const studentClass = school.classes.find((c) => c._id === student.class)
 
   const [content, setContent] = useState({
-    ...student,
+    ...student
+  })
+
+  const [selected, setSelected] = useState({
     year: studentClass.year.name,
     class: studentClass.name
   })
@@ -26,9 +36,16 @@ const UpdateProfile = ({ student }) => {
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
-  function handleSave(e) {
+  async function handleSave(e) {
     e.preventDefault()
-    console.log(content)
+    const newStudent = { ...content, class: selected.class }
+    const updatedStudent = await putHelper(
+      `/students/${student._id}`,
+      newStudent,
+      user.token
+    )
+    dispatch({ type: "update_student", student: updatedStudent })
+    nav("/account/students")
   }
   return (
     <>
@@ -38,35 +55,7 @@ const UpdateProfile = ({ student }) => {
         </Row>
         <Row className="mt-4">
           <Form onSubmit={(e) => handleSave(e)}>
-            <Row className="mb-3" xs={1} md={2}>
-              <Form.Group as={Col} controlId="formYear">
-                <Form.Label>Year</Form.Label>
-                <Form.Control
-                  value={content.year}
-                  onChange={(e) => handleChange({ year: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formClass">
-                <Form.Label>Class</Form.Label>
-                <Form.Select
-                  value={content.class}
-                  onChange={(e) => {
-                    handleChange({ class: e.target.value })
-                  }}
-                  disabled={isAdmin ? "" : "disabled"}
-                >
-                  {school.classes.map(
-                    (cls) =>
-                      cls.year.name === content.year && (
-                        <option key={cls._id}>{cls.name}</option>
-                      )
-                  )}
-                </Form.Select>
-              </Form.Group>
-            </Row>
-
+            <SelectYearClass selected={selected} setSelected={setSelected} />
             <Row className="mb-3" xs={1}>
               <Form.Group as={Col} controlId="formFirstName">
                 <Form.Label>First Name</Form.Label>
@@ -198,5 +187,38 @@ const UpdateProfile = ({ student }) => {
     </>
   )
 }
+
+// const oldSelectYearClass = (
+//   <>
+//     {" "}
+//     <Form.Group as={Col} controlId="formYear">
+//       <Form.Label>Year</Form.Label>
+//       <Form.Control
+//         value={content.year}
+//         onChange={(e) => handleChange({ year: e.target.value })}
+//         disabled={isAdmin ? "" : "disabled"}
+//       ></Form.Control>
+//     </Form.Group>
+//     <Form.Group as={Col} controlId="formClass">
+//       <Form.Label>Class</Form.Label>
+//       <Form.Select
+//         value={content.class}
+//         onChange={(e) => {
+//           handleChange({ class: e.target.value })
+//         }}
+//         disabled={isAdmin ? "" : "disabled"}
+//       >
+//         {school.classes.map(
+//           (cls) =>
+//             cls.year.name === content.year && (
+//               <option key={cls._id} value={cls._id}>
+//                 {cls.name}
+//               </option>
+//             )
+//         )}
+//       </Form.Select>
+//     </Form.Group>
+//   </>
+// )
 
 export default UpdateProfile

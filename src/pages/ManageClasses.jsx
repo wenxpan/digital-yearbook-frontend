@@ -13,7 +13,7 @@ const ManageClasses = () => {
   const { school } = useContext(SchoolContext)
   const classes = school.classes
 
-  function handleAddClass() {}
+  // TODO: add a way to delete years
 
   return (
     <>

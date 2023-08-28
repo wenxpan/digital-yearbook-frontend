@@ -18,6 +18,10 @@ const ManageStudents = () => {
   // set selected state for the year and class option fields
   const [selected, setSelected] = useState({})
 
+  if (!school.students) {
+    return <p>Loading...</p>
+  }
+
   // filter students from the selected year and class
   const students = school.students.filter((s) => {
     const studentClassName = school.classes.find(

@@ -3,11 +3,23 @@ export default function schoolReducer(school, action) {
     case "set_school":
       return action.school
     case "update_class":
-      const id = action.class._id
       return {
         ...school,
         classes: school.classes.map((cls) =>
-          cls._id === id ? action.class : cls
+          cls._id === action.class._id ? action.class : cls
+        )
+      }
+    case "update_student":
+      console.log(
+        "updated array",
+        school.students.map((stu) =>
+          stu._id === action.student._id ? action.student : stu
+        )
+      )
+      return {
+        ...school,
+        students: school.students.map((stu) =>
+          stu._id === action.student._id ? action.student : stu
         )
       }
     case "add_year":
