@@ -25,8 +25,8 @@ const AdminStudentCard = ({ student }) => {
           <p>{student.email}</p>
         </Col>
         <Col>
-          <p className="fw-semibold">Invite Code</p>
-          <p>{student.inviteCode}</p>
+          <p className="fw-semibold">Student Id</p>
+          <p>{student._id}</p>
         </Col>
       </Row>
       <Row className="text-center">

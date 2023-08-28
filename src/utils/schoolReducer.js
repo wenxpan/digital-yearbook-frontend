@@ -1,5 +1,4 @@
 export default function schoolReducer(school, action) {
-  console.log("reducing")
   switch (action.type) {
     case "set_school":
       return action.school

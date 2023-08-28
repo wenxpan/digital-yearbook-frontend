@@ -38,8 +38,6 @@ function App() {
     }
   }, [])
 
-  console.log("user", user)
-
   // state for whole school - including years, classes and students
   const [school, dispatch] = useReducer(schoolReducer, {})
 
@@ -50,9 +48,7 @@ function App() {
         const students = await getHelper("/students", token)
         const classes = await getHelper("/classes", token)
         const years = await getHelper("/years", token)
-        console.log("About to dispatch")
         dispatch({ type: "set_school", school: { students, classes, years } })
-        console.log("dispatch done")
       }
     }
     setSchoolData()

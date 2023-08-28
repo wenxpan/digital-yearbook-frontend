@@ -33,9 +33,10 @@ const Account = () => {
       { text: "Update Profile", link: `/students/${student._id}/edit` }
     ],
     admin: isAdmin && [
-      { text: "Add student/class", link: "invite" },
-      { text: "Manage classes", link: "classes" },
-      { text: "Manage students", link: "students" },
+      { text: "Add new students", link: "students/new" },
+      { text: "Add new class", link: "classes/new" },
+      { text: "Manage all classes", link: "classes" },
+      { text: "Manage all students", link: "students" },
       { text: "All yearbooks", link: "/classes" }
     ]
   }

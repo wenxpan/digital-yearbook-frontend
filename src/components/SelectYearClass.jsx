@@ -10,28 +10,24 @@ const SelectYearClass = ({ selected, setSelected }) => {
   const { school } = useContext(SchoolContext)
   const { years, classes } = school
 
-  function handleSelect(changed) {
-    setSelected((prev) => ({ ...prev, ...changed }))
-  }
-
   // every on mount, set initial year state
   useEffect(() => {
-    handleSelect({ year: years[0].year })
+    handleSelect({ year: years[0].name })
   }, [])
 
   // every on mount and selected year changes, selected class will change accordingly
   // to make sure it's from the filtered class list
   useEffect(() => {
     const filteredClasses = classes.filter(
-      (cls) => cls.year.name === (selected.year || years[0].year)
+      (cls) => cls.year.name === (selected.year || years[0].name)
     )
     handleSelect({ class: filteredClasses[0].name })
   }, [selected.year])
 
   // show available year options
   const yearsOptions = years.map((y) => (
-    <option key={y._id} value={y.year}>
-      {y.year}
+    <option key={y._id} value={y.name}>
+      {y.name}
     </option>
   ))
 
@@ -44,6 +40,10 @@ const SelectYearClass = ({ selected, setSelected }) => {
         </option>
       )
   )
+
+  function handleSelect(changed) {
+    setSelected((prev) => ({ ...prev, ...changed }))
+  }
 
   return (
     <>
