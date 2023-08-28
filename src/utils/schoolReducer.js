@@ -22,6 +22,11 @@ export default function schoolReducer(school, action) {
           stu._id === action.student._id ? action.student : stu
         )
       }
+    case "add_students":
+      return {
+        ...school,
+        students: [...school.students, ...action.students]
+      }
     case "add_year":
       // dispatch - year: {name: xxx, _id: xxx}
       return { ...school, years: [...school.years, action.year] }

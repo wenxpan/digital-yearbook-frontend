@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
@@ -10,10 +10,13 @@ import Button from "react-bootstrap/Button"
 import UserContext from "../contexts/UserContext"
 import AddStudentForm from "../components/AddStudentForm"
 import SelectYearClass from "../components/SelectYearClass"
+import { postHelper } from "../utils/apiHelper"
+import SchoolContext from "../contexts/SchoolContext"
 
 const AddStudents = () => {
+  const nav = useNavigate()
   const { user } = useContext(UserContext)
-  const { isAdmin, isLoggedIn } = user
+  const { school, dispatch } = useContext(SchoolContext)
 
   // set selected state for the year and class option fields
   const [selected, setSelected] = useState({})
@@ -21,12 +24,29 @@ const AddStudents = () => {
   // set state for entered students
   const [students, setStudents] = useState([])
 
-  function handleSave(e) {
+  async function handleSave(e) {
     // function for submitting form
     e.preventDefault()
 
-    console.log(`class: ${selected.class}, year: ${selected.year}`)
-    console.log(students)
+    // set array of students to send to server
+    const newStudents = students.map((stu) => ({
+      ...stu,
+      class: selected.class
+    }))
+
+    // create promises for post requests
+    const studentPromises = newStudents.map((student) =>
+      postHelper("/students", student, user.token)
+    )
+
+    // an array of responses (student objects) from post requests
+    const createdStudents = await Promise.all(studentPromises)
+
+    // add created students to school state
+    dispatch({ type: "add_students", students: createdStudents })
+
+    // redirect to /account/students
+    nav("/account/students")
   }
 
   function handleAddStudent() {
