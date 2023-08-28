@@ -23,7 +23,7 @@ const SelectYearClass = ({ selected, setSelected }) => {
   // to make sure it's from the filtered class list
   useEffect(() => {
     const filteredClasses = classes.filter(
-      (cls) => cls.year.year === (selected.year || years[0].year)
+      (cls) => cls.year.name === (selected.year || years[0].year)
     )
     handleSelect({ class: filteredClasses[0].name })
   }, [selected.year])
@@ -38,7 +38,7 @@ const SelectYearClass = ({ selected, setSelected }) => {
   // filter classes based on selected year and return options
   const classesOptions = classes.map(
     (cls) =>
-      cls.year.year === selected.year && (
+      cls.year.name === selected.year && (
         <option key={cls._id} value={cls.name}>
           {cls.name}
         </option>

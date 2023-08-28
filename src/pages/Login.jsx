@@ -1,10 +1,11 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 
 import UserContext from "../contexts/UserContext"
+import { postHelper } from "../utils/apiHelper"
 
 const Login = () => {
   // set state for email and password
@@ -12,18 +13,23 @@ const Login = () => {
   const [password, setPassword] = useState("")
 
   const nav = useNavigate()
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
-  useEffect(() => {
-    // if logged in user detected, redirect to /account page
-    if (user.isLoggedIn) {
-      nav("/account")
+  async function handleSubmit() {
+    const { token, user: loggedInUser } = await postHelper("/login", {
+      email,
+      password
+    })
+    const { __v, role, ...filteredUser } = loggedInUser
+    const newUser = {
+      token,
+      isLoggedIn: true,
+      isAdmin: role === "admin" ? true : false,
+      ...filteredUser
     }
-  }, [user])
-
-  function handleSubmit() {
-    //TODO
-    console.log({ email, password })
+    setUser(newUser)
+    localStorage.setItem("user", JSON.stringify(newUser))
+    nav("/account")
   }
 
   return (
@@ -49,9 +55,6 @@ const Login = () => {
           />
         </Form.Group>
         <div className="mt-4 d-flex justify-content-around flex-wrap">
-          <Button variant="secondary" onClick={() => nav("/login/reset")}>
-            Reset Password
-          </Button>
           <Button variant="primary" onClick={handleSubmit}>
             Log In
           </Button>

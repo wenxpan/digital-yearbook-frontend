@@ -10,13 +10,6 @@ const ResetPassword = () => {
   const { user } = useContext(UserContext)
   const nav = useNavigate()
 
-  useEffect(() => {
-    // if logged in user detected, redirect to /account page
-    if (user.isLoggedIn) {
-      nav("/account")
-    }
-  }, [user])
-
   const [content, setContent] = useState({
     name: "",
     email: "",
