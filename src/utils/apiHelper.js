@@ -40,6 +40,9 @@ export const deleteHelper = async (endpoint, token) => {
       Authorization: `Bearer ${token}`
     }
   })
+  if (!res.ok) {
+    throw new Error(`HTTP error! Status: ${res.status}`)
+  }
   return res
 }
 

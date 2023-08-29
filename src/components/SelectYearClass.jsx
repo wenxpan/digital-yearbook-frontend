@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col"
 
 import SchoolContext from "../contexts/SchoolContext"
 
-const SelectYearClass = ({ selected, setSelected }) => {
+const SelectYearClass = ({ selected, setSelected, disabled = false }) => {
   const { school } = useContext(SchoolContext)
   const { years, classes } = school
 
@@ -59,6 +59,7 @@ const SelectYearClass = ({ selected, setSelected }) => {
         <Form.Group as={Col} controlId="formYear">
           <Form.Label>Year</Form.Label>
           <Form.Select
+            disabled={disabled ? "disabled" : ""}
             value={selected.year}
             onChange={(e) => {
               handleSelect({ year: e.target.value })
@@ -72,6 +73,7 @@ const SelectYearClass = ({ selected, setSelected }) => {
           <Form.Label>Class</Form.Label>
           <Form.Select
             value={selected.class}
+            disabled={disabled ? "disabled" : ""}
             onChange={(e) => {
               handleSelect({
                 class: e.target.value

@@ -12,6 +12,10 @@ const NavBar = () => {
   const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
+  if (isLoggedIn && !school.classes) {
+    return <p>Loading...</p>
+  }
+
   // if user is student, find out student and class object
   const student =
     isLoggedIn &&

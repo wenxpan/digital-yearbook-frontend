@@ -14,7 +14,11 @@ import SchoolContext from "../contexts/SchoolContext"
 const Account = () => {
   const { user, setUser } = useContext(UserContext)
   const { school } = useContext(SchoolContext)
-  const { isAdmin, name } = user
+  const { isAdmin, isLoggedIn, name } = user
+
+  if (isLoggedIn && !school.classes) {
+    return <p>Loading...</p>
+  }
 
   // if user is student, find out student and class object
   const student =

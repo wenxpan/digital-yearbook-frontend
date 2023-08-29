@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react"
-import Button from "react-bootstrap/Button"
+import { Link, useNavigate } from "react-router-dom"
+
+import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Container from "react-bootstrap/Container"
-import { Link, useNavigate } from "react-router-dom"
+
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
 import SelectYearClass from "../components/SelectYearClass"
@@ -16,23 +18,22 @@ const UpdateProfile = ({ student }) => {
   const { isAdmin } = user
   const { school, dispatch } = useContext(SchoolContext)
 
+  console.log(student)
   if (!school) {
     return <p>Loading...</p>
   }
 
   const studentClass = school.classes.find((c) => c._id === student.class)
 
-  const [content, setContent] = useState({
-    ...student
-  })
+  const [content, setContent] = useState(student)
 
   const [selected, setSelected] = useState({
     year: studentClass.year.name,
     class: studentClass.name
   })
 
-  // to handle input update
   function handleChange(changed) {
+    // to handle input update
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
@@ -55,7 +56,11 @@ const UpdateProfile = ({ student }) => {
         </Row>
         <Row className="mt-4">
           <Form onSubmit={(e) => handleSave(e)}>
-            <SelectYearClass selected={selected} setSelected={setSelected} />
+            <SelectYearClass
+              selected={selected}
+              setSelected={setSelected}
+              disabled={!isAdmin ? true : false}
+            />
             <Row className="mb-3" xs={1}>
               <Form.Group as={Col} controlId="formFirstName">
                 <Form.Label>First Name</Form.Label>
@@ -107,7 +112,7 @@ const UpdateProfile = ({ student }) => {
                 type="text"
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formQues1">
+            <Form.Group className="mb-3" controlId="formQuote">
               <Form.Label>Yearbook quote</Form.Label>
               <Form.Control
                 value={content.quote}
@@ -187,38 +192,5 @@ const UpdateProfile = ({ student }) => {
     </>
   )
 }
-
-// const oldSelectYearClass = (
-//   <>
-//     {" "}
-//     <Form.Group as={Col} controlId="formYear">
-//       <Form.Label>Year</Form.Label>
-//       <Form.Control
-//         value={content.year}
-//         onChange={(e) => handleChange({ year: e.target.value })}
-//         disabled={isAdmin ? "" : "disabled"}
-//       ></Form.Control>
-//     </Form.Group>
-//     <Form.Group as={Col} controlId="formClass">
-//       <Form.Label>Class</Form.Label>
-//       <Form.Select
-//         value={content.class}
-//         onChange={(e) => {
-//           handleChange({ class: e.target.value })
-//         }}
-//         disabled={isAdmin ? "" : "disabled"}
-//       >
-//         {school.classes.map(
-//           (cls) =>
-//             cls.year.name === content.year && (
-//               <option key={cls._id} value={cls._id}>
-//                 {cls.name}
-//               </option>
-//             )
-//         )}
-//       </Form.Select>
-//     </Form.Group>
-//   </>
-// )
 
 export default UpdateProfile

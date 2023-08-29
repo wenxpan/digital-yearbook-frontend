@@ -29,7 +29,7 @@ const AddClass = () => {
       // if not exists, create new year
       const newYear = await postHelper(
         "/years",
-        { name: content.year.name },
+        { name: content.year },
         user.token
       )
       // add new year to school state

@@ -49,7 +49,10 @@ function App() {
           const students = await getHelper("/students", token)
           const classes = await getHelper("/classes", token)
           const years = await getHelper("/years", token)
-          dispatch({ type: "set_school", school: { students, classes, years } })
+          dispatch({
+            type: "set_school",
+            school: { students, classes, years }
+          })
         }
       } catch (e) {
         console.log(e)

@@ -8,31 +8,44 @@ import Button from "react-bootstrap/Button"
 
 import SchoolContext from "../contexts/SchoolContext"
 import AdminClassCard from "../components/AdminClassCard"
+import AdminYearLine from "../components/AdminYearLine"
 
 const ManageClasses = () => {
   const { school } = useContext(SchoolContext)
-  const classes = school.classes
 
-  // TODO: add a way to delete years
-
-  if (!classes) {
+  if (!school.classes) {
     return <p>Loading...</p>
   }
+
+  const years = school.years.map((y) => {
+    const noClass = school.classes.find((cls) => cls.year.name === y.name)
+      ? false
+      : true
+    return { ...y, noClass }
+  })
 
   return (
     <>
       <Container className="mt-4">
-        <Row>
+        <Row className="mb-3">
           <h1 className="fs-2">Manage Classes</h1>
         </Row>
-
-        <Row xs={1} md={2} lg={3} className="mt-3">
-          {classes.map((cls) => (
-            <Col className="mb-3" key={cls._id}>
-              <AdminClassCard classInfo={cls} />
-            </Col>
-          ))}
-        </Row>
+        {years.map((y) => (
+          <Container key={y._id} className="p-0 my-2">
+            <AdminYearLine year={y} deleteOption={y.noClass} />
+            <Row xs={1} md={2} lg={3} className="mt-3">
+              {school.classes.map(
+                (cls) =>
+                  cls.year.name === y.name && (
+                    <Col className="mb-3" key={cls._id}>
+                      <AdminClassCard classInfo={cls} />
+                    </Col>
+                  )
+              )}
+            </Row>
+          </Container>
+        ))}
+        {}
         <Row xs="auto" className="mt-3">
           <Col>
             <Button as={Link} to={"new"}>
