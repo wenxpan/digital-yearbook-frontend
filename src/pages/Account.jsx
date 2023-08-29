@@ -22,7 +22,7 @@ const Account = () => {
   // if user is student, find out student and class object
   const student =
     !isAdmin && school.students.find((s) => s._id === user.student)
-  const studentClass = school.classes.find((cls) => cls._id === student.class)
+  const studentClass = student && school.classes.find((cls) => cls._id === student.class)
 
   // different options for student and admin
   const options = {
