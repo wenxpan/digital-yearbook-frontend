@@ -23,6 +23,7 @@ const Login = () => {
     const { __v, role, ...filteredUser } = loggedInUser
     const newUser = {
       token,
+      loaded: true,
       isLoggedIn: true,
       isAdmin: role === "admin" ? true : false,
       ...filteredUser

@@ -4,6 +4,10 @@ import UserContext from "../contexts/UserContext"
 
 const AdminRoute = ({ children }) => {
   const { user } = useContext(UserContext)
+  if (!user.loaded) {
+    return <p>Loading...</p>
+  }
+
   if (!user.isAdmin) {
     if (!user.isLoggedIn) {
       return <Navigate to="/" replace />

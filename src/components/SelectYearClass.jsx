@@ -6,32 +6,36 @@ import Col from "react-bootstrap/Col"
 
 import SchoolContext from "../contexts/SchoolContext"
 
-const SelectYearClass = ({ selected, setSelected }) => {
+const SelectYearClass = ({ selected, setSelected, disabled = false }) => {
   const { school } = useContext(SchoolContext)
   const { years, classes } = school
 
-  function handleSelect(changed) {
-    setSelected((prev) => ({ ...prev, ...changed }))
-  }
-
   // every on mount, set initial year state
   useEffect(() => {
-    handleSelect({ year: years[0].year })
+    if (!selected.year && years) {
+      handleSelect({ year: years[0].name })
+    }
   }, [])
 
   // every on mount and selected year changes, selected class will change accordingly
   // to make sure it's from the filtered class list
   useEffect(() => {
-    const filteredClasses = classes.filter(
-      (cls) => cls.year.name === (selected.year || years[0].year)
-    )
-    handleSelect({ class: filteredClasses[0].name })
+    if (classes) {
+      const filteredClasses = classes.filter(
+        (cls) => cls.year.name === (selected.year || years[0].name)
+      )
+      handleSelect({ class: filteredClasses[0].name })
+    }
   }, [selected.year])
+
+  if (!school.years) {
+    return <p>Loading...</p>
+  }
 
   // show available year options
   const yearsOptions = years.map((y) => (
-    <option key={y._id} value={y.year}>
-      {y.year}
+    <option key={y._id} value={y.name}>
+      {y.name}
     </option>
   ))
 
@@ -45,12 +49,17 @@ const SelectYearClass = ({ selected, setSelected }) => {
       )
   )
 
+  function handleSelect(changed) {
+    setSelected((prev) => ({ ...prev, ...changed }))
+  }
+
   return (
     <>
       <Row className="mb-3" xs={1} md={2}>
         <Form.Group as={Col} controlId="formYear">
           <Form.Label>Year</Form.Label>
           <Form.Select
+            disabled={disabled ? "disabled" : ""}
             value={selected.year}
             onChange={(e) => {
               handleSelect({ year: e.target.value })
@@ -64,6 +73,7 @@ const SelectYearClass = ({ selected, setSelected }) => {
           <Form.Label>Class</Form.Label>
           <Form.Select
             value={selected.class}
+            disabled={disabled ? "disabled" : ""}
             onChange={(e) => {
               handleSelect({
                 class: e.target.value

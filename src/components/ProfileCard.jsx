@@ -12,7 +12,7 @@ const ProfileCard = ({ student }) => {
   const name = `${firstName} ${lastName}`
 
   return (
-    <Row className="mb-4">
+    <Row className="mb-4" xs={2} sm={1}>
       <Col className="d-flex justify-content-center">
         <Card
           style={{ width: "15rem", cursor: "pointer" }}
