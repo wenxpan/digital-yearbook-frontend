@@ -35,7 +35,7 @@ const StudentProfile = ({ student }) => {
         <em>{q.name}</em>
       </strong>
       <br />
-      {q.answer}
+      {q.answer || "No answer yet"}
     </ListGroup.Item>
   ))
 
@@ -51,7 +51,9 @@ const StudentProfile = ({ student }) => {
                   {firstName} {lastName}
                 </Card.Title>
                 <Card.Text className="fst-italic">{quote}</Card.Text>
-                <Card.Text>Contact details: {contactDetails}</Card.Text>
+                <Card.Text>
+                  Contact details: {contactDetails || "not provided"}
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>

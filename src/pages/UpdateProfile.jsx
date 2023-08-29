@@ -18,11 +18,6 @@ const UpdateProfile = ({ student }) => {
   const { isAdmin } = user
   const { school, dispatch } = useContext(SchoolContext)
 
-  console.log(student)
-  if (!school) {
-    return <p>Loading...</p>
-  }
-
   const studentClass = school.classes.find((c) => c._id === student.class)
 
   const [content, setContent] = useState(student)
@@ -39,7 +34,10 @@ const UpdateProfile = ({ student }) => {
 
   async function handleSave(e) {
     e.preventDefault()
-    const newStudent = { ...content, class: selected.class }
+    const selectedClass = school.classes.find(
+      (cls) => cls.name === selected.class && cls.year.name === selected.year
+    )
+    const newStudent = { ...content, class: selectedClass._id }
     const updatedStudent = await apiPut(
       `/students/${student._id}`,
       newStudent,

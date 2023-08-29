@@ -28,10 +28,6 @@ const SelectYearClass = ({ selected, setSelected, disabled = false }) => {
     }
   }, [selected.year])
 
-  if (!school.years) {
-    return <p>Loading...</p>
-  }
-
   // show available year options
   const yearsOptions = years.map((y) => (
     <option key={y._id} value={y.name}>

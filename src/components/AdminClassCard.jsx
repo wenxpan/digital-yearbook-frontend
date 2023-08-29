@@ -94,7 +94,11 @@ const AdminClassCard = ({ classInfo }) => {
       </Row>
       <Row>
         <Col xs={6}>
-          <Button variant="danger" onClick={handleDelete}>
+          <Button
+            variant="danger"
+            onClick={handleDelete}
+            disabled={totalStudents ? "disabled" : ""}
+          >
             Delete
           </Button>
         </Col>

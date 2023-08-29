@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 
 import Container from "react-bootstrap/Container"
@@ -13,10 +13,6 @@ import AdminYearLine from "../components/AdminYearLine"
 const ManageClasses = () => {
   const { school } = useContext(SchoolContext)
 
-  if (!school.classes) {
-    return <p>Loading...</p>
-  }
-
   const years = school.years.map((y) => {
     const noClass = school.classes.find((cls) => cls.year.name === y.name)
       ? false
@@ -29,6 +25,12 @@ const ManageClasses = () => {
       <Container className="mt-4">
         <Row className="mb-3">
           <h1 className="fs-2">Manage Classes</h1>
+        </Row>
+        <Row className="mb-3">
+          <p>
+            Note: Only classes without students and empty years without classes
+            can be deleted.
+          </p>
         </Row>
         {years.map((y) => (
           <Container key={y._id} className="p-0 my-2">

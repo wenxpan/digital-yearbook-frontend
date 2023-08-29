@@ -1,5 +1,5 @@
-import React, { useContext } from "react"
-import { Link } from "react-router-dom"
+import React, { useContext, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
@@ -10,11 +10,14 @@ import ListGroup from "react-bootstrap/ListGroup"
 
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
+import { apiPut } from "../utils/apiHelper"
 
 const Account = () => {
-  const { user, setUser, setEmptyUser } = useContext(UserContext)
-  const { school } = useContext(SchoolContext)
+  const { user, setEmptyUser } = useContext(UserContext)
+  const { school, dispatch } = useContext(SchoolContext)
   const { isAdmin, name } = user
+  const [error, setError] = useState("")
+  const nav = useNavigate()
 
   // if user is student, find out student and class object
   const student =
@@ -32,7 +35,7 @@ const Account = () => {
       { text: "All yearbooks", link: "/classes" },
       { text: "Update Profile", link: `/students/${student._id}/edit` }
     ],
-    admin: isAdmin && [
+    admin: [
       { text: "Add new students", link: "students/new" },
       { text: "Add new class", link: "classes/new" },
       { text: "Manage all classes", link: "classes" },
@@ -47,9 +50,34 @@ const Account = () => {
   // photo to be displayed in account page
   const accountPhoto = isAdmin ? "/src/assets/admin-default.svg" : student.photo
 
-  function handleReset() {
-    //TODO - student reset profile
-    console.log("reset profile clicked")
+  async function handleReset() {
+    // student reset their own profile
+    try {
+      // create new student with reset editable fields
+      const resetStudent = {
+        ...student,
+        contactDetails: "",
+        quote: "",
+        questionOne: "",
+        questionTwo: "",
+        questionThree: "",
+        questionFour: ""
+      }
+      // send put request and receive updated student object
+      const updatedStudent = await apiPut(
+        `/students/${student._id}`,
+        resetStudent,
+        user.token
+      )
+      // update student in school state
+      dispatch({ type: "update_student", student: updatedStudent })
+      // navigate to student profile page
+      nav(`/students/${student._id}`)
+    } catch (e) {
+      // if reset failed, attached error message under button
+      console.error(e)
+      setError("Reset failed. Please try again or report to admin")
+    }
   }
 
   function handleLogOut() {
@@ -103,6 +131,7 @@ const Account = () => {
             </Col>
           </Row>
         )}
+        {error && <p className="text-danger text-end">{error}</p>}
       </Container>
     </>
   )
