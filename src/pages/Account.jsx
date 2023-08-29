@@ -12,13 +12,9 @@ import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
 
 const Account = () => {
-  const { user, setUser } = useContext(UserContext)
+  const { user, setUser, setEmptyUser } = useContext(UserContext)
   const { school } = useContext(SchoolContext)
-  const { isAdmin, isLoggedIn, name } = user
-
-  if (isLoggedIn && !school.classes) {
-    return <p>Loading...</p>
-  }
+  const { isAdmin, name } = user
 
   // if user is student, find out student and class object
   const student =
@@ -58,7 +54,7 @@ const Account = () => {
 
   function handleLogOut() {
     //clear user data in storage and reset user state
-    setUser({ isLoggedIn: false, isAdmin: false })
+    setEmptyUser()
     localStorage.removeItem("user")
   }
 

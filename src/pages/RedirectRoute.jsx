@@ -4,6 +4,11 @@ import UserContext from "../contexts/UserContext"
 
 const RedirectRoute = ({ children }) => {
   const { user } = useContext(UserContext)
+
+  if (!user.loaded) {
+    return <p>Loading...</p>
+  }
+
   if (user.isLoggedIn) {
     return <Navigate to="/account" replace />
   }

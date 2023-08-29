@@ -4,7 +4,7 @@ import UserContext from "../contexts/UserContext"
 
 const AdminRoute = ({ children }) => {
   const { user } = useContext(UserContext)
-  if (!user.email) {
+  if (!user.loaded) {
     return <p>Loading...</p>
   }
 

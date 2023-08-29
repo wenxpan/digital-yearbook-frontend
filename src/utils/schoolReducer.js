@@ -56,6 +56,7 @@ export default function schoolReducer(school, action) {
         ...school,
         years: school.years.filter((y) => y._id !== action.yearId)
       }
+
     default:
       throw Error("Unknown action: " + action.type)
   }

@@ -18,37 +18,56 @@ import AddClass from "./pages/AddClass"
 import BackgroundImage from "./components/BackgroundImage"
 import RedirectMessage from "./components/RedirectMessage"
 
-import UserContext from "./contexts/UserContext"
-import SchoolContext from "./contexts/SchoolContext"
-import schoolReducer from "./utils/schoolReducer"
-import sampleSchool from "./utils/sampleSchool"
-import { getHelper } from "./utils/apiHelper"
 import LoggedInRoute from "./pages/LoggedInRoute"
 import AdminRoute from "./pages/AdminRoute"
 import RedirectRoute from "./pages/RedirectRoute"
 
+import UserContext from "./contexts/UserContext"
+import SchoolContext from "./contexts/SchoolContext"
+import schoolReducer from "./utils/schoolReducer"
+import { getHelper } from "./utils/apiHelper"
+
 function App() {
-  const [user, setUser] = useState({ isLoggedIn: false, isAdmin: false })
+  // set state for user; loaded means not yet searched for existing user in storage
+  const [user, setUser] = useState({
+    loaded: false
+  })
 
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user")
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser)
-      setUser(foundUser)
-    }
-  }, [])
+  function setEmptyUser() {
+    // to set initial empty state for user
+    // used when there is no user in storage, or user chooses to log out
+    const loadedEmptyUser = { isLoggedIn: false, isAdmin: false, loaded: true }
+    setUser(loadedEmptyUser)
+  }
 
-  // state for whole school - including years, classes and students
+  // set state for the whole school - years, classes and students
   const [school, dispatch] = useReducer(schoolReducer, {})
 
   useEffect(() => {
+    // for every on mount, check if there is existing user in localstorage
+    const loggedInUser = localStorage.getItem("user")
+    if (loggedInUser) {
+      // if user exists, set user with the state
+      const foundUser = JSON.parse(loggedInUser)
+      setUser(foundUser)
+    } else {
+      // if no user, set default (not logged in) user state
+      setEmptyUser()
+    }
+  }, [])
+
+  useEffect(() => {
+    // for every on mount and when user state changes
     async function setSchoolData() {
       try {
         if (user.isLoggedIn) {
+          // if user is logged in, fetch school data using token
           const token = user.token
           const students = await getHelper("/students", token)
           const classes = await getHelper("/classes", token)
           const years = await getHelper("/years", token)
+
+          // set school state with fetched data
           dispatch({
             type: "set_school",
             school: { students, classes, years }
@@ -56,40 +75,43 @@ function App() {
         }
       } catch (e) {
         console.log(e)
+        // if error fetching data, remove user info and return to home page
         localStorage.removeItem("user")
-        setUser({ isLoggedIn: false, isAdmin: false })
+        setEmptyUser()
         nav("/")
       }
     }
     setSchoolData()
   }, [user])
 
-  //TODO: make 3 wrapper functions dry
   function YearbookWrapper() {
-    const { id } = useParams()
-    // find class by class id
-    const yearbook = school.classes.find((c) => c._id === id)
+    // find class by class id in params
+    const yearbook = findParamsMatching(school.classes)
     return <Yearbook yearbook={yearbook} />
   }
 
   function StudentProfileWrapper() {
-    const { id } = useParams()
-    // find student by student id
-    const student = school.students.find((s) => s._id === id)
+    // find student by student id in params
+    const student = findParamsMatching(school.students)
     return <StudentProfile student={student} />
   }
 
   function UpdateProfileWrapper() {
-    const { id } = useParams()
-    // find student by student id
-    const student = school.students.find((s) => s._id === id)
+    // find student by student id in params
+    const student = findParamsMatching(school.students)
     return <UpdateProfile student={student} />
+  }
+
+  function findParamsMatching(arr) {
+    const { id } = useParams()
+    const result = arr.find((item) => item._id === id)
+    return result
   }
 
   return (
     <>
       {/* passed in user and school as global states */}
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser, setEmptyUser }}>
         <SchoolContext.Provider value={{ school, dispatch }}>
           <Navbar />
 

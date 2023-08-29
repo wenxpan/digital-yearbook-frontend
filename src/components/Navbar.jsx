@@ -12,8 +12,24 @@ const NavBar = () => {
   const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
-  if (isLoggedIn && !school.classes) {
-    return <p>Loading...</p>
+  const placeholderNav = (
+    <Navbar expand="lg" className="bg-body-tertiary">
+      <Container fluid>
+        <Navbar.Brand>
+          <img
+            src="/src/assets/yearbook-logo.svg"
+            width="40"
+            height="40"
+            className="d-inline-block align-top"
+            alt="Yearbook logo"
+          />
+        </Navbar.Brand>
+      </Container>
+    </Navbar>
+  )
+
+  if (!user.loaded) {
+    return placeholderNav
   }
 
   // if user is student, find out student and class object
@@ -40,8 +56,7 @@ const NavBar = () => {
     admin: isLoggedIn &&
       isAdmin && [
         { text: `${user.name} - Admin`, navLink: "/account" },
-        { text: "Add Students", navLink: "/account/students/new" },
-        { text: "All Students", navLink: "/account/students" },
+        { text: "Students", navLink: "/account/students" },
         { text: "Classes", navLink: "/account/classes" },
         { text: "Yearbooks", navLink: "/classes" }
       ]
