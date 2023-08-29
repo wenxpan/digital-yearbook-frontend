@@ -33,13 +33,14 @@ function App() {
   // set state for user; loaded means not yet searched for existing user in storage
   const [user, setUser] = useState({})
 
+  // state for loading data: set to true when all possible data is fetched
   const [loaded, setLoaded] = useState(false)
 
-  function setEmptyUser() {
+  function loadEmptyUser() {
     // to set initial empty state for user
     // used when there is no user in storage, or user chooses to log out
-    setLoaded(true)
     setUser({ isLoggedIn: false })
+    setLoaded(true)
   }
 
   // set state for the whole school - years, classes and students
@@ -54,7 +55,7 @@ function App() {
       setUser(foundUser)
     } else {
       // if no user, set default (not logged in) user state
-      setEmptyUser()
+      loadEmptyUser()
     }
   }, [])
 
@@ -74,12 +75,13 @@ function App() {
             type: "set_school",
             school: { students, classes, years }
           })
+          setLoaded(true)
         }
       } catch (e) {
         console.log(e)
         // if error fetching data, remove user info and set to not-loggedin status
         localStorage.removeItem("user")
-        setEmptyUser()
+        loadEmptyUser()
         // direct to error page
         nav("/user-error")
       }
@@ -114,17 +116,15 @@ function App() {
   return (
     <>
       {/* passed in user and school as global states */}
-      <UserContext.Provider value={{ user, setUser, setEmptyUser, loaded }}>
+      <UserContext.Provider value={{ user, setUser, loadEmptyUser, loaded }}>
         <SchoolContext.Provider value={{ school, dispatch }}>
           <Navbar />
           <Routes>
             {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
             <Route path="/" element={<BackgroundImage />}>
               <Route index element={<RedirectRoute page={Landing} />} />
-              <Route path="/login">
-                <Route index element={<RedirectRoute page={Login} />} />
-              </Route>
-              <Route path="/signup" element={<RedirectRoute page={SignUp} />} />
+              <Route path="login" element={<RedirectRoute page={Login} />} />
+              <Route path="signup" element={<RedirectRoute page={SignUp} />} />
             </Route>
 
             {/* yearbooks pages */}

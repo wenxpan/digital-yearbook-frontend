@@ -7,7 +7,6 @@ import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
 
 import SchoolContext from "../contexts/SchoolContext"
-
 import AdminStudentCard from "../components/AdminStudentCard"
 import SelectYearClass from "../components/SelectYearClass"
 
@@ -17,10 +16,6 @@ const ManageStudents = () => {
 
   // set selected state for the year and class option fields
   const [selected, setSelected] = useState({})
-
-  if (!school.students) {
-    return <p>Loading...</p>
-  }
 
   // filter students from the selected year and class
   const students = school.students.filter((s) => {
@@ -33,8 +28,11 @@ const ManageStudents = () => {
   return (
     <>
       <Container className="mt-4">
-        <Row>
+        <Row className="mb-3">
           <h1 className="fs-2">Manage Students</h1>
+        </Row>
+        <Row className="mb-3">
+          <p>Note: Deleting students will delete the linked user as well</p>
         </Row>
         <SelectYearClass selected={selected} setSelected={setSelected} />
         <Row xs={1} md={2} lg={3} className="mt-3">

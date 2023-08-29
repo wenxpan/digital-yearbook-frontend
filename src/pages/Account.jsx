@@ -13,7 +13,7 @@ import SchoolContext from "../contexts/SchoolContext"
 import { apiPut } from "../utils/apiHelper"
 
 const Account = () => {
-  const { user, setEmptyUser } = useContext(UserContext)
+  const { user, loadEmptyUser } = useContext(UserContext)
   const { school, dispatch } = useContext(SchoolContext)
   const { isAdmin, name } = user
   const [error, setError] = useState("")
@@ -22,8 +22,7 @@ const Account = () => {
   // if user is student, find out student and class object
   const student =
     !isAdmin && school.students.find((s) => s._id === user.student)
-  const studentClass =
-    student && school.classes.find((cls) => cls._id === student.class)
+  const studentClass = school.classes.find((cls) => cls._id === student.class)
 
   // different options for student and admin
   const options = {
@@ -82,7 +81,7 @@ const Account = () => {
 
   function handleLogOut() {
     //clear user data in storage and reset user state
-    setEmptyUser()
+    loadEmptyUser()
     localStorage.removeItem("user")
   }
 

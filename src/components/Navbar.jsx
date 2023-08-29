@@ -38,8 +38,7 @@ const NavBar = () => {
     !isAdmin &&
     school.students.find((s) => s._id === user.student)
 
-  const studentClass =
-    student && school.classes.find((cls) => cls._id === student.class)
+  const studentClass = school.classes.find((cls) => cls._id === student.class)
 
   // set navbar text and direct links for different views
   const views = {

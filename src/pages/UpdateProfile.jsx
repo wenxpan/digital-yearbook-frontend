@@ -27,8 +27,7 @@ const UpdateProfile = ({ student }) => {
     class: studentClass.name
   })
 
-  function handleChange(changed) {
-    // to handle input update
+  function handleInputChange(changed) {
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
@@ -64,7 +63,9 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
                   value={content.firstName}
-                  onChange={(e) => handleChange({ firstName: e.target.value })}
+                  onChange={(e) =>
+                    handleInputChange({ firstName: e.target.value })
+                  }
                   disabled={isAdmin ? "" : "disabled"}
                   type="text"
                 />
@@ -74,7 +75,9 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
                   value={content.lastName}
-                  onChange={(e) => handleChange({ lastName: e.target.value })}
+                  onChange={(e) =>
+                    handleInputChange({ lastName: e.target.value })
+                  }
                   disabled={isAdmin ? "" : "disabled"}
                   type="text"
                 />
@@ -85,7 +88,7 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                   value={content.email}
-                  onChange={(e) => handleChange({ email: e.target.value })}
+                  onChange={(e) => handleInputChange({ email: e.target.value })}
                   disabled={isAdmin ? "" : "disabled"}
                   type="email"
                 />
@@ -94,7 +97,7 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>Yearbook Photo</Form.Label>
                 <Form.Control
                   value={content.photo}
-                  onChange={(e) => handleChange({ photo: e.target.value })}
+                  onChange={(e) => handleInputChange({ photo: e.target.value })}
                   disabled={isAdmin ? "" : "disabled"}
                   type="url"
                 />
@@ -105,7 +108,7 @@ const UpdateProfile = ({ student }) => {
               <Form.Control
                 value={content.contactDetails}
                 onChange={(e) =>
-                  handleChange({ contactDetails: e.target.value })
+                  handleInputChange({ contactDetails: e.target.value })
                 }
                 type="text"
               />
@@ -114,7 +117,7 @@ const UpdateProfile = ({ student }) => {
               <Form.Label>Yearbook quote</Form.Label>
               <Form.Control
                 value={content.quote}
-                onChange={(e) => handleChange({ quote: e.target.value })}
+                onChange={(e) => handleInputChange({ quote: e.target.value })}
                 type="text"
               />
             </Form.Group>
@@ -126,7 +129,9 @@ const UpdateProfile = ({ student }) => {
                 as="textarea"
                 rows={3}
                 value={content.questionOne}
-                onChange={(e) => handleChange({ questionOne: e.target.value })}
+                onChange={(e) =>
+                  handleInputChange({ questionOne: e.target.value })
+                }
                 type="text"
               />
             </Form.Group>
@@ -138,7 +143,9 @@ const UpdateProfile = ({ student }) => {
                 as="textarea"
                 rows={3}
                 value={content.questionTwo}
-                onChange={(e) => handleChange({ questionTwo: e.target.value })}
+                onChange={(e) =>
+                  handleInputChange({ questionTwo: e.target.value })
+                }
                 type="text"
               />
             </Form.Group>
@@ -151,7 +158,7 @@ const UpdateProfile = ({ student }) => {
                 rows={3}
                 value={content.questionThree}
                 onChange={(e) =>
-                  handleChange({ questionThree: e.target.value })
+                  handleInputChange({ questionThree: e.target.value })
                 }
                 type="text"
               />
@@ -164,7 +171,9 @@ const UpdateProfile = ({ student }) => {
                 as="textarea"
                 rows={3}
                 value={content.questionFour}
-                onChange={(e) => handleChange({ questionFour: e.target.value })}
+                onChange={(e) =>
+                  handleInputChange({ questionFour: e.target.value })
+                }
                 type="text"
               />
             </Form.Group>

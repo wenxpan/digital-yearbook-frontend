@@ -19,7 +19,7 @@ const AdminClassCard = ({ classInfo }) => {
     (s) => s.class === content._id
   ).length
 
-  function handleChange(changed) {
+  function handleInputChange(changed) {
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
@@ -70,7 +70,9 @@ const AdminClassCard = ({ classInfo }) => {
             <Form.Control
               value={content.year.name}
               disabled={isEditing ? "" : "disabled"}
-              onChange={(e) => handleChange({ year: { name: e.target.value } })}
+              onChange={(e) =>
+                handleInputChange({ year: { name: e.target.value } })
+              }
             />
           </Form.Group>
         </Col>
@@ -79,7 +81,7 @@ const AdminClassCard = ({ classInfo }) => {
             <Form.Label className="fw-semibold">Class</Form.Label>
             <Form.Control
               value={content.name}
-              onChange={(e) => handleChange({ name: e.target.value })}
+              onChange={(e) => handleInputChange({ name: e.target.value })}
               disabled={isEditing ? "" : "disabled"}
             />
           </Form.Group>

@@ -14,11 +14,28 @@ const ManageClasses = () => {
   const { school } = useContext(SchoolContext)
 
   const years = school.years.map((y) => {
-    const noClass = school.classes.find((cls) => cls.year.name === y.name)
-      ? false
-      : true
+    const noClass = !school.classes.find((cls) => cls.year.name === y.name)
     return { ...y, noClass }
   })
+
+  const mapClassesToYear = (y) =>
+    school.classes.map(
+      (cls) =>
+        cls.year.name === y.name && (
+          <Col className="mb-3" key={cls._id}>
+            <AdminClassCard classInfo={cls} />
+          </Col>
+        )
+    )
+
+  const yearsEl = years.map((y) => (
+    <Container key={y._id} className="p-0 my-2">
+      <AdminYearLine year={y} deleteOption={y.noClass} />
+      <Row xs={1} md={2} lg={3} className="mt-3">
+        {mapClassesToYear(y)}
+      </Row>
+    </Container>
+  ))
 
   return (
     <>
@@ -32,22 +49,7 @@ const ManageClasses = () => {
             can be deleted.
           </p>
         </Row>
-        {years.map((y) => (
-          <Container key={y._id} className="p-0 my-2">
-            <AdminYearLine year={y} deleteOption={y.noClass} />
-            <Row xs={1} md={2} lg={3} className="mt-3">
-              {school.classes.map(
-                (cls) =>
-                  cls.year.name === y.name && (
-                    <Col className="mb-3" key={cls._id}>
-                      <AdminClassCard classInfo={cls} />
-                    </Col>
-                  )
-              )}
-            </Row>
-          </Container>
-        ))}
-        {}
+        {yearsEl}
         <Row xs="auto" className="mt-3">
           <Col>
             <Button as={Link} to={"new"}>
