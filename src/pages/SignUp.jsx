@@ -1,15 +1,20 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
+import Row from "react-bootstrap/Row"
 
 import UserContext from "../contexts/UserContext"
 import { apiPost } from "../utils/apiHelper"
 
 const SignUp = () => {
+  // TODO: add validation for form fields
+
   const nav = useNavigate()
-  const { user, setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext)
+
+  const [error, setError] = useState("")
 
   //TODO: responsive layout
   const [content, setContent] = useState({
@@ -35,11 +40,12 @@ const SignUp = () => {
         ...filteredUser
       }
       setUser(newUser)
-      console.log(newUser)
       localStorage.setItem("user", JSON.stringify(newUser))
-      // nav("/account")
+      // nav(`/students/${newUser.student}/edit`)
+      nav("/account")
     } catch (e) {
-      console.log(e)
+      console.error(e)
+      setError("Sign up failed. Please check your credentials and try again")
     }
   }
 
@@ -78,9 +84,15 @@ const SignUp = () => {
           onChange={(e) => handleUpdate({ studentId: e.target.value })}
         />
       </Form.Group>
-      <Button variant="primary" onClick={handleSubmit}>
+      <Button className="mt-4" variant="primary" onClick={handleSubmit}>
         Sign Up
       </Button>
+      {/* display error message when logged in failed */}
+      {error && (
+        <Row className="mt-3">
+          <p className="text-warning">{error}</p>
+        </Row>
+      )}
     </Form>
   )
 }

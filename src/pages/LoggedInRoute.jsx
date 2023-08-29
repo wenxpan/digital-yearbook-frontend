@@ -3,8 +3,8 @@ import { Navigate } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
 
 const LoggedInRoute = ({ page: Page }) => {
-  const { user } = useContext(UserContext)
-  if (!user.loaded) {
+  const { user, loaded } = useContext(UserContext)
+  if (!loaded) {
     return <p>Loading...</p>
   }
 

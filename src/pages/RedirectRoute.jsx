@@ -3,9 +3,9 @@ import { Navigate } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
 
 const RedirectRoute = ({ page: Page }) => {
-  const { user } = useContext(UserContext)
+  const { user, loaded } = useContext(UserContext)
 
-  if (!user.loaded) {
+  if (!loaded) {
     return <p>Loading...</p>
   }
 

@@ -31,15 +31,15 @@ function App() {
   const nav = useNavigate()
 
   // set state for user; loaded means not yet searched for existing user in storage
-  const [user, setUser] = useState({
-    loaded: false
-  })
+  const [user, setUser] = useState({})
+
+  const [loaded, setLoaded] = useState(false)
 
   function setEmptyUser() {
     // to set initial empty state for user
     // used when there is no user in storage, or user chooses to log out
-    const loadedEmptyUser = { isLoggedIn: false, isAdmin: false, loaded: true }
-    setUser(loadedEmptyUser)
+    setLoaded(true)
+    setUser({ isLoggedIn: false })
   }
 
   // set state for the whole school - years, classes and students
@@ -59,7 +59,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // for every on mount and when user state changes
+    // for every on mount and when user state changes, fetch school data
     async function setSchoolData() {
       try {
         if (user.isLoggedIn) {
@@ -77,9 +77,10 @@ function App() {
         }
       } catch (e) {
         console.log(e)
-        // if error fetching data, remove user info and direct to error page
+        // if error fetching data, remove user info and set to not-loggedin status
         localStorage.removeItem("user")
         setEmptyUser()
+        // direct to error page
         nav("/user-error")
       }
     }
@@ -113,7 +114,7 @@ function App() {
   return (
     <>
       {/* passed in user and school as global states */}
-      <UserContext.Provider value={{ user, setUser, setEmptyUser }}>
+      <UserContext.Provider value={{ user, setUser, setEmptyUser, loaded }}>
         <SchoolContext.Provider value={{ school, dispatch }}>
           <Navbar />
           <Routes>

@@ -8,7 +8,7 @@ import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 
 const NavBar = () => {
-  const { user } = useContext(UserContext)
+  const { user, loaded } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
@@ -28,7 +28,7 @@ const NavBar = () => {
     </Navbar>
   )
 
-  if (!user.loaded) {
+  if (!loaded) {
     return placeholderNav
   }
 
@@ -37,6 +37,7 @@ const NavBar = () => {
     isLoggedIn &&
     !isAdmin &&
     school.students.find((s) => s._id === user.student)
+
   const studentClass =
     student && school.classes.find((cls) => cls._id === student.class)
 
@@ -68,7 +69,6 @@ const NavBar = () => {
       ? views.admin
       : views.student
     : views.default
-
   // nav options based on current view
   const viewEl = currentView.map((option) => (
     <Nav.Link as={Link} to={option.navLink} key={option.text}>
