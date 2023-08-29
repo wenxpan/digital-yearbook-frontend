@@ -1,5 +1,5 @@
 import { useState, useReducer, useEffect } from "react"
-import { Routes, Route, useParams } from "react-router-dom"
+import { Routes, Route, useParams, useNavigate } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 import Navbar from "./components/NavBar"
@@ -28,6 +28,8 @@ import schoolReducer from "./utils/schoolReducer"
 import { getHelper } from "./utils/apiHelper"
 
 function App() {
+  const nav = useNavigate()
+
   // set state for user; loaded means not yet searched for existing user in storage
   const [user, setUser] = useState({
     loaded: false
@@ -75,10 +77,10 @@ function App() {
         }
       } catch (e) {
         console.log(e)
-        // if error fetching data, remove user info and return to home page
+        // if error fetching data, remove user info and direct to error page
         localStorage.removeItem("user")
         setEmptyUser()
-        nav("/")
+        nav("/user-error")
       }
     }
     setSchoolData()
@@ -114,55 +116,22 @@ function App() {
       <UserContext.Provider value={{ user, setUser, setEmptyUser }}>
         <SchoolContext.Provider value={{ school, dispatch }}>
           <Navbar />
-
           <Routes>
             {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
             <Route path="/" element={<BackgroundImage />}>
-              <Route
-                index
-                element={
-                  <RedirectRoute>
-                    <Landing />
-                  </RedirectRoute>
-                }
-              />
+              <Route index element={<RedirectRoute page={Landing} />} />
               <Route path="/login">
-                <Route
-                  index
-                  element={
-                    <RedirectRoute>
-                      <Login />
-                    </RedirectRoute>
-                  }
-                />
+                <Route index element={<RedirectRoute page={Login} />} />
               </Route>
-              <Route
-                path="/signup"
-                element={
-                  <RedirectRoute>
-                    <SignUp />
-                  </RedirectRoute>
-                }
-              />
+              <Route path="/signup" element={<RedirectRoute page={SignUp} />} />
             </Route>
 
             {/* yearbooks pages */}
             <Route path="/classes">
-              <Route
-                index
-                element={
-                  <LoggedInRoute>
-                    <Classes />
-                  </LoggedInRoute>
-                }
-              />
+              <Route index element={<LoggedInRoute page={Classes} />} />
               <Route
                 path=":id"
-                element={
-                  <LoggedInRoute>
-                    <YearbookWrapper />
-                  </LoggedInRoute>
-                }
+                element={<LoggedInRoute page={YearbookWrapper} />}
               />
             </Route>
 
@@ -170,67 +139,40 @@ function App() {
             <Route path="/students">
               <Route
                 path=":id"
-                element={
-                  <LoggedInRoute>
-                    <StudentProfileWrapper />
-                  </LoggedInRoute>
-                }
+                element={<LoggedInRoute page={StudentProfileWrapper} />}
               />
               {/* update profile page for both student and admin, with different props */}
               <Route
                 path=":id/edit"
-                element={
-                  <LoggedInRoute>
-                    <UpdateProfileWrapper />
-                  </LoggedInRoute>
-                }
+                element={<LoggedInRoute page={UpdateProfileWrapper} />}
               />
             </Route>
 
             {/* account pages */}
             <Route path="/account">
-              <Route
-                index
-                element={
-                  <LoggedInRoute>
-                    <Account />
-                  </LoggedInRoute>
-                }
-              />
+              <Route index element={<LoggedInRoute page={Account} />} />
               <Route
                 path="classes"
-                element={
-                  <AdminRoute>
-                    <ManageClasses />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={ManageClasses} />}
               />
               <Route
                 path="classes/new"
-                element={
-                  <AdminRoute>
-                    <AddClass />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={AddClass} />}
               />
               <Route
                 path="students"
-                element={
-                  <AdminRoute>
-                    <ManageStudents />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={ManageStudents} />}
               />
               <Route
                 path="students/new"
-                element={
-                  <AdminRoute>
-                    <AddStudents />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={AddStudents} />}
               />
             </Route>
-            <Route path="*" element={<RedirectMessage type={"NOT FOUND"} />} />
+            <Route
+              path="/user-error"
+              element={<RedirectMessage type={"userError"} />}
+            />
+            <Route path="*" element={<RedirectMessage type={"notFound"} />} />
           </Routes>
         </SchoolContext.Provider>
       </UserContext.Provider>

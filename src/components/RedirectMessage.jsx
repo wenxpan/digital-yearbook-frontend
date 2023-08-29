@@ -3,13 +3,23 @@ import Stack from "react-bootstrap/Stack"
 import Button from "react-bootstrap/Button"
 import { Link } from "react-router-dom"
 
-const RedirectMessage = (type) => {
-  const message = {
-    msgHeading: "Page not found",
-    msgText: "Please return to home page",
-    button: "Home",
-    jumpLink: "/"
+const RedirectMessage = ({ type }) => {
+  const allMessages = {
+    notFound: {
+      msgHeading: "Page not found",
+      msgText: "Please return to home page",
+      button: "Home",
+      jumpLink: "/"
+    },
+    userError: {
+      msgHeading: "Re-login required",
+      msgText: "Something went wrong. Please log in and try again",
+      button: "Log in",
+      jumpLink: "/login"
+    }
   }
+
+  const message = allMessages[type]
 
   return (
     <Stack className="m-3" gap={2}>
