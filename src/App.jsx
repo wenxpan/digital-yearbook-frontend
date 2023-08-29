@@ -25,7 +25,7 @@ import RedirectRoute from "./pages/RedirectRoute"
 import UserContext from "./contexts/UserContext"
 import SchoolContext from "./contexts/SchoolContext"
 import schoolReducer from "./utils/schoolReducer"
-import { getHelper } from "./utils/apiHelper"
+import { apiGet } from "./utils/apiHelper"
 
 function App() {
   const nav = useNavigate()
@@ -65,9 +65,9 @@ function App() {
         if (user.isLoggedIn) {
           // if user is logged in, fetch school data using token
           const token = user.token
-          const students = await getHelper("/students", token)
-          const classes = await getHelper("/classes", token)
-          const years = await getHelper("/years", token)
+          const students = await apiGet("/students", token)
+          const classes = await apiGet("/classes", token)
+          const years = await apiGet("/years", token)
 
           // set school state with fetched data
           dispatch({

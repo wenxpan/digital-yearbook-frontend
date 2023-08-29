@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import SchoolContext from "../contexts/SchoolContext"
-import { deleteHelper, postHelper, putHelper } from "../utils/apiHelper"
+import { apiDelete, apiPost, apiPut } from "../utils/apiHelper"
 import UserContext from "../contexts/UserContext"
 
 const AdminClassCard = ({ classInfo }) => {
@@ -30,7 +30,7 @@ const AdminClassCard = ({ classInfo }) => {
     )
     console.log("name", content.name, "year", content.year.name)
     if (!yearExists) {
-      const newYear = await postHelper(
+      const newYear = await apiPost(
         "/years",
         { name: content.year.name },
         user.token
@@ -39,7 +39,7 @@ const AdminClassCard = ({ classInfo }) => {
       dispatch({ type: "add_year", year: newYear })
     }
     // update class
-    const updatedClass = await putHelper(
+    const updatedClass = await apiPut(
       `/classes/${classInfo._id}`,
       {
         name: content.name,
@@ -48,14 +48,13 @@ const AdminClassCard = ({ classInfo }) => {
       user.token
     )
     // add new class to school state
+    dispatch({ type: "update_class", class: updatedClass })
     setIsEditing((prev) => !prev)
-    console.log(updatedClass)
   }
 
   async function handleDelete() {
     // send DELETE request
-    const res = await deleteHelper(`/classes/${classInfo._id}`, user.token)
-    console.log(res)
+    const res = await apiDelete(`/classes/${classInfo._id}`, user.token)
     if (res.status == 200) {
       // if delete success, update school state
       dispatch({ type: "delete_class", classId: classInfo._id })

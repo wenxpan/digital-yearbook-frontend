@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
 import UserContext from "../contexts/UserContext"
-import { postHelper } from "../utils/apiHelper"
+import { apiPost } from "../utils/apiHelper"
 
 const SignUp = () => {
   const nav = useNavigate()
@@ -26,10 +26,7 @@ const SignUp = () => {
 
   async function handleSubmit() {
     try {
-      const { token, user: registeredUser } = await postHelper(
-        "/signup",
-        content
-      )
+      const { token, user: registeredUser } = await apiPost("/signup", content)
       const { __v, role, ...filteredUser } = registeredUser
       const newUser = {
         token,

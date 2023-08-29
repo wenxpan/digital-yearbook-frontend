@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
-import { deleteHelper } from "../utils/apiHelper"
+import { apiDelete } from "../utils/apiHelper"
 import SchoolContext from "../contexts/SchoolContext"
 import UserContext from "../contexts/UserContext"
 
@@ -14,7 +14,7 @@ const AdminStudentCard = ({ student }) => {
   const { user } = useContext(UserContext)
   async function handleDelete() {
     // send DELETE request
-    const res = await deleteHelper(`/students/${student._id}`, user.token)
+    const res = await apiDelete(`/students/${student._id}`, user.token)
     console.log(res)
     if (res.status == 200) {
       // if delete success, update school state

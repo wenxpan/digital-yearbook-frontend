@@ -7,7 +7,7 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
 import SchoolContext from "../contexts/SchoolContext"
-import { postHelper } from "../utils/apiHelper"
+import { apiPost } from "../utils/apiHelper"
 import UserContext from "../contexts/UserContext"
 
 const AddClass = () => {
@@ -27,7 +27,7 @@ const AddClass = () => {
     const yearExists = school.years.find((y) => y.name === content.year)
     if (!yearExists) {
       // if not exists, create new year
-      const newYear = await postHelper(
+      const newYear = await apiPost(
         "/years",
         { name: content.year },
         user.token
@@ -35,7 +35,7 @@ const AddClass = () => {
       // add new year to school state
       dispatch({ type: "add_year", year: newYear })
     }
-    const createdClass = await postHelper("/classes", content, user.token)
+    const createdClass = await apiPost("/classes", content, user.token)
     dispatch({ type: "add_class", class: createdClass })
 
     nav("/account/classes")

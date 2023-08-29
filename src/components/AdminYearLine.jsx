@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 import { Button } from "react-bootstrap"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import { deleteHelper } from "../utils/apiHelper"
+import { apiDelete } from "../utils/apiHelper"
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
 
@@ -11,7 +11,7 @@ const AdminYearLine = ({ year, deleteOption = false }) => {
   const { dispatch } = useContext(SchoolContext)
   async function handleDelete() {
     // delete empty year
-    const res = await deleteHelper(`/years/${year._id}`, user.token)
+    const res = await apiDelete(`/years/${year._id}`, user.token)
     dispatch({ type: "delete_year", yearId: year._id })
   }
   return (

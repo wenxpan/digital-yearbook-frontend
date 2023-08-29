@@ -10,7 +10,7 @@ import Button from "react-bootstrap/Button"
 import UserContext from "../contexts/UserContext"
 import AddStudentForm from "../components/AddStudentForm"
 import SelectYearClass from "../components/SelectYearClass"
-import { postHelper } from "../utils/apiHelper"
+import { apiPost } from "../utils/apiHelper"
 import SchoolContext from "../contexts/SchoolContext"
 
 const AddStudents = () => {
@@ -36,7 +36,7 @@ const AddStudents = () => {
 
     // create promises for post requests
     const studentPromises = newStudents.map((student) =>
-      postHelper("/students", student, user.token)
+      apiPost("/students", student, user.token)
     )
 
     // an array of responses (student objects) from post requests

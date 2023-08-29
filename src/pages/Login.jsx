@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 
 import UserContext from "../contexts/UserContext"
-import { postHelper } from "../utils/apiHelper"
+import { apiPost } from "../utils/apiHelper"
 
 const Login = () => {
   // set state for email and password
@@ -16,7 +16,7 @@ const Login = () => {
   const { user, setUser } = useContext(UserContext)
 
   async function handleSubmit() {
-    const { token, user: loggedInUser } = await postHelper("/login", {
+    const { token, user: loggedInUser } = await apiPost("/login", {
       email,
       password
     })

@@ -10,7 +10,7 @@ import Col from "react-bootstrap/Col"
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
 import SelectYearClass from "../components/SelectYearClass"
-import { putHelper } from "../utils/apiHelper"
+import { apiPut } from "../utils/apiHelper"
 
 const UpdateProfile = ({ student }) => {
   const nav = useNavigate()
@@ -40,7 +40,7 @@ const UpdateProfile = ({ student }) => {
   async function handleSave(e) {
     e.preventDefault()
     const newStudent = { ...content, class: selected.class }
-    const updatedStudent = await putHelper(
+    const updatedStudent = await apiPut(
       `/students/${student._id}`,
       newStudent,
       user.token
