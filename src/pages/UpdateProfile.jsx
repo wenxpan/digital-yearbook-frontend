@@ -1,15 +1,17 @@
 import React, { useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import SelectYearClass from "../components/SelectYearClass"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
-import SelectYearClass from "../components/SelectYearClass"
 import { apiPut } from "../utils/apiHelper"
 
 const UpdateProfile = ({ student }) => {
@@ -18,10 +20,13 @@ const UpdateProfile = ({ student }) => {
   const { isAdmin } = user
   const { school, dispatch } = useContext(SchoolContext)
 
+  // find out student's current class
   const studentClass = school.classes.find((c) => c._id === student.class)
 
+  // state for input student
   const [content, setContent] = useState(student)
 
+  // state for class and year selection
   const [selected, setSelected] = useState({
     year: studentClass.year.name,
     class: studentClass.name
@@ -31,19 +36,35 @@ const UpdateProfile = ({ student }) => {
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
+  // certain fields will be disabled for non-admin users
+  const disabledStatus = isAdmin ? "" : "disabled"
+
   async function handleSave(e) {
     e.preventDefault()
-    const selectedClass = school.classes.find(
-      (cls) => cls.name === selected.class && cls.year.name === selected.year
-    )
-    const newStudent = { ...content, class: selectedClass._id }
-    const updatedStudent = await apiPut(
-      `/students/${student._id}`,
-      newStudent,
-      user.token
-    )
-    dispatch({ type: "update_student", student: updatedStudent })
-    nav("/account/students")
+    try {
+      // find class based on selected class and year name
+      const selectedClass = school.classes.find(
+        (cls) => cls.name === selected.class && cls.year.name === selected.year
+      )
+
+      // add class info to updating student
+      const newStudent = { ...content, class: selectedClass._id }
+
+      // send PUT request to /students/:id
+      const updatedStudent = await apiPut(
+        `/students/${student._id}`,
+        newStudent,
+        user.token
+      )
+      dispatch({ type: "update_student", student: updatedStudent })
+
+      // direct back to student profile page
+      nav(`/students/${updatedStudent._id}`)
+    } catch (e) {
+      // if PUT request failed, show toast message
+      console.error(e)
+      toast.warn("Profile update failed. Please check input and try again")
+    }
   }
   return (
     <>
@@ -66,7 +87,7 @@ const UpdateProfile = ({ student }) => {
                   onChange={(e) =>
                     handleInputChange({ firstName: e.target.value })
                   }
-                  disabled={isAdmin ? "" : "disabled"}
+                  disabled={disabledStatus}
                   type="text"
                 />
               </Form.Group>
@@ -78,7 +99,7 @@ const UpdateProfile = ({ student }) => {
                   onChange={(e) =>
                     handleInputChange({ lastName: e.target.value })
                   }
-                  disabled={isAdmin ? "" : "disabled"}
+                  disabled={disabledStatus}
                   type="text"
                 />
               </Form.Group>
@@ -89,7 +110,7 @@ const UpdateProfile = ({ student }) => {
                 <Form.Control
                   value={content.email}
                   onChange={(e) => handleInputChange({ email: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
+                  disabled={disabledStatus}
                   type="email"
                 />
               </Form.Group>
@@ -98,7 +119,7 @@ const UpdateProfile = ({ student }) => {
                 <Form.Control
                   value={content.photo}
                   onChange={(e) => handleInputChange({ photo: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
+                  disabled={disabledStatus}
                   type="url"
                 />
               </Form.Group>
@@ -195,6 +216,7 @@ const UpdateProfile = ({ student }) => {
             </Row>
           </Form>
         </Row>
+        <ToastWarning />
       </Container>
     </>
   )
