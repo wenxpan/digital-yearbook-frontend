@@ -1,14 +1,13 @@
 import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
-import Row from "react-bootstrap/Row"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
 import { apiPost } from "../utils/apiHelper"
-import ToastWarning from "../components/ToastWarning"
-import { toast } from "react-toastify"
 
 const Login = () => {
   // TODO: add validation for form fields

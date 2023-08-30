@@ -5,19 +5,22 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
+import AdminYearLine from "../components/AdminYearLine"
+import AdminClassCard from "../components/AdminClassCard"
 
 import SchoolContext from "../contexts/SchoolContext"
-import AdminClassCard from "../components/AdminClassCard"
-import AdminYearLine from "../components/AdminYearLine"
 
 const ManageClasses = () => {
   const { school } = useContext(SchoolContext)
 
+  // check empty classes for years and add as property
   const years = school.years.map((y) => {
+    // a year can be deleted when noClass is true
     const noClass = !school.classes.find((cls) => cls.year.name === y.name)
     return { ...y, noClass }
   })
 
+  // class cards for one year
   const mapClassesToYear = (y) =>
     school.classes.map(
       (cls) =>
@@ -28,6 +31,7 @@ const ManageClasses = () => {
         )
     )
 
+  // all years elements
   const yearsEl = years.map((y) => (
     <Container key={y._id} className="p-0 my-2">
       <AdminYearLine year={y} deleteOption={y.noClass} />

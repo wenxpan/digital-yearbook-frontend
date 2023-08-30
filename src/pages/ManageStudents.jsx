@@ -5,10 +5,10 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
-
-import SchoolContext from "../contexts/SchoolContext"
 import AdminStudentCard from "../components/AdminStudentCard"
 import SelectYearClass from "../components/SelectYearClass"
+
+import SchoolContext from "../contexts/SchoolContext"
 
 const ManageStudents = () => {
   // get years data from context
@@ -35,7 +35,7 @@ const ManageStudents = () => {
           <p>Note: Deleting students will delete the linked user as well</p>
         </Row>
         <SelectYearClass selected={selected} setSelected={setSelected} />
-        <Row xs={1} md={2} lg={3} className="mt-3">
+        <Row xs={1} lg={2} xl={3} className="mt-3">
           {students.map((s) => (
             <Col className="mb-3" key={s._id}>
               <AdminStudentCard student={s} />

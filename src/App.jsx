@@ -16,7 +16,6 @@ import AddStudents from "./pages/AddStudents"
 import ManageClasses from "./pages/ManageClasses"
 import AddClass from "./pages/AddClass"
 import BackgroundImage from "./components/BackgroundImage"
-
 import RedirectMessage from "./pages/RedirectMessage"
 import LoggedInRoute from "./pages/routes/LoggedInRoute"
 import AdminRoute from "./pages/routes/AdminRoute"

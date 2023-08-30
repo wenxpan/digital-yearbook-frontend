@@ -7,11 +7,11 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
 import { apiPut } from "../utils/apiHelper"
-import ToastWarning from "../components/ToastWarning"
 import { toast } from "react-toastify"
 
 const Account = () => {

@@ -32,7 +32,7 @@ const AdminStudentCard = ({ student }) => {
   }
 
   return (
-    <Card style={{ maxWidth: "25rem" }} className="p-3">
+    <Card style={{ width: "25rem" }} className="p-3">
       <Row className="mb-2">
         <Col>
           <p className="fw-semibold">First Name</p>

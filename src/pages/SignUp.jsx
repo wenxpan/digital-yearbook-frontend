@@ -1,14 +1,13 @@
 import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
-import Row from "react-bootstrap/Row"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
 import { apiPost } from "../utils/apiHelper"
-import ToastWarning from "../components/ToastWarning"
-import { toast } from "react-toastify"
 
 const SignUp = () => {
   // TODO: add validation for form fields
@@ -87,7 +86,7 @@ const SignUp = () => {
       <Button className="mt-4" variant="primary" onClick={handleSubmit}>
         Sign Up
       </Button>
-      {/* display error message when logged in failed */}
+      {/* display error message when sign up failed */}
       <ToastWarning />
     </Form>
   )
