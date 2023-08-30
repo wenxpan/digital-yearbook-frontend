@@ -22,7 +22,8 @@ const Login = () => {
   const { setUser } = useContext(UserContext)
 
   // handle login form submission
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault()
     try {
       // send login request to server, receive token and user object
       const { token, user: loggedInUser } = await apiPost("/login", {
@@ -55,13 +56,17 @@ const Login = () => {
   return (
     <>
       {/* Login form */}
-      <Form className="col-md-5 bg-dark px-5 py-3 bg-opacity-50 rounded">
+      <Form
+        className="col-md-5 bg-dark px-5 py-3 bg-opacity-50 rounded"
+        onSubmit={(e) => handleSubmit(e)}
+      >
         <h1 className="mb-5">Log In</h1>
         {/* email input */}
         <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
+            required
             placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -72,13 +77,14 @@ const Login = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
+            required
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
         {/* submit button */}
-        <Button className="mt-4" variant="primary" onClick={handleSubmit}>
+        <Button className="mt-4" variant="primary" type="submit">
           Log In
         </Button>
         {/* display error message when logged in failed */}
