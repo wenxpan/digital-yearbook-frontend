@@ -1,26 +1,36 @@
 import React, { useContext } from "react"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
-import { apiDelete } from "../utils/apiHelper"
+import ToastWarning from "../components/ToastWarning"
+
 import SchoolContext from "../contexts/SchoolContext"
 import UserContext from "../contexts/UserContext"
+import { apiDelete } from "../utils/apiHelper"
 
 const AdminStudentCard = ({ student }) => {
   const { dispatch } = useContext(SchoolContext)
   const { user } = useContext(UserContext)
+
   async function handleDelete() {
-    // send DELETE request
-    const res = await apiDelete(`/students/${student._id}`, user.token)
-    console.log(res)
-    if (res.status == 200) {
-      // if delete success, update school state
-      dispatch({ type: "delete_student", studentId: student._id })
+    try {
+      // send DELETE request
+      const res = await apiDelete(`/students/${student._id}`, user.token)
+      console.log(res)
+      if (res.status == 200) {
+        // if delete success, update school state
+        dispatch({ type: "delete_student", studentId: student._id })
+      }
+    } catch (e) {
+      console.error(e)
+      toast.warn("Student deletion failed, please try again later")
     }
   }
+
   return (
     <Card style={{ maxWidth: "25rem" }} className="p-3">
       <Row className="mb-2">
@@ -59,6 +69,7 @@ const AdminStudentCard = ({ student }) => {
           </Button>
         </Col>
       </Row>
+      <ToastWarning />
     </Card>
   )
 }

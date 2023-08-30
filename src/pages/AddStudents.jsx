@@ -30,18 +30,17 @@ const AddStudents = () => {
     // function for submitting form
     e.preventDefault()
 
-    // check for selected class based on year and class name
-    const selectedClass = school.classes.find(
-      (cls) => cls.name === selected.class && cls.year.name === selected.year
-    )
-
-    // set array of students to send to server
-    const newStudents = students.map((stu) => ({
-      ...stu,
-      class: selectedClass._id
-    }))
-
     try {
+      // check for selected class based on year and class name
+      const selectedClass = school.classes.find(
+        (cls) => cls.name === selected.class && cls.year.name === selected.year
+      )
+
+      // set array of students to send to server
+      const newStudents = students.map((stu) => ({
+        ...stu,
+        class: selectedClass._id
+      }))
       // create promises for post requests
       const studentPromises = newStudents.map((student) =>
         apiPost("/students", student, user.token)

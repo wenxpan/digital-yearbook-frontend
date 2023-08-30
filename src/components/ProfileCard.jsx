@@ -9,7 +9,7 @@ const ProfileCard = ({ student }) => {
   const nav = useNavigate()
 
   const { firstName, lastName, quote, photo } = student
-  const name = `${firstName} ${lastName}`
+  const fullName = `${firstName} ${lastName}`
 
   return (
     <Row className="mb-4" xs={2} sm={1}>
@@ -21,7 +21,7 @@ const ProfileCard = ({ student }) => {
         >
           <Card.Img variant="top" src={photo} />
           <Card.Body>
-            <Card.Text>{name}</Card.Text>
+            <Card.Text>{fullName}</Card.Text>
           </Card.Body>
         </Card>
       </Col>

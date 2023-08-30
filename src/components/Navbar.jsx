@@ -12,24 +12,8 @@ const NavBar = () => {
   const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
-  const placeholderNav = (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container fluid>
-        <Navbar.Brand>
-          <img
-            src="/src/assets/yearbook-logo.svg"
-            width="40"
-            height="40"
-            className="d-inline-block align-top"
-            alt="Yearbook logo"
-          />
-        </Navbar.Brand>
-      </Container>
-    </Navbar>
-  )
-
   if (!loaded) {
-    return placeholderNav
+    return null
   }
 
   // if user is student, find out student and class object
