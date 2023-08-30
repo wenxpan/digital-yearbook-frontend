@@ -7,6 +7,8 @@ import Row from "react-bootstrap/Row"
 
 import UserContext from "../contexts/UserContext"
 import { apiPost } from "../utils/apiHelper"
+import ToastWarning from "../components/ToastWarning"
+import { toast } from "react-toastify"
 
 const Login = () => {
   // TODO: add validation for form fields
@@ -14,8 +16,6 @@ const Login = () => {
   // set state for email and password inputs
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  // set state for error message when login failed
-  const [error, setError] = useState("")
 
   const nav = useNavigate()
 
@@ -49,7 +49,7 @@ const Login = () => {
       nav("/account")
     } catch (e) {
       // if login failed, prompt user to try again
-      setError("Login failed. Please check your credentials")
+      toast.warn("Login failed. Please check your credentials")
     }
   }
 
@@ -83,11 +83,7 @@ const Login = () => {
           Log In
         </Button>
         {/* display error message when logged in failed */}
-        {error && (
-          <Row className="mt-3">
-            <p className="text-warning">{error}</p>
-          </Row>
-        )}
+        <ToastWarning />
       </Form>
     </>
   )

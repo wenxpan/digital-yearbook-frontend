@@ -7,14 +7,14 @@ import Row from "react-bootstrap/Row"
 
 import UserContext from "../contexts/UserContext"
 import { apiPost } from "../utils/apiHelper"
+import ToastWarning from "../components/ToastWarning"
+import { toast } from "react-toastify"
 
 const SignUp = () => {
   // TODO: add validation for form fields
 
   const nav = useNavigate()
   const { setUser } = useContext(UserContext)
-
-  const [error, setError] = useState("")
 
   //TODO: responsive layout
   const [content, setContent] = useState({
@@ -45,7 +45,7 @@ const SignUp = () => {
       nav("/account")
     } catch (e) {
       console.error(e)
-      setError("Sign up failed. Please check your credentials and try again")
+      toast.warn("Sign up failed. Please check your credentials and try again")
     }
   }
 
@@ -88,11 +88,7 @@ const SignUp = () => {
         Sign Up
       </Button>
       {/* display error message when logged in failed */}
-      {error && (
-        <Row className="mt-3">
-          <p className="text-warning">{error}</p>
-        </Row>
-      )}
+      <ToastWarning />
     </Form>
   )
 }

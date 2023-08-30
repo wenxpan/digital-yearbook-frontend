@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
 import Button from "react-bootstrap/Button"
@@ -11,18 +11,20 @@ import ListGroup from "react-bootstrap/ListGroup"
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
 import { apiPut } from "../utils/apiHelper"
+import ToastWarning from "../components/ToastWarning"
+import { toast } from "react-toastify"
 
 const Account = () => {
   const { user, loadEmptyUser } = useContext(UserContext)
   const { school, dispatch } = useContext(SchoolContext)
   const { isAdmin, name } = user
-  const [error, setError] = useState("")
   const nav = useNavigate()
 
   // if user is student, find out student and class object
   const student =
     !isAdmin && school.students.find((s) => s._id === user.student)
-  const studentClass = student && school.classes.find((cls) => cls._id === student.class)
+  const studentClass =
+    student && school.classes.find((cls) => cls._id === student.class)
 
   // different options for student and admin
   const options = {
@@ -75,7 +77,7 @@ const Account = () => {
     } catch (e) {
       // if reset failed, attached error message under button
       console.error(e)
-      setError("Reset failed. Please try again or report to admin")
+      toast.warn("Reset failed. Please try again or report to admin")
     }
   }
 
@@ -130,7 +132,7 @@ const Account = () => {
             </Col>
           </Row>
         )}
-        {error && <p className="text-danger text-end">{error}</p>}
+        <ToastWarning />
       </Container>
     </>
   )
