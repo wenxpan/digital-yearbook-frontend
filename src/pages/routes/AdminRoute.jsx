@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
 import { Navigate } from "react-router-dom"
-import UserContext from "../contexts/UserContext"
+import UserContext from "../../contexts/UserContext"
 
-const AdminRoute = ({ children }) => {
-  const { user } = useContext(UserContext)
-  if (!user.loaded) {
+const AdminRoute = ({ page: Page }) => {
+  const { user, loaded } = useContext(UserContext)
+  if (!loaded) {
     return <p>Loading...</p>
   }
 
@@ -14,7 +14,7 @@ const AdminRoute = ({ children }) => {
     }
     return <Navigate to="/account" replace />
   }
-  return children
+  return <Page />
 }
 
 export default AdminRoute

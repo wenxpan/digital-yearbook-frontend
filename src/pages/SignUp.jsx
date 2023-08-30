@@ -1,15 +1,19 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
-import { postHelper } from "../utils/apiHelper"
+import { apiPost } from "../utils/apiHelper"
 
 const SignUp = () => {
+  // TODO: add validation for form fields
+
   const nav = useNavigate()
-  const { user, setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext)
 
   //TODO: responsive layout
   const [content, setContent] = useState({
@@ -26,10 +30,7 @@ const SignUp = () => {
 
   async function handleSubmit() {
     try {
-      const { token, user: registeredUser } = await postHelper(
-        "/signup",
-        content
-      )
+      const { token, user: registeredUser } = await apiPost("/signup", content)
       const { __v, role, ...filteredUser } = registeredUser
       const newUser = {
         token,
@@ -38,11 +39,12 @@ const SignUp = () => {
         ...filteredUser
       }
       setUser(newUser)
-      console.log(newUser)
       localStorage.setItem("user", JSON.stringify(newUser))
-      // nav("/account")
+      // nav(`/students/${newUser.student}/edit`)
+      nav("/account")
     } catch (e) {
-      console.log(e)
+      console.error(e)
+      toast.warn("Sign up failed. Please check your credentials and try again")
     }
   }
 
@@ -81,9 +83,11 @@ const SignUp = () => {
           onChange={(e) => handleUpdate({ studentId: e.target.value })}
         />
       </Form.Group>
-      <Button variant="primary" onClick={handleSubmit}>
+      <Button className="mt-4" variant="primary" onClick={handleSubmit}>
         Sign Up
       </Button>
+      {/* display error message when sign up failed */}
+      <ToastWarning />
     </Form>
   )
 }

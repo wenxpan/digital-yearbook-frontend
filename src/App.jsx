@@ -1,5 +1,5 @@
 import { useState, useReducer, useEffect } from "react"
-import { Routes, Route, useParams } from "react-router-dom"
+import { Routes, Route, useParams, useNavigate } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 import Navbar from "./components/NavBar"
@@ -16,28 +16,30 @@ import AddStudents from "./pages/AddStudents"
 import ManageClasses from "./pages/ManageClasses"
 import AddClass from "./pages/AddClass"
 import BackgroundImage from "./components/BackgroundImage"
-import RedirectMessage from "./components/RedirectMessage"
-
-import LoggedInRoute from "./pages/LoggedInRoute"
-import AdminRoute from "./pages/AdminRoute"
-import RedirectRoute from "./pages/RedirectRoute"
+import RedirectMessage from "./pages/RedirectMessage"
+import LoggedInRoute from "./pages/routes/LoggedInRoute"
+import AdminRoute from "./pages/routes/AdminRoute"
+import RedirectRoute from "./pages/routes/RedirectRoute"
 
 import UserContext from "./contexts/UserContext"
 import SchoolContext from "./contexts/SchoolContext"
 import schoolReducer from "./utils/schoolReducer"
-import { getHelper } from "./utils/apiHelper"
+import { apiGet } from "./utils/apiHelper"
 
 function App() {
-  // set state for user; loaded means not yet searched for existing user in storage
-  const [user, setUser] = useState({
-    loaded: false
-  })
+  const nav = useNavigate()
 
-  function setEmptyUser() {
+  // set state for user; loaded means not yet searched for existing user in storage
+  const [user, setUser] = useState({})
+
+  // state for loading data: set to true when all possible data is fetched
+  const [loaded, setLoaded] = useState(false)
+
+  function loadEmptyUser() {
     // to set initial empty state for user
     // used when there is no user in storage, or user chooses to log out
-    const loadedEmptyUser = { isLoggedIn: false, isAdmin: false, loaded: true }
-    setUser(loadedEmptyUser)
+    setUser({ isLoggedIn: false })
+    setLoaded(true)
   }
 
   // set state for the whole school - years, classes and students
@@ -52,33 +54,35 @@ function App() {
       setUser(foundUser)
     } else {
       // if no user, set default (not logged in) user state
-      setEmptyUser()
+      loadEmptyUser()
     }
   }, [])
 
   useEffect(() => {
-    // for every on mount and when user state changes
+    // for every on mount and when user state changes, fetch school data
     async function setSchoolData() {
       try {
         if (user.isLoggedIn) {
           // if user is logged in, fetch school data using token
           const token = user.token
-          const students = await getHelper("/students", token)
-          const classes = await getHelper("/classes", token)
-          const years = await getHelper("/years", token)
+          const students = await apiGet("/students", token)
+          const classes = await apiGet("/classes", token)
+          const years = await apiGet("/years", token)
 
           // set school state with fetched data
           dispatch({
             type: "set_school",
             school: { students, classes, years }
           })
+          setLoaded(true)
         }
       } catch (e) {
         console.log(e)
-        // if error fetching data, remove user info and return to home page
+        // if error fetching data, remove user info and set to not-loggedin status
         localStorage.removeItem("user")
-        setEmptyUser()
-        nav("/")
+        loadEmptyUser()
+        // direct to error page
+        nav("/user-error")
       }
     }
     setSchoolData()
@@ -111,58 +115,23 @@ function App() {
   return (
     <>
       {/* passed in user and school as global states */}
-      <UserContext.Provider value={{ user, setUser, setEmptyUser }}>
+      <UserContext.Provider value={{ user, setUser, loadEmptyUser, loaded }}>
         <SchoolContext.Provider value={{ school, dispatch }}>
           <Navbar />
-
           <Routes>
             {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
             <Route path="/" element={<BackgroundImage />}>
-              <Route
-                index
-                element={
-                  <RedirectRoute>
-                    <Landing />
-                  </RedirectRoute>
-                }
-              />
-              <Route path="/login">
-                <Route
-                  index
-                  element={
-                    <RedirectRoute>
-                      <Login />
-                    </RedirectRoute>
-                  }
-                />
-              </Route>
-              <Route
-                path="/signup"
-                element={
-                  <RedirectRoute>
-                    <SignUp />
-                  </RedirectRoute>
-                }
-              />
+              <Route index element={<RedirectRoute page={Landing} />} />
+              <Route path="login" element={<RedirectRoute page={Login} />} />
+              <Route path="signup" element={<RedirectRoute page={SignUp} />} />
             </Route>
 
             {/* yearbooks pages */}
             <Route path="/classes">
-              <Route
-                index
-                element={
-                  <LoggedInRoute>
-                    <Classes />
-                  </LoggedInRoute>
-                }
-              />
+              <Route index element={<LoggedInRoute page={Classes} />} />
               <Route
                 path=":id"
-                element={
-                  <LoggedInRoute>
-                    <YearbookWrapper />
-                  </LoggedInRoute>
-                }
+                element={<LoggedInRoute page={YearbookWrapper} />}
               />
             </Route>
 
@@ -170,67 +139,40 @@ function App() {
             <Route path="/students">
               <Route
                 path=":id"
-                element={
-                  <LoggedInRoute>
-                    <StudentProfileWrapper />
-                  </LoggedInRoute>
-                }
+                element={<LoggedInRoute page={StudentProfileWrapper} />}
               />
               {/* update profile page for both student and admin, with different props */}
               <Route
                 path=":id/edit"
-                element={
-                  <LoggedInRoute>
-                    <UpdateProfileWrapper />
-                  </LoggedInRoute>
-                }
+                element={<LoggedInRoute page={UpdateProfileWrapper} />}
               />
             </Route>
 
             {/* account pages */}
             <Route path="/account">
-              <Route
-                index
-                element={
-                  <LoggedInRoute>
-                    <Account />
-                  </LoggedInRoute>
-                }
-              />
+              <Route index element={<LoggedInRoute page={Account} />} />
               <Route
                 path="classes"
-                element={
-                  <AdminRoute>
-                    <ManageClasses />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={ManageClasses} />}
               />
               <Route
                 path="classes/new"
-                element={
-                  <AdminRoute>
-                    <AddClass />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={AddClass} />}
               />
               <Route
                 path="students"
-                element={
-                  <AdminRoute>
-                    <ManageStudents />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={ManageStudents} />}
               />
               <Route
                 path="students/new"
-                element={
-                  <AdminRoute>
-                    <AddStudents />
-                  </AdminRoute>
-                }
+                element={<AdminRoute page={AddStudents} />}
               />
             </Route>
-            <Route path="*" element={<RedirectMessage type={"NOT FOUND"} />} />
+            <Route
+              path="/user-error"
+              element={<RedirectMessage type={"userError"} />}
+            />
+            <Route path="*" element={<RedirectMessage type={"notFound"} />} />
           </Routes>
         </SchoolContext.Provider>
       </UserContext.Provider>

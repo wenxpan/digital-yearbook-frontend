@@ -1,16 +1,18 @@
 import React, { useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import SelectYearClass from "../components/SelectYearClass"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
-import SelectYearClass from "../components/SelectYearClass"
-import { putHelper } from "../utils/apiHelper"
+import { apiPut } from "../utils/apiHelper"
 
 const UpdateProfile = ({ student }) => {
   const nav = useNavigate()
@@ -18,35 +20,51 @@ const UpdateProfile = ({ student }) => {
   const { isAdmin } = user
   const { school, dispatch } = useContext(SchoolContext)
 
-  console.log(student)
-  if (!school) {
-    return <p>Loading...</p>
-  }
-
+  // find out student's current class
   const studentClass = school.classes.find((c) => c._id === student.class)
 
+  // state for input student
   const [content, setContent] = useState(student)
 
+  // state for class and year selection
   const [selected, setSelected] = useState({
     year: studentClass.year.name,
     class: studentClass.name
   })
 
-  function handleChange(changed) {
-    // to handle input update
+  function handleInputChange(changed) {
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
+  // certain fields will be disabled for non-admin users
+  const disabledStatus = isAdmin ? "" : "disabled"
+
   async function handleSave(e) {
     e.preventDefault()
-    const newStudent = { ...content, class: selected.class }
-    const updatedStudent = await putHelper(
-      `/students/${student._id}`,
-      newStudent,
-      user.token
-    )
-    dispatch({ type: "update_student", student: updatedStudent })
-    nav("/account/students")
+    try {
+      // find class based on selected class and year name
+      const selectedClass = school.classes.find(
+        (cls) => cls.name === selected.class && cls.year.name === selected.year
+      )
+
+      // add class info to updating student
+      const newStudent = { ...content, class: selectedClass._id }
+
+      // send PUT request to /students/:id
+      const updatedStudent = await apiPut(
+        `/students/${student._id}`,
+        newStudent,
+        user.token
+      )
+      dispatch({ type: "update_student", student: updatedStudent })
+
+      // direct back to student profile page
+      nav(`/students/${updatedStudent._id}`)
+    } catch (e) {
+      // if PUT request failed, show toast message
+      console.error(e)
+      toast.warn("Profile update failed. Please check input and try again")
+    }
   }
   return (
     <>
@@ -66,8 +84,10 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
                   value={content.firstName}
-                  onChange={(e) => handleChange({ firstName: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
+                  onChange={(e) =>
+                    handleInputChange({ firstName: e.target.value })
+                  }
+                  disabled={disabledStatus}
                   type="text"
                 />
               </Form.Group>
@@ -76,8 +96,10 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
                   value={content.lastName}
-                  onChange={(e) => handleChange({ lastName: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
+                  onChange={(e) =>
+                    handleInputChange({ lastName: e.target.value })
+                  }
+                  disabled={disabledStatus}
                   type="text"
                 />
               </Form.Group>
@@ -87,8 +109,8 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                   value={content.email}
-                  onChange={(e) => handleChange({ email: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
+                  onChange={(e) => handleInputChange({ email: e.target.value })}
+                  disabled={disabledStatus}
                   type="email"
                 />
               </Form.Group>
@@ -96,8 +118,8 @@ const UpdateProfile = ({ student }) => {
                 <Form.Label>Yearbook Photo</Form.Label>
                 <Form.Control
                   value={content.photo}
-                  onChange={(e) => handleChange({ photo: e.target.value })}
-                  disabled={isAdmin ? "" : "disabled"}
+                  onChange={(e) => handleInputChange({ photo: e.target.value })}
+                  disabled={disabledStatus}
                   type="url"
                 />
               </Form.Group>
@@ -107,7 +129,7 @@ const UpdateProfile = ({ student }) => {
               <Form.Control
                 value={content.contactDetails}
                 onChange={(e) =>
-                  handleChange({ contactDetails: e.target.value })
+                  handleInputChange({ contactDetails: e.target.value })
                 }
                 type="text"
               />
@@ -116,7 +138,7 @@ const UpdateProfile = ({ student }) => {
               <Form.Label>Yearbook quote</Form.Label>
               <Form.Control
                 value={content.quote}
-                onChange={(e) => handleChange({ quote: e.target.value })}
+                onChange={(e) => handleInputChange({ quote: e.target.value })}
                 type="text"
               />
             </Form.Group>
@@ -128,7 +150,9 @@ const UpdateProfile = ({ student }) => {
                 as="textarea"
                 rows={3}
                 value={content.questionOne}
-                onChange={(e) => handleChange({ questionOne: e.target.value })}
+                onChange={(e) =>
+                  handleInputChange({ questionOne: e.target.value })
+                }
                 type="text"
               />
             </Form.Group>
@@ -140,7 +164,9 @@ const UpdateProfile = ({ student }) => {
                 as="textarea"
                 rows={3}
                 value={content.questionTwo}
-                onChange={(e) => handleChange({ questionTwo: e.target.value })}
+                onChange={(e) =>
+                  handleInputChange({ questionTwo: e.target.value })
+                }
                 type="text"
               />
             </Form.Group>
@@ -153,7 +179,7 @@ const UpdateProfile = ({ student }) => {
                 rows={3}
                 value={content.questionThree}
                 onChange={(e) =>
-                  handleChange({ questionThree: e.target.value })
+                  handleInputChange({ questionThree: e.target.value })
                 }
                 type="text"
               />
@@ -166,7 +192,9 @@ const UpdateProfile = ({ student }) => {
                 as="textarea"
                 rows={3}
                 value={content.questionFour}
-                onChange={(e) => handleChange({ questionFour: e.target.value })}
+                onChange={(e) =>
+                  handleInputChange({ questionFour: e.target.value })
+                }
                 type="text"
               />
             </Form.Group>
@@ -188,6 +216,7 @@ const UpdateProfile = ({ student }) => {
             </Row>
           </Form>
         </Row>
+        <ToastWarning />
       </Container>
     </>
   )

@@ -5,9 +5,9 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
+import ProfileCard from "../components/ProfileCard"
 
 import SchoolContext from "../contexts/SchoolContext"
-import ProfileCard from "../components/ProfileCard"
 
 const Yearbook = ({ yearbook }) => {
   const { school } = useContext(SchoolContext)

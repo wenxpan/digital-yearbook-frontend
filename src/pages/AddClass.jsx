@@ -1,44 +1,53 @@
 import React, { useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
+import ToastWarning from "../components/ToastWarning"
+
 import SchoolContext from "../contexts/SchoolContext"
-import { postHelper } from "../utils/apiHelper"
 import UserContext from "../contexts/UserContext"
+import { apiPost } from "../utils/apiHelper"
 
 const AddClass = () => {
   const nav = useNavigate()
-  const [content, setContent] = useState({ year: "", name: "" })
+  const [content, setContent] = useState({ name: "", year: "" })
   const { school, dispatch } = useContext(SchoolContext)
   const { user } = useContext(UserContext)
 
-  function handleUpdate(changed) {
+  function handleInputChange(changed) {
     setContent((prev) => ({ ...prev, ...changed }))
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
 
-    // check if year exists
-    const yearExists = school.years.find((y) => y.name === content.year)
-    if (!yearExists) {
-      // if not exists, create new year
-      const newYear = await postHelper(
-        "/years",
-        { name: content.year },
-        user.token
-      )
-      // add new year to school state
-      dispatch({ type: "add_year", year: newYear })
-    }
-    const createdClass = await postHelper("/classes", content, user.token)
-    dispatch({ type: "add_class", class: createdClass })
+    try {
+      // check if year exists
+      const yearExists = school.years.find((y) => y.name === content.year)
+      if (!yearExists) {
+        // if not exists, create new year
+        const newYear = await apiPost(
+          "/years",
+          { name: content.year },
+          user.token
+        )
+        // add new year to school state
+        dispatch({ type: "add_year", year: newYear })
+      }
+      const createdClass = await apiPost("/classes", content, user.token)
+      dispatch({ type: "add_class", class: createdClass })
 
-    nav("/account/classes")
+      nav("/account/classes")
+    } catch (e) {
+      // if POST request failed, show toast message
+      console.error(e)
+      toast.warn("Class creation failed. Please check input and try again")
+    }
   }
 
   return (
@@ -52,7 +61,7 @@ const AddClass = () => {
             <Form.Label>Year</Form.Label>
             <Form.Control
               value={content.year}
-              onChange={(e) => handleUpdate({ year: e.target.value })}
+              onChange={(e) => handleInputChange({ year: e.target.value })}
               type="text"
             />
           </Form.Group>
@@ -60,7 +69,7 @@ const AddClass = () => {
             <Form.Label>Class</Form.Label>
             <Form.Control
               value={content.name}
-              onChange={(e) => handleUpdate({ name: e.target.value })}
+              onChange={(e) => handleInputChange({ name: e.target.value })}
               type="text"
             />
           </Form.Group>
@@ -76,6 +85,7 @@ const AddClass = () => {
           </Col>
         </Row>
       </Form>
+      <ToastWarning />
     </Container>
   )
 }

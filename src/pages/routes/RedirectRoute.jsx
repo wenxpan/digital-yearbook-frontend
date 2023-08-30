@@ -1,18 +1,18 @@
 import React, { useContext } from "react"
 import { Navigate } from "react-router-dom"
-import UserContext from "../contexts/UserContext"
+import UserContext from "../../contexts/UserContext"
 
-const RedirectRoute = ({ children }) => {
-  const { user } = useContext(UserContext)
+const RedirectRoute = ({ page: Page }) => {
+  const { user, loaded } = useContext(UserContext)
 
-  if (!user.loaded) {
+  if (!loaded) {
     return <p>Loading...</p>
   }
 
   if (user.isLoggedIn) {
     return <Navigate to="/account" replace />
   }
-  return children
+  return <Page />
 }
 
 export default RedirectRoute

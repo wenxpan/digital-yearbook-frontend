@@ -1,35 +1,20 @@
 import React, { useContext } from "react"
 import { Link } from "react-router-dom"
-import Container from "react-bootstrap/Container"
 
-import SchoolContext from "../contexts/SchoolContext"
-import UserContext from "../contexts/UserContext"
+import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 
+import SchoolContext from "../contexts/SchoolContext"
+import UserContext from "../contexts/UserContext"
+
 const NavBar = () => {
-  const { user } = useContext(UserContext)
+  const { user, loaded } = useContext(UserContext)
   const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
-  const placeholderNav = (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container fluid>
-        <Navbar.Brand>
-          <img
-            src="/src/assets/yearbook-logo.svg"
-            width="40"
-            height="40"
-            className="d-inline-block align-top"
-            alt="Yearbook logo"
-          />
-        </Navbar.Brand>
-      </Container>
-    </Navbar>
-  )
-
-  if (!user.loaded) {
-    return placeholderNav
+  if (!loaded) {
+    return null
   }
 
   // if user is student, find out student and class object
@@ -37,6 +22,7 @@ const NavBar = () => {
     isLoggedIn &&
     !isAdmin &&
     school.students.find((s) => s._id === user.student)
+
   const studentClass =
     student && school.classes.find((cls) => cls._id === student.class)
 
@@ -68,7 +54,6 @@ const NavBar = () => {
       ? views.admin
       : views.student
     : views.default
-
   // nav options based on current view
   const viewEl = currentView.map((option) => (
     <Nav.Link as={Link} to={option.navLink} key={option.text}>

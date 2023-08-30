@@ -24,13 +24,9 @@ const SelectYearClass = ({ selected, setSelected, disabled = false }) => {
       const filteredClasses = classes.filter(
         (cls) => cls.year.name === (selected.year || years[0].name)
       )
-      handleSelect({ class: filteredClasses[0].name })
+      handleSelect({ class: filteredClasses[0]?.name })
     }
   }, [selected.year])
-
-  if (!school.years) {
-    return <p>Loading...</p>
-  }
 
   // show available year options
   const yearsOptions = years.map((y) => (

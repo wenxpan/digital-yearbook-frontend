@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
@@ -7,14 +7,18 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import ListGroup from "react-bootstrap/ListGroup"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
 import SchoolContext from "../contexts/SchoolContext"
+import { apiPut } from "../utils/apiHelper"
+import { toast } from "react-toastify"
 
 const Account = () => {
-  const { user, setUser, setEmptyUser } = useContext(UserContext)
-  const { school } = useContext(SchoolContext)
+  const { user, loadEmptyUser } = useContext(UserContext)
+  const { school, dispatch } = useContext(SchoolContext)
   const { isAdmin, name } = user
+  const nav = useNavigate()
 
   // if user is student, find out student and class object
   const student =
@@ -32,7 +36,7 @@ const Account = () => {
       { text: "All yearbooks", link: "/classes" },
       { text: "Update Profile", link: `/students/${student._id}/edit` }
     ],
-    admin: isAdmin && [
+    admin: [
       { text: "Add new students", link: "students/new" },
       { text: "Add new class", link: "classes/new" },
       { text: "Manage all classes", link: "classes" },
@@ -47,14 +51,39 @@ const Account = () => {
   // photo to be displayed in account page
   const accountPhoto = isAdmin ? "/src/assets/admin-default.svg" : student.photo
 
-  function handleReset() {
-    //TODO - student reset profile
-    console.log("reset profile clicked")
+  async function handleReset() {
+    // student reset their own profile
+    try {
+      // create new student with reset editable fields
+      const resetStudent = {
+        ...student,
+        contactDetails: "",
+        quote: "",
+        questionOne: "",
+        questionTwo: "",
+        questionThree: "",
+        questionFour: ""
+      }
+      // send put request and receive updated student object
+      const updatedStudent = await apiPut(
+        `/students/${student._id}`,
+        resetStudent,
+        user.token
+      )
+      // update student in school state
+      dispatch({ type: "update_student", student: updatedStudent })
+      // navigate to student profile page
+      nav(`/students/${student._id}`)
+    } catch (e) {
+      // if reset failed, attached error message under button
+      console.error(e)
+      toast.warn("Reset failed. Please try again or report to admin")
+    }
   }
 
   function handleLogOut() {
     //clear user data in storage and reset user state
-    setEmptyUser()
+    loadEmptyUser()
     localStorage.removeItem("user")
   }
 
@@ -103,6 +132,7 @@ const Account = () => {
             </Col>
           </Row>
         )}
+        <ToastWarning />
       </Container>
     </>
   )

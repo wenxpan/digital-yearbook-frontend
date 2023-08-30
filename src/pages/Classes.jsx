@@ -5,14 +5,11 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Button from "react-bootstrap/Button"
-
-import UserContext from "../contexts/UserContext"
-import SchoolContext from "../contexts/SchoolContext"
 import YearbookCard from "../components/YearbookCard"
 
+import SchoolContext from "../contexts/SchoolContext"
+
 const Classes = () => {
-  const { user } = useContext(UserContext)
-  const { isAdmin, isLoggedIn } = user
   const { school } = useContext(SchoolContext)
 
   return (

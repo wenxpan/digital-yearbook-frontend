@@ -1,43 +1,64 @@
 import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
+import ToastWarning from "../components/ToastWarning"
 
 import UserContext from "../contexts/UserContext"
-import { postHelper } from "../utils/apiHelper"
+import { apiPost } from "../utils/apiHelper"
 
 const Login = () => {
-  // set state for email and password
+  // TODO: add validation for form fields
+
+  // set state for email and password inputs
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const nav = useNavigate()
-  const { user, setUser } = useContext(UserContext)
 
+  // access user context to set user data
+  const { setUser } = useContext(UserContext)
+
+  // handle login form submission
   async function handleSubmit() {
-    const { token, user: loggedInUser } = await postHelper("/login", {
-      email,
-      password
-    })
-    const { __v, role, ...filteredUser } = loggedInUser
-    const newUser = {
-      token,
-      loaded: true,
-      isLoggedIn: true,
-      isAdmin: role === "admin" ? true : false,
-      ...filteredUser
+    try {
+      // send login request to server, receive token and user object
+      const { token, user: loggedInUser } = await apiPost("/login", {
+        email,
+        password
+      })
+
+      // extract relevant user data and create new user object
+      const { __v, role, ...filteredUser } = loggedInUser
+      const newUser = {
+        token,
+        isLoggedIn: true,
+        isAdmin: role === "admin" ? true : false,
+        ...filteredUser
+      }
+
+      // update user state
+      setUser(newUser)
+      // store user data in local storage
+      localStorage.setItem("user", JSON.stringify(newUser))
+
+      // navigate to account page
+      nav("/account")
+    } catch (e) {
+      // if login failed, prompt user to try again
+      toast.warn("Login failed. Please check your credentials")
     }
-    setUser(newUser)
-    localStorage.setItem("user", JSON.stringify(newUser))
-    nav("/account")
   }
 
   return (
     <>
+      {/* Login form */}
       <Form className="col-md-5 bg-dark px-5 py-3 bg-opacity-50 rounded">
         <h1 className="mb-5">Log In</h1>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
+        {/* email input */}
+        <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
@@ -46,7 +67,8 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        {/* password input */}
+        <Form.Group className="mb-3" controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -55,11 +77,12 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="mt-4 d-flex justify-content-around flex-wrap">
-          <Button variant="primary" onClick={handleSubmit}>
-            Log In
-          </Button>
-        </div>
+        {/* submit button */}
+        <Button className="mt-4" variant="primary" onClick={handleSubmit}>
+          Log In
+        </Button>
+        {/* display error message when logged in failed */}
+        <ToastWarning />
       </Form>
     </>
   )

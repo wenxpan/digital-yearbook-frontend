@@ -1,7 +1,6 @@
 import React from "react"
-import Button from "react-bootstrap/Button"
-import Stack from "react-bootstrap/Stack"
 import { Link } from "react-router-dom"
+import Button from "react-bootstrap/Button"
 
 const Landing = () => {
   return (

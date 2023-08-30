@@ -1,7 +1,7 @@
 export default function schoolReducer(school, action) {
   switch (action.type) {
     case "set_school":
-      const sortedYears = action.school.years.sort(
+      const sortedYears = [...action.school.years].sort(
         (a, b) => parseInt(b.name) - parseInt(a.name)
       )
       return { ...action.school, years: sortedYears }
@@ -14,11 +14,13 @@ export default function schoolReducer(school, action) {
           cls._id === action.class._id ? action.class : cls
         )
       }
+
     case "delete_class":
       return {
         ...school,
         classes: school.classes.filter((cls) => cls._id !== action.classId)
       }
+
     case "add_class":
       return { ...school, classes: [...school.classes, action.class] }
 
@@ -28,19 +30,15 @@ export default function schoolReducer(school, action) {
         ...school,
         students: [...school.students, ...action.students]
       }
+
     case "update_student":
-      console.log(
-        "updated array",
-        school.students.map((stu) =>
-          stu._id === action.student._id ? action.student : stu
-        )
-      )
       return {
         ...school,
         students: school.students.map((stu) =>
           stu._id === action.student._id ? action.student : stu
         )
       }
+
     case "delete_student":
       return {
         ...school,
@@ -49,8 +47,9 @@ export default function schoolReducer(school, action) {
 
     // Years CRUD
     case "add_year":
-      // dispatch - year: {name: xxx, _id: xxx}
+      // in dispatch - year: {name: xxx, _id: xxx}
       return { ...school, years: [...school.years, action.year] }
+
     case "delete_year":
       return {
         ...school,
