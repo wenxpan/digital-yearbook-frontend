@@ -26,6 +26,7 @@ const AddStudentForm = ({ props }) => {
             onChange={(e) =>
               handleStudentUpdate(student, { firstName: e.target.value })
             }
+            required
             type="text"
           />
         </Form.Group>
@@ -37,6 +38,7 @@ const AddStudentForm = ({ props }) => {
             onChange={(e) =>
               handleStudentUpdate(student, { lastName: e.target.value })
             }
+            required
             type="text"
           />
         </Form.Group>
@@ -49,6 +51,7 @@ const AddStudentForm = ({ props }) => {
             onChange={(e) =>
               handleStudentUpdate(student, { email: e.target.value })
             }
+            required
             type="email"
           />
         </Form.Group>
