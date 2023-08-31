@@ -10,16 +10,14 @@ import UserContext from "../contexts/UserContext"
 import { apiPost } from "../utils/apiHelper"
 
 const Login = () => {
-  // TODO: add validation for form fields
+  // access user context to set user data
+  const { setUser } = useContext(UserContext)
 
   // set state for email and password inputs
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const nav = useNavigate()
-
-  // access user context to set user data
-  const { setUser } = useContext(UserContext)
 
   // handle login form submission
   async function handleSubmit(e) {
@@ -42,6 +40,7 @@ const Login = () => {
 
       // update user state
       setUser(newUser)
+      testFunc("hello")
       // store user data in local storage
       localStorage.setItem("user", JSON.stringify(newUser))
 

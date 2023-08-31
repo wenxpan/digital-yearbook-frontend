@@ -6,6 +6,12 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
-    globals: "true"
+    globals: "true",
+    coverage: {
+      reportsDirectory: "./tests/coverage",
+      all: true,
+      // provider: "istanbul"
+      provider: "v8"
+    }
   }
 })
