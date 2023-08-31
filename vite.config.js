@@ -8,7 +8,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: "true",
     coverage: {
-      reportsDirectory: "./tests/coverage",
+      reportsDirectory: "./src/tests/coverage",
       all: true,
       // provider: "istanbul"
       provider: "v8"

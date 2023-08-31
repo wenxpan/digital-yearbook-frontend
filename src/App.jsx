@@ -2,7 +2,7 @@ import { useState, useReducer, useEffect } from "react"
 import { Routes, Route, useParams, useNavigate } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
-import Navbar from "./components/NavBar"
+import NavbarLine from "./components/NavbarLine"
 import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import Classes from "./pages/Classes"
@@ -117,7 +117,7 @@ function App() {
       {/* passed in user and school as global states */}
       <UserContext.Provider value={{ user, setUser, loadEmptyUser, loaded }}>
         <SchoolContext.Provider value={{ school, dispatch }}>
-          <Navbar />
+          <NavbarLine />
           <Routes>
             {/* landing, log in and sign up pages; they share the same background image, thus grouped together  */}
             <Route path="/" element={<BackgroundImage />}>
