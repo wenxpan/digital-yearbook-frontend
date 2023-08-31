@@ -25,7 +25,7 @@ const Yearbook = ({ yearbook }) => {
           <h2 className="fs-3">{yearbook.year.name}</h2>
         </Col>
       </Row>
-      <Row md={2} lg={3} xl={4} className="mt-3">
+      <Row md={2} lg={3} xl={4} className="mt-3" as="ul">
         {students.map((s) => (
           <Col key={s._id}>
             <ProfileCard student={s} />

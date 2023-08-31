@@ -37,15 +37,15 @@ describe("Signup component", () => {
   })
 
   it("renders without crashing", () => {
-    expect(screen.getByRole("heading", { level: 1 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument()
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Sign Up"
     )
   })
 
   it("accepts user input and changes value", async () => {
-    expect(screen.getByLabelText("Email address")).not.toBeNull()
-    expect(screen.getByLabelText("Password")).not.toBeNull()
+    expect(screen.getByLabelText("Email address")).toBeInTheDocument()
+    expect(screen.getByLabelText("Password")).toBeInTheDocument()
 
     await userEvent.type(
       screen.getByLabelText("Email address"),
@@ -111,7 +111,7 @@ describe("Signup component", () => {
 
     await userEvent.click(signUpButton)
 
-    expect(screen.getByRole("alert")).not.toBeNull()
+    expect(screen.getByRole("alert")).toBeInTheDocument()
 
     expect(toastWarn).toHaveBeenCalledWith(
       "Sign up failed. Please check your credentials and try again"

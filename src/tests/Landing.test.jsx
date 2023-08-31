@@ -15,11 +15,11 @@ describe("Landing component", () => {
   })
 
   it("renders without crashing", () => {
-    expect(screen.getByRole("heading", { level: 1 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument()
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Digital Yearbook"
     )
-    expect(screen.getByRole("heading", { level: 2 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 2 })).toBeInTheDocument()
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
       "Preserving Moments"
     )

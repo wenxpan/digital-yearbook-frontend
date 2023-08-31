@@ -22,6 +22,8 @@ const StudentProfile = ({ student }) => {
     questionFour
   } = student
 
+  const fullName = `${firstName} ${lastName}`
+
   // set up questions array
   const questions = [
     { name: "Cras justo odio Dapibus ac facilisis in?", answer: questionOne },
@@ -31,7 +33,7 @@ const StudentProfile = ({ student }) => {
   ]
 
   const questionsEl = questions.map((q) => (
-    <ListGroup.Item key={q.name}>
+    <ListGroup.Item key={q.name} as="li">
       <strong>
         <em>{q.name}</em>
       </strong>
@@ -45,12 +47,14 @@ const StudentProfile = ({ student }) => {
       <Container fluid="md" className="mt-4">
         <Row lg={2} className="justify-content-around">
           <Col lg="auto">
-            <Card className="border-0" style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={photo} />
+            <Card className="border-0" style={{ width: "18rem" }} as="section">
+              <Card.Img
+                variant="top"
+                src={photo}
+                alt={`headshot for student ${fullName}`}
+              />
               <Card.Body>
-                <Card.Title>
-                  {firstName} {lastName}
-                </Card.Title>
+                <Card.Title as="h2">{fullName}</Card.Title>
                 <Card.Text className="fst-italic">{quote}</Card.Text>
                 <Card.Text>
                   Contact details: {contactDetails || "not provided"}
@@ -59,7 +63,7 @@ const StudentProfile = ({ student }) => {
             </Card>
           </Col>
           <Col className="align-self-center">
-            <Card className="border-0">
+            <Card className="border-0" as="ul">
               <ListGroup variant="flush">{questionsEl}</ListGroup>
             </Card>
           </Col>

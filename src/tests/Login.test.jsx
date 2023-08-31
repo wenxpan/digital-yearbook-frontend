@@ -13,13 +13,13 @@ describe("Login component", () => {
   let mockedSetUser = vi.fn()
   let mockedUseNavigate = vi.fn()
   beforeEach(() => {
-    vi.doMock("react-router-dom", async () => {
-      const actual = await vi.importActual("react-router-dom")
-      return {
-        ...actual,
-        useNavigate: mockedUseNavigate
-      }
-    })
+    // vi.doMock("react-router-dom", async () => {
+    //   const actual = await vi.importActual("react-router-dom")
+    //   return {
+    //     ...actual,
+    //     useNavigate: mockedUseNavigate
+    //   }
+    // })
     render(
       <BrowserRouter>
         <UserContext.Provider
@@ -37,15 +37,15 @@ describe("Login component", () => {
   })
 
   it("renders without crashing", () => {
-    expect(screen.getByRole("heading", { level: 1 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument()
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Log In"
     )
   })
 
   it("accepts user input and changes value", async () => {
-    expect(screen.getByLabelText("Email address")).not.toBeNull()
-    expect(screen.getByLabelText("Password")).not.toBeNull()
+    expect(screen.getByLabelText("Email address")).toBeInTheDocument()
+    expect(screen.getByLabelText("Password")).toBeInTheDocument()
 
     await userEvent.type(
       screen.getByLabelText("Email address"),
@@ -97,7 +97,7 @@ describe("Login component", () => {
     await userEvent.type(passwordInput, "password")
     await userEvent.click(logInButton)
 
-    expect(screen.getByRole("alert")).not.toBeNull()
+    expect(screen.getByRole("alert")).toBeInTheDocument()
 
     expect(toastWarn).toHaveBeenCalledWith(
       "Login failed. Please check your credentials"
