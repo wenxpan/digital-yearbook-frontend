@@ -24,7 +24,7 @@ const ManageClasses = () => {
   const mapClassesToYear = (y) =>
     school.classes.map(
       (cls) =>
-        cls.year.name === y.name && (
+        cls.year?.name === y.name && (
           <Col className="mb-3" key={cls._id}>
             <AdminClassCard classInfo={cls} />
           </Col>

@@ -21,7 +21,7 @@ const ManageStudents = () => {
   const students = school.students.filter((s) => {
     const studentClassName = school.classes.find(
       (cls) => cls._id === s.class
-    ).name
+    )?.name
     return studentClassName === selected.class
   })
 

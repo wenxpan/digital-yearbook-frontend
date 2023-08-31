@@ -1,5 +1,6 @@
 // base URL for all api requests
-const baseURL = "http://127.0.0.1:5175"
+// const baseURL = "http://127.0.0.1:5175"
+const baseURL = "https://student-year-book.onrender.com"
 
 // perform a fetch request with headers and error handling
 async function fetchWithHeaders(endpoint, options = {}, token) {

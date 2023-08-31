@@ -12,16 +12,17 @@ const ProfileCard = ({ student }) => {
   const fullName = `${firstName} ${lastName}`
 
   return (
-    <Row className="mb-4" xs={2} sm={1}>
+    <Row className="mb-4" xs={2} sm={1} as="li">
       <Col className="d-flex justify-content-center">
         <Card
           style={{ width: "15rem", cursor: "pointer" }}
           className="my-2"
           onClick={() => nav(`/students/${student._id}`)}
+          as="section"
         >
           <Card.Img variant="top" src={photo} />
           <Card.Body>
-            <Card.Text>{fullName}</Card.Text>
+            <Card.Title as="h5">{fullName}</Card.Title>
           </Card.Body>
         </Card>
       </Col>
