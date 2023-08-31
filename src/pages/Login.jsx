@@ -40,7 +40,6 @@ const Login = () => {
 
       // update user state
       setUser(newUser)
-      testFunc("hello")
       // store user data in local storage
       localStorage.setItem("user", JSON.stringify(newUser))
 

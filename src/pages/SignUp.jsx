@@ -10,8 +10,6 @@ import UserContext from "../contexts/UserContext"
 import { apiPost } from "../utils/apiHelper"
 
 const SignUp = () => {
-  // TODO: add validation for form fields
-
   const nav = useNavigate()
   const { setUser } = useContext(UserContext)
 
