@@ -6,33 +6,36 @@ import { BrowserRouter } from "react-router-dom"
 import { describe, it, expect } from "vitest"
 
 describe("Landing component", () => {
-  let container
   beforeEach(() => {
-    container = render(
+    render(
       <BrowserRouter>
         <Landing />
       </BrowserRouter>
-    ).container
+    )
   })
 
   it("renders without crashing", () => {
-    expect(container.querySelector("h1")).not.toBeNull()
-    expect(container.querySelector("h1")).toHaveTextContent("Digital Yearbook")
-    expect(container.querySelector("h2")).not.toBeNull()
-    expect(container.querySelector("h2")).toHaveTextContent(
+    expect(screen.getByRole("heading", { level: 1 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Digital Yearbook"
+    )
+    expect(screen.getByRole("heading", { level: 2 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
       "Preserving Moments"
     )
   })
 
   it("has a Log In button that links to /login page", () => {
-    expect(screen.getByText("Log In").closest("a")).toHaveAttribute(
+    expect(screen.getByRole("button", { name: "Log In" })).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Log In" })).toHaveAttribute(
       "href",
       "/login"
     )
   })
 
-  it("navigates to /signup when Sign Up button is clicked", () => {
-    expect(screen.getByText("Sign up").closest("a")).toHaveAttribute(
+  it("has a Sign Up button that links to /signup page", () => {
+    expect(screen.getByRole("button", { name: "Sign Up" })).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Sign Up" })).toHaveAttribute(
       "href",
       "/signup"
     )

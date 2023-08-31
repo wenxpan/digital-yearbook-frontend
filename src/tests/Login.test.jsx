@@ -10,7 +10,6 @@ import * as utils from "../utils/apiHelper"
 import { toast } from "react-toastify"
 
 describe("Login component", () => {
-  let container
   let mockedSetUser = vi.fn()
   let mockedUseNavigate = vi.fn()
   beforeEach(() => {
@@ -21,7 +20,7 @@ describe("Login component", () => {
         useNavigate: mockedUseNavigate
       }
     })
-    container = render(
+    render(
       <BrowserRouter>
         <UserContext.Provider
           value={{
@@ -31,25 +30,29 @@ describe("Login component", () => {
           <Login />
         </UserContext.Provider>
       </BrowserRouter>
-    ).container
+    )
   })
   afterEach(() => {
     vi.restoreAllMocks()
   })
 
   it("renders without crashing", () => {
-    expect(container.querySelector("h1")).not.toBeNull()
-    expect(container.querySelector("h1")).toHaveTextContent("Log In")
+    expect(screen.getByRole("heading", { level: 1 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Log In"
+    )
   })
 
   it("accepts user input and changes value", async () => {
     expect(screen.getByLabelText("Email address")).not.toBeNull()
     expect(screen.getByLabelText("Password")).not.toBeNull()
+
     await userEvent.type(
       screen.getByLabelText("Email address"),
       "test@example.com"
     )
     await userEvent.type(screen.getByLabelText("Password"), "password")
+
     expect(screen.getByLabelText("Email address")).toHaveValue(
       "test@example.com"
     )
@@ -66,9 +69,11 @@ describe("Login component", () => {
         quote: "xxx"
       }
     })
+
     const emailInput = screen.getByLabelText("Email address")
     const passwordInput = screen.getByLabelText("Password")
     const logInButton = screen.getByRole("button", { name: "Log In" })
+
     await userEvent.type(emailInput, "test@example.com")
     await userEvent.type(passwordInput, "password")
     await userEvent.click(logInButton)

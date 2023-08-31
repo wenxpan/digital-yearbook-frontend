@@ -13,6 +13,7 @@ const BackgroundImage = () => {
         backgroundBlendMode: "multiply"
       }}
       className="p-5 text-center bg-image d-flex flex-column justify-content-center align-items-center"
+      data-testid="background"
     >
       <Outlet />
     </section>

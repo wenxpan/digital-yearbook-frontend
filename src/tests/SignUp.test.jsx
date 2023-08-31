@@ -9,8 +9,7 @@ import SignUp from "../pages/SignUp"
 import * as utils from "../utils/apiHelper"
 import { toast } from "react-toastify"
 
-describe("Login component", () => {
-  let container
+describe("Signup component", () => {
   let mockedSetUser = vi.fn()
   let mockedUseNavigate = vi.fn()
   beforeEach(() => {
@@ -21,7 +20,7 @@ describe("Login component", () => {
         useNavigate: mockedUseNavigate
       }
     })
-    container = render(
+    render(
       <BrowserRouter>
         <UserContext.Provider
           value={{
@@ -31,25 +30,29 @@ describe("Login component", () => {
           <SignUp />
         </UserContext.Provider>
       </BrowserRouter>
-    ).container
+    )
   })
   afterEach(() => {
     vi.restoreAllMocks()
   })
 
   it("renders without crashing", () => {
-    expect(container.querySelector("h1")).not.toBeNull()
-    expect(container.querySelector("h1")).toHaveTextContent("Sign Up")
+    expect(screen.getByRole("heading", { level: 1 })).not.toBeNull()
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Sign Up"
+    )
   })
 
   it("accepts user input and changes value", async () => {
     expect(screen.getByLabelText("Email address")).not.toBeNull()
     expect(screen.getByLabelText("Password")).not.toBeNull()
+
     await userEvent.type(
       screen.getByLabelText("Email address"),
       "test@example.com"
     )
     await userEvent.type(screen.getByLabelText("Password"), "password")
+
     expect(screen.getByLabelText("Email address")).toHaveValue(
       "test@example.com"
     )
@@ -67,6 +70,7 @@ describe("Login component", () => {
         studentId: ""
       }
     })
+
     const emailInput = screen.getByLabelText("Email address")
     const usernameInput = screen.getByLabelText("Username")
     const passwordInput = screen.getByLabelText("Password")

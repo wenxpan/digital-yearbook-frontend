@@ -16,7 +16,7 @@ const Landing = () => {
       </Button>
       <p className="m-2">OR</p>
       <Button as={Link} to="/signup" className="px-4">
-        Sign up
+        Sign Up
       </Button>
     </>
   )
