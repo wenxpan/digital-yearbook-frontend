@@ -8,14 +8,15 @@ import Navbar from "react-bootstrap/Navbar"
 import SchoolContext from "../contexts/SchoolContext"
 import UserContext from "../contexts/UserContext"
 
-const NavBar = () => {
+const NavbarLine = () => {
   const { user, loaded } = useContext(UserContext)
-  const { isAdmin, isLoggedIn } = user
-  const { school } = useContext(SchoolContext)
 
   if (!loaded) {
     return null
   }
+
+  const { school } = useContext(SchoolContext)
+  const { isAdmin, isLoggedIn } = user
 
   // if user is student, find out student and class object
   const student =
@@ -82,4 +83,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar
+export default NavbarLine
