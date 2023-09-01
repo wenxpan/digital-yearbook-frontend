@@ -4,25 +4,24 @@ import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import { describe, it, expect } from "vitest"
 import StudentProfile from "../pages/StudentProfile"
-import mockedSchool from "./mockedSchool"
+
+const mockedStudent = {
+  _id: "fake-id",
+  firstName: "John",
+  lastName: "Doe",
+  class: "fake_class_id",
+  email: "example@gmail.com",
+  photo: "example_image_link",
+  contactDetails: "example_contact",
+  questionOne: "example_answer_1",
+  questionTwo: "example_answer_2",
+  questionThree: "example_answer_3",
+  questionFour: "example_answer_4",
+  quote: "example_quote"
+}
 
 describe("StudentProfile component", () => {
   it("renders without crashing", () => {
-    const mockedStudent =  {
-      _id: "fake-id",
-      firstName: "John",
-      lastName: "Doe",
-      class: "fake_class_id",
-      email: "example@gmail.com",
-      photo: "example_image_link",
-      contactDetails: "example_contact",
-      questionOne: "example_answer_1",
-      questionTwo: "example_answer_2",
-      questionThree: "example_answer_3",
-      questionFour: "example_answer_4",
-      quote: "example_quote"
-    }
-    
     render(
       <BrowserRouter>
         <StudentProfile student={mockedStudent} />
@@ -37,8 +36,8 @@ describe("StudentProfile component", () => {
   })
 
   it("adds placeholder text to empty fields", () => {
-    const mockedStudent = {
-      ...mockedSchool.mockedStudent,
+    const newMockedStudent = {
+      ...mockedStudent,
       contactDetails: "",
       questionOne: "",
       questionTwo: "",
@@ -48,7 +47,7 @@ describe("StudentProfile component", () => {
     }
     render(
       <BrowserRouter>
-        <StudentProfile student={mockedStudent} />
+        <StudentProfile student={newMockedStudent} />
       </BrowserRouter>
     )
 

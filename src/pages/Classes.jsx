@@ -16,7 +16,7 @@ const Classes = () => {
     <Container fluid="md" className="mt-4">
       <Row>
         <Col>
-          <h2 className="">All yearbooks</h2>
+          <h1 className="">All yearbooks</h1>
         </Col>
       </Row>
       <Row className="text-md-center">
