@@ -10,12 +10,12 @@ import UserContext from "../contexts/UserContext"
 
 const NavbarLine = () => {
   const { user, loaded } = useContext(UserContext)
+  const { school } = useContext(SchoolContext)
 
   if (!loaded) {
     return null
   }
 
-  const { school } = useContext(SchoolContext)
   const { isAdmin, isLoggedIn } = user
 
   // if user is student, find out student and class object
