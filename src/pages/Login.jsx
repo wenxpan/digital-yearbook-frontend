@@ -79,7 +79,7 @@ const Login = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            maxlength="128"
+            maxLength="128"
           />
         </Form.Group>
         {/* submit button */}

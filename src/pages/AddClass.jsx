@@ -73,7 +73,7 @@ const AddClass = () => {
               value={content.name}
               onChange={(e) => handleInputChange({ name: e.target.value })}
               type="text"
-              maxlength="100"
+              maxLength="100"
             />
           </Form.Group>
         </Row>

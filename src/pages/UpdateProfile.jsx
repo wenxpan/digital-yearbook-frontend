@@ -89,7 +89,7 @@ const UpdateProfile = ({ student }) => {
                   }
                   disabled={disabledStatus}
                   type="text"
-                  maxlength="50"
+                  maxLength="50"
                 />
               </Form.Group>
 
@@ -102,7 +102,7 @@ const UpdateProfile = ({ student }) => {
                   }
                   disabled={disabledStatus}
                   type="text"
-                  maxlength="50"
+                  maxLength="50"
                 />
               </Form.Group>
             </Row>
@@ -134,7 +134,7 @@ const UpdateProfile = ({ student }) => {
                   handleInputChange({ contactDetails: e.target.value })
                 }
                 type="text"
-                maxlength="200"
+                maxLength="200"
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formQuote">
@@ -143,7 +143,7 @@ const UpdateProfile = ({ student }) => {
                 value={content.quote}
                 onChange={(e) => handleInputChange({ quote: e.target.value })}
                 type="text"
-                maxlength="200"
+                maxLength="200"
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formQues1">
@@ -158,7 +158,7 @@ const UpdateProfile = ({ student }) => {
                   handleInputChange({ questionOne: e.target.value })
                 }
                 type="text"
-                maxlength="1000"
+                maxLength="1000"
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formQues2">
@@ -173,7 +173,7 @@ const UpdateProfile = ({ student }) => {
                   handleInputChange({ questionTwo: e.target.value })
                 }
                 type="text"
-                maxlength="1000"
+                maxLength="1000"
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formQues3">
@@ -188,7 +188,7 @@ const UpdateProfile = ({ student }) => {
                   handleInputChange({ questionThree: e.target.value })
                 }
                 type="text"
-                maxlength="1000"
+                maxLength="1000"
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formQues4">
@@ -203,7 +203,7 @@ const UpdateProfile = ({ student }) => {
                   handleInputChange({ questionFour: e.target.value })
                 }
                 type="text"
-                maxlength="1000"
+                maxLength="1000"
               />
             </Form.Group>
             <Row className="text-center">

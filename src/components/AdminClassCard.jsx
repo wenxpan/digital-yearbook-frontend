@@ -110,7 +110,7 @@ const AdminClassCard = ({ classInfo }) => {
               disabled={isEditing ? "" : "disabled"}
               required
               type="text"
-              maxlength="100"
+              maxLength="100"
             />
           </Form.Group>
         </Col>
