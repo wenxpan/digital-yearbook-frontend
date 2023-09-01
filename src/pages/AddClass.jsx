@@ -63,6 +63,8 @@ const AddClass = () => {
               value={content.year}
               onChange={(e) => handleInputChange({ year: e.target.value })}
               type="number"
+              min="1960"
+              max="2099"
             />
           </Form.Group>
           <Form.Group controlId="formClass" as={Col}>
@@ -71,6 +73,7 @@ const AddClass = () => {
               value={content.name}
               onChange={(e) => handleInputChange({ name: e.target.value })}
               type="text"
+              maxlength="100"
             />
           </Form.Group>
         </Row>

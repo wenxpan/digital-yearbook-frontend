@@ -68,6 +68,7 @@ const SignUp = () => {
           required
           value={content.name}
           onChange={(e) => handleUpdate({ name: e.target.value })}
+          maxlength="20"
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formPassword">
@@ -77,6 +78,7 @@ const SignUp = () => {
           required
           value={content.password}
           onChange={(e) => handleUpdate({ password: e.target.value })}
+          maxlength="128"
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formCode">

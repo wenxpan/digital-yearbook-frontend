@@ -28,6 +28,7 @@ const AddStudentForm = ({ props }) => {
             }
             required
             type="text"
+            maxlength="50"
           />
         </Form.Group>
 
@@ -40,6 +41,7 @@ const AddStudentForm = ({ props }) => {
             }
             required
             type="text"
+            maxlength="50"
           />
         </Form.Group>
       </Row>
