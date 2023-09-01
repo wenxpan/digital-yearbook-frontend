@@ -58,7 +58,7 @@ const AddStudentForm = ({ props }) => {
       </Row>
       <Row className="mb-3">
         <Form.Group controlId="formPhoto" className="mb-3">
-          <Form.Label>Yearbook photo link</Form.Label>
+          <Form.Label>Yearbook photo link (Optional)</Form.Label>
           <Form.Control
             onChange={(e) =>
               handleStudentUpdate(student, { photo: e.target.value })

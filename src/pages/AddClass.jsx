@@ -62,7 +62,7 @@ const AddClass = () => {
             <Form.Control
               value={content.year}
               onChange={(e) => handleInputChange({ year: e.target.value })}
-              type="text"
+              type="number"
             />
           </Form.Group>
           <Form.Group controlId="formClass" as={Col}>
@@ -77,7 +77,7 @@ const AddClass = () => {
         <Row className="text-center mt-4">
           <Col>
             <Button as={Link} to={"/account/classes"}>
-              Cancel
+              Cancel & Back to Account
             </Button>
           </Col>
           <Col>

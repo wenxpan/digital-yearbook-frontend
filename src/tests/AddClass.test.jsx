@@ -49,7 +49,7 @@ describe("Add Class component", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Add Class"
     )
-    expect(screen.getByRole("textbox", { name: "Year" })).toBeInTheDocument()
+    expect(screen.getByRole("spinbutton", { name: "Year" })).toBeInTheDocument()
   })
 
   it("submits form and navigates when year exists", async () => {
@@ -58,7 +58,7 @@ describe("Add Class component", () => {
       year: "2023"
     })
 
-    const yearInput = screen.getByRole("textbox", { name: "Year" })
+    const yearInput = screen.getByRole("spinbutton", { name: "Year" })
     const classInput = screen.getByRole("textbox", { name: "Class" })
     const saveButton = screen.getByRole("button", { name: "Save" })
 
@@ -89,7 +89,7 @@ describe("Add Class component", () => {
         year: { name: "2024" }
       })
 
-    const yearInput = screen.getByRole("textbox", { name: "Year" })
+    const yearInput = screen.getByRole("spinbutton", { name: "Year" })
     const classInput = screen.getByRole("textbox", { name: "Class" })
     const saveButton = screen.getByRole("button", { name: "Save" })
 
@@ -125,7 +125,7 @@ describe("Add Class component", () => {
   it("shows a warning toast when creation failed", async () => {
     vi.spyOn(utils, "apiPost").mockRejectedValue(new Error("Failed to add"))
     const toastWarn = vi.spyOn(toast, "warn")
-    
+
     await userEvent.click(screen.getByText("Save"))
     expect(toastWarn).toHaveBeenCalledWith(
       "Class creation failed. Please check input and try again"
