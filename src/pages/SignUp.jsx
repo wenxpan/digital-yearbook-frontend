@@ -13,7 +13,6 @@ const SignUp = () => {
   const nav = useNavigate()
   const { setUser } = useContext(UserContext)
 
-  //TODO: responsive layout
   const [content, setContent] = useState({
     role: "user",
     name: "",

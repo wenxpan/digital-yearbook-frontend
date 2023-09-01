@@ -12,7 +12,9 @@ describe("NavbarLine component", () => {
     render(
       <BrowserRouter>
         <UserContext.Provider value={{ loaded: false }}>
-          <NavbarLine />
+          <SchoolContext.Provider value={{}}>
+            <NavbarLine />
+          </SchoolContext.Provider>
         </UserContext.Provider>
       </BrowserRouter>
     )
