@@ -6,7 +6,7 @@ import Card from "react-bootstrap/Card"
 
 const YearbookCard = ({ yearbook }) => {
   const { year, name, _id } = yearbook
-  const cardImg = "/src/assets/yearbook-placeholder.jpg"
+  const cardImg = "/images/yearbook-placeholder.jpg"
 
   return (
     <Card style={{ width: "18rem" }}>

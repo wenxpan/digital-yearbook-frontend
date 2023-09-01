@@ -5,7 +5,7 @@ const BackgroundImage = () => {
   return (
     <section
       style={{
-        backgroundImage: 'url("./src/assets/app-hero.jpg")',
+        backgroundImage: 'url("/images/app-hero.jpg")',
         backgroundSize: "cover",
         color: "white",
         minHeight: "100vh",

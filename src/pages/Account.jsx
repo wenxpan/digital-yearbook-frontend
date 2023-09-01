@@ -49,9 +49,7 @@ const Account = () => {
   const currentOptions = isAdmin ? options.admin : options.student
 
   // photo to be displayed in account page
-  const accountPhoto = isAdmin
-    ? "./src/assets/admin-default.svg"
-    : student.photo
+  const accountPhoto = isAdmin ? "/images/admin-default.svg" : student.photo
 
   async function handleReset() {
     // student reset their own profile

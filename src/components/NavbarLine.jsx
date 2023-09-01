@@ -66,7 +66,7 @@ const NavBar = () => {
       <Container fluid>
         <Navbar.Brand as={Link} to={isLoggedIn ? "/account" : "/"}>
           <img
-            src="./src/assets/yearbook-logo.svg"
+            src="/images/yearbook-logo.svg"
             width="40"
             height="40"
             className="d-inline-block align-top"
