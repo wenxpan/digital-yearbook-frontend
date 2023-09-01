@@ -96,6 +96,8 @@ const AdminClassCard = ({ classInfo }) => {
               }
               required
               type="number"
+              min="1960"
+              max="2099"
             />
           </Form.Group>
         </Col>
@@ -108,6 +110,7 @@ const AdminClassCard = ({ classInfo }) => {
               disabled={isEditing ? "" : "disabled"}
               required
               type="text"
+              maxLength="100"
             />
           </Form.Group>
         </Col>
