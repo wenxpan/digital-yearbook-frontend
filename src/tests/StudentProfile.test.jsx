@@ -8,21 +8,8 @@ import mockedSchool from "./mockedSchool"
 
 describe("StudentProfile component", () => {
   it("renders without crashing", () => {
-    const mockedStudent =  {
-      _id: "fake-id",
-      firstName: "John",
-      lastName: "Doe",
-      class: "fake_class_id",
-      email: "example@gmail.com",
-      photo: "example_image_link",
-      contactDetails: "example_contact",
-      questionOne: "example_answer_1",
-      questionTwo: "example_answer_2",
-      questionThree: "example_answer_3",
-      questionFour: "example_answer_4",
-      quote: "example_quote"
-    }
-    
+    const mockedStudent = mockedSchool.mockedStudent
+
     render(
       <BrowserRouter>
         <StudentProfile student={mockedStudent} />

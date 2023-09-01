@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: "true",
+    // restoreMocks: true,
     coverage: {
       reportsDirectory: "./src/tests/coverage",
       all: true,

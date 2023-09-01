@@ -1,7 +1,7 @@
 import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, it, expect } from "vitest"
 import UserContext from "../contexts/UserContext"
@@ -9,17 +9,18 @@ import Login from "../pages/Login"
 import * as utils from "../utils/apiHelper"
 import { toast } from "react-toastify"
 
+const mockedUseNavigate = vi.fn()
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom")
+  return {
+    ...actual,
+    useNavigate: () => mockedUseNavigate
+  }
+})
+
 describe("Login component", () => {
   let mockedSetUser = vi.fn()
-  let mockedUseNavigate = vi.fn()
   beforeEach(() => {
-    // vi.doMock("react-router-dom", async () => {
-    //   const actual = await vi.importActual("react-router-dom")
-    //   return {
-    //     ...actual,
-    //     useNavigate: mockedUseNavigate
-    //   }
-    // })
     render(
       <BrowserRouter>
         <UserContext.Provider
@@ -31,9 +32,6 @@ describe("Login component", () => {
         </UserContext.Provider>
       </BrowserRouter>
     )
-  })
-  afterEach(() => {
-    vi.restoreAllMocks()
   })
 
   it("renders without crashing", () => {
@@ -59,7 +57,7 @@ describe("Login component", () => {
     expect(screen.getByLabelText("Password")).toHaveValue("password")
   })
 
-  it("calls setUser after submitting form", async () => {
+  it("calls setUser and redirects to /account after submitting form", async () => {
     vi.spyOn(utils, "apiPost").mockResolvedValue({
       token: "fake_token",
       user: {
@@ -84,6 +82,9 @@ describe("Login component", () => {
       email: "test@example.com",
       quote: "xxx"
     })
+    await waitFor(() =>
+      expect(mockedUseNavigate).toHaveBeenCalledWith("/account")
+    )
   })
 
   it("shows warning message when login failed", async () => {

@@ -8,7 +8,7 @@ describe("Background Image component", () => {
   it("renders without crashing", () => {
     render(<BackgroundImage />)
     expect(screen.getByTestId("background")).toHaveStyle(
-      `background-image: url("/public/app-hero.jpg")`
+      `background-image: url("/images/app-hero.jpg")`
     )
   })
 })

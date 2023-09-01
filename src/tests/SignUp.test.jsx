@@ -1,7 +1,7 @@
 import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, it, expect } from "vitest"
 import UserContext from "../contexts/UserContext"
@@ -9,17 +9,18 @@ import SignUp from "../pages/SignUp"
 import * as utils from "../utils/apiHelper"
 import { toast } from "react-toastify"
 
+const mockedUseNavigate = vi.fn()
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom")
+  return {
+    ...actual,
+    useNavigate: () => mockedUseNavigate
+  }
+})
+
 describe("Signup component", () => {
   let mockedSetUser = vi.fn()
-  let mockedUseNavigate = vi.fn()
   beforeEach(() => {
-    vi.doMock("react-router-dom", async () => {
-      const actual = await vi.importActual("react-router-dom")
-      return {
-        ...actual,
-        useNavigate: mockedUseNavigate
-      }
-    })
     render(
       <BrowserRouter>
         <UserContext.Provider
@@ -31,9 +32,6 @@ describe("Signup component", () => {
         </UserContext.Provider>
       </BrowserRouter>
     )
-  })
-  afterEach(() => {
-    vi.restoreAllMocks()
   })
 
   it("renders without crashing", () => {
@@ -92,6 +90,10 @@ describe("Signup component", () => {
       quote: "xxx",
       studentId: ""
     })
+
+    await waitFor(() =>
+      expect(mockedUseNavigate).toHaveBeenCalledWith("/account")
+    )
   })
 
   it("shows warning message when signup failed", async () => {
