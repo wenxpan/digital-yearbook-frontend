@@ -56,7 +56,7 @@ const AddClass = () => {
         <h1 className="fs-2">Add Class</h1>
       </Row>
       <Form onSubmit={(e) => handleSubmit(e)}>
-        <Row>
+        <Row xs={1} md={2}>
           <Form.Group controlId="formYear" as={Col}>
             <Form.Label>Year</Form.Label>
             <Form.Control
@@ -76,8 +76,8 @@ const AddClass = () => {
         </Row>
         <Row className="text-center mt-4">
           <Col>
-            <Button as={Link} to={"/account/classes"}>
-              Cancel & Back to Account
+            <Button as={Link} to={"/account"}>
+              Cancel
             </Button>
           </Col>
           <Col>

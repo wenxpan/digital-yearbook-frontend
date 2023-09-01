@@ -94,6 +94,8 @@ const AdminClassCard = ({ classInfo }) => {
               onChange={(e) =>
                 handleInputChange({ year: { name: e.target.value } })
               }
+              required
+              type="number"
             />
           </Form.Group>
         </Col>
@@ -104,6 +106,8 @@ const AdminClassCard = ({ classInfo }) => {
               value={content.name}
               onChange={(e) => handleInputChange({ name: e.target.value })}
               disabled={isEditing ? "" : "disabled"}
+              required
+              type="text"
             />
           </Form.Group>
         </Col>
