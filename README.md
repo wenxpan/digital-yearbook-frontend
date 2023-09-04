@@ -1,8 +1,11 @@
-# React + Vite
+# Digital Yearbook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+By Dieter Schmid, Wenxuan Pan, Alicia Han
 
-Currently, two official plugins are available:
+This is the frontend part of the MERN stack project.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Links
+- [Deployed Website](https://student-yearbook.vercel.app/)
+- [Documentation](https://github.com/ahan-nz/Year-Book-App)
+- [Original Repo - frontend](https://github.com/wenxuan-pan/Full_Stack_App_T3A2-B-Frontend)
+- [Original Repo - backend](https://github.com/Dieter1978/Full_Stack_App_T3A2-B)
